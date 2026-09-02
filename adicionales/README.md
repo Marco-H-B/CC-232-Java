@@ -6,11 +6,11 @@ El contenido no modifica el núcleo obligatorio y no se incluye en los controles
 
 #### Archivos disponibles
 
-| Archivo | Uso opcional |
-|---|---|
-| `Semana03_DequeExtra.java` | Lista doble, centinelas y operaciones en ambos extremos |
-| `Semana03_RandomizedQueueExtra.java` | Arreglo dinámico y selección aleatoria |
-| `Semana06_8PuzzleHeapDemo.java` | Demostración completa de A* con un montículo mínimo propio |
+| Archivo                              | Uso opcional                                                |
+| ------------------------------------ | ----------------------------------------------------------- |
+| `Semana03_DequeExtra.java`           | Lista doble, centinelas y operaciones en ambos extremos     |
+| `Semana03_RandomizedQueueExtra.java` | Arreglo dinámico y selección aleatoria                      |
+| `Semana06_8PuzzleHeapDemo.java`      | Demostración completa de A\* con un montículo mínimo propio |
 
 #### Convenciones
 

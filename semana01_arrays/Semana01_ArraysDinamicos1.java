@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 1, viernes: ArrayStack indexado.
  * Adaptación didáctica de Open Data Structures, Pat Morin.

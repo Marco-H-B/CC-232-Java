@@ -62,8 +62,11 @@ a.length = 8
 ```
 
 1. ¿Qué posiciones pertenecen lógicamente a la estructura?
+   - Los elementos lógicos van de a[0] hasta a[n-1] = a[4]
 2. ¿Sería válido ejecutar `get(6)` aunque `a[6]` exista físicamente?
+   - No sería válido porque el invariante establece que los elementos lógicos están en a[0..n-1]. Con n=5, el índice 6 queda fuera del rango [0, 4].
 3. ¿Qué parte del **invariante** utilizarías para justificar tu respuesta?.
+   - Ambas son importantes. La primera garantiza que n no exceda la capacidad; la segunda define qué posiciones contienen elementos válidos.
 
 No continúes hasta poder responder las tres preguntas sin ejecutar código.
 
@@ -172,8 +175,11 @@ a = b;
 ```
 
 1. ¿Seguiría siendo posible que `0 <= n <= a.length` fuese verdadero?
+   - a no cambió. Si no se ejecuta a = b, entonces: a sigue apuntando al arreglo viejo, a.length sigue siendo el valor viejo (ej: 4), n no cambió (ej: 4), por lo tanto, 0 <= 4 <= 4 sigue siendo verdadero.
 2. ¿Sería correcto el método?
+   - No sería correcto porque al final invocaste el resize en vano porque no ampliaste la capacidad.
 3. ¿Qué resultado prometido por `resize()` no se habría producido?.
+   - No se habría cumplido lo que querías: ampliar la capacidad del arreglo para agregar más valores.
 
 La pregunta distingue dos ideas que conviene mantener separadas: conservar el **invariante** y cumplir el efecto específico de una operación.
 
@@ -244,8 +250,11 @@ Amortizado no significa "promedio" en el sentido probabilístico. No estamos sup
 Una llamada concreta a `add(x)` puede ejecutar **`resize()`** y costar `O(n)`.
 
 1. ¿Por qué esto no contradice que **`add` al final** tenga costo `O(1)` amortizado?
+   - Porque el costo amortizado no describe una operacion individual sino que un promedio garantizado sobre una secuencia de m operaciones.
 2. ¿Qué cambia si la capacidad crece `1, 2, 3, 4, ...` en lugar de `1, 2, 4, 8, ...`?
+   - Con crecimiento aritmético (1, 2, 3, 4...), resize() se ejecuta en cada inserción, y cada resize copia más elementos. El costo amortizado ya no es O(1), sino O(n) por inserción. Con crecimiento geométrico (1, 2, 4, 8...), resize() se ejecuta cada vez con menos frecuencia, manteniendo O(1) amortizado.
 3. ¿Por qué "amortizado" no significa "promedio probabilístico"?.
+   - Por que no suponemos, ni calculamos esperanza.
 
 Intenta responder sin repetir una definición. Relaciona frecuencia de redimensionamientos, trabajo acumulado y secuencia de operaciones.
 
@@ -297,9 +306,17 @@ n = 9
 
 Responde:
 
-a. ¿Qué propiedad de la **representación** se ha violado?  
-b. Escribe el **invariante** correspondiente.  
+a. ¿Qué propiedad de la **representación** se ha violado?
+
+- Con n = 9 y a.length = 8, se cumple que 9 > 8, lo que significa que n > a.length. Esto viola 0 <= n <= a.length.
+
+b. Escribe el **invariante** correspondiente.
+
+- 0 <= n <= a.length
+
 c. Explica por qué el programa podría compilar y, sin embargo, la estructura ser incorrecta.
+
+- El compilador no detecta errores lógicos como: Que n <= a.length, Que los elementos estén en a[0..n-1], Que la lógica del programa sea correcta.
 
 #### 2. Análisis de costo
 
@@ -312,6 +329,8 @@ for (int i = 0; i < n; i++) {
 ```
 
 Justifica por qué el costo es `O(n)`.
+
+El parámetro que representa el tamaño del problema es n (la cantidad de elementos). El ciclo for se ejecuta exactamente n veces (de i = 0 hasta i = n - 1). En cada iteración se realiza una asignación constante (b[i] = a[i]), que copia un elemento del arreglo origen al arreglo destino. Como el trabajo constante se repite n veces, el costo total es O(n).
 
 No se acepta como justificación únicamente "porque tiene un `for`". Tu explicación debe identificar:
 
@@ -340,12 +359,24 @@ add(6)
 
 Completa una tabla con:
 
-```text
-operación | contenido lógico | n | capacidad | ¿hubo resize?
-```
+| operación | contenido lógico |  n  | capacidad | ¿hubo resize? |
+| :-------: | :--------------: | :-: | :-------: | :-----------: |
+|  add(4)   |       [4]        |  1  |     1     |      No       |
+|  add(7)   |      [4, 7]      |  2  |     2     |      Si       |
+|  add(1)   |    [4, 7, 1]     |  3  |     4     |      Si       |
+|  add(9)   |   [4, 7, 1, 9]   |  4  |     4     |      No       |
+|  add(6)   | [4, 7, 1, 9, 6]  |  5  |     8     |      Si       |
 
 Finalmente responde:
 
-a. ¿Qué inserciones ejecutaron **`resize()`**?  
-b. ¿Cuál puede ser el peor costo de una llamada individual a **`add` al final**?  
+a. ¿Qué inserciones ejecutaron **`resize()`**?
+
+- add(7), add(1), add(6)
+
+b. ¿Cuál puede ser el peor costo de una llamada individual a **`add` al final**?
+
+- El peor caso de una llamada individual es O(n), porque cuando el arreglo está lleno (n+1 > a.length), resize() debe copiar todos los n elementos existentes a un nuevo arreglo. Con n grandes, esa copia es costosa.
+
 c. ¿Por qué, a pesar de ello, hablamos de **idea de costo amortizado** `O(1)`?.
+
+- Porque las llamadas a resize() son poco frecuentes comparadas con el número total de inserciones.

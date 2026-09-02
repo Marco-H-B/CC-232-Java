@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 1, lunes: ArrayStack y crecimiento dinámico.
  * Adaptación didáctica de Open Data Structures, Pat Morin.
@@ -26,13 +27,26 @@ public class Semana01_ArraysDinamicos0 {
         // TODO(alumno): crear un arreglo de capacidad max(1, 2*n), copiar
         // a[0..n-1] y reemplazar la referencia a.
         private void resize() {
-            throw new UnsupportedOperationException("TODO: implementar el método resize");
+            Integer[] b = new Integer[Math.max(1, 2 * n)];
+
+            for (int i = 0; i < n; i++) {
+                b[i] = a[i];
+            }
+
+            a = b;
         }
 
         // TODO(alumno): insertar x al final. Si n+1 supera la capacidad,
         // llamar primero a resize(). Costo amortizado esperado: O(1).
         boolean add(Integer x) {
-            throw new UnsupportedOperationException("TODO: implementar el método add");
+            if (n + 1 > a.length) {
+                resize();
+            }
+
+            a[n] = x;
+            n++;
+
+            return true;
         }
 
         private void checkElementIndex(int i) {
@@ -52,7 +66,7 @@ public class Semana01_ArraysDinamicos0 {
         ArrayStack s = new ArrayStack();
         System.out.println("Inicial: " + s);
         try {
-            for (int x : new int[] {4, 7, 1, 9}) {
+            for (int x : new int[] { 4, 7, 1, 9 }) {
                 s.add(x);
                 System.out.println("Después de add(" + x + "): " + s);
             }

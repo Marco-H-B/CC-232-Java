@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 12, ampliación: transformación de Burrows-Wheeler.
  *
@@ -32,10 +33,12 @@ public class Semana12_BurrowsWheelerExtra {
     }
 
     static Result transform(String text) {
-        if (text == null) throw new IllegalArgumentException("el texto no puede ser nulo");
+        if (text == null)
+            throw new IllegalArgumentException("el texto no puede ser nulo");
         int n = text.length();
         Integer[] order = new Integer[n];
-        for (int i = 0; i < n; i++) order[i] = i;
+        for (int i = 0; i < n; i++)
+            order[i] = i;
 
         Arrays.sort(order, (first, second) -> compareRotations(text, first, second));
         int originalRow = 0;
@@ -43,7 +46,8 @@ public class Semana12_BurrowsWheelerExtra {
 
         for (int row = 0; row < n; row++) {
             int start = order[row];
-            if (start == 0) originalRow = row;
+            if (start == 0)
+                originalRow = row;
             int previous = (start - 1 + n) % n;
             last.append(text.charAt(previous));
         }
@@ -54,7 +58,8 @@ public class Semana12_BurrowsWheelerExtra {
         for (int k = 0; k < text.length(); k++) {
             char a = text.charAt((first + k) % text.length());
             char b = text.charAt((second + k) % text.length());
-            if (a != b) return Character.compare(a, b);
+            if (a != b)
+                return Character.compare(a, b);
         }
         return 0;
     }

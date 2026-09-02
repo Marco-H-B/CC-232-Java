@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 13, viernes: split e inserción en BTree simplificado.
  * Adaptación didáctica de BTree de Pat Morin, mantenida completamente en memoria.
@@ -17,12 +18,18 @@ public class Semana13_BTree1 {
 
             int size() {
                 int i = 0;
-                while (i < keys.length && keys[i] != null) i++;
+                while (i < keys.length && keys[i] != null)
+                    i++;
                 return i;
             }
 
-            boolean isLeaf() { return children[0] == null; }
-            boolean isFull() { return keys[keys.length - 1] != null; }
+            boolean isLeaf() {
+                return children[0] == null;
+            }
+
+            boolean isFull() {
+                return keys[keys.length - 1] != null;
+            }
         }
 
         private final int b;
@@ -30,7 +37,8 @@ public class Semana13_BTree1 {
         private int n;
 
         BTree(int b) {
-            if (b < 3 || b % 2 == 0) throw new IllegalArgumentException("El valor de b debe ser impar y mayor o igual que 3");
+            if (b < 3 || b % 2 == 0)
+                throw new IllegalArgumentException("El valor de b debe ser impar y mayor o igual que 3");
             this.b = b;
             root = new Node(b);
         }
@@ -41,9 +49,12 @@ public class Semana13_BTree1 {
             while (low < high) {
                 int middle = (low + high) / 2;
                 int cmp = keys[middle] == null ? -1 : Integer.compare(x, keys[middle]);
-                if (cmp < 0) high = middle;
-                else if (cmp > 0) low = middle + 1;
-                else return -middle - 1;
+                if (cmp < 0)
+                    high = middle;
+                else if (cmp > 0)
+                    low = middle + 1;
+                else
+                    return -middle - 1;
             }
             return low;
         }
@@ -52,7 +63,8 @@ public class Semana13_BTree1 {
             Node u = root;
             while (u != null) {
                 int i = findIt(u.keys, x);
-                if (i < 0) return true;
+                if (i < 0)
+                    return true;
                 u = u.children[i];
             }
             return false;
@@ -71,7 +83,9 @@ public class Semana13_BTree1 {
             throw new UnsupportedOperationException("TODO: implementar el método split");
         }
 
-        int size() { return n; }
+        int size() {
+            return n;
+        }
 
         void printRoot() {
             System.out.println("Raíz: " + Arrays.toString(root.keys));
@@ -87,7 +101,8 @@ public class Semana13_BTree1 {
     public static void main(String[] args) {
         BTree tree = new BTree(5);
         try {
-            for (int x : new int[] {10, 20, 5, 6, 12, 30, 7, 17}) tree.add(x);
+            for (int x : new int[] { 10, 20, 5, 6, 12, 30, 7, 17 })
+                tree.add(x);
             tree.printRoot();
             System.out.println("Resultado de contains(12): " + tree.contains(12) + " (esperado: true)");
             System.out.println("Resultado de contains(99): " + tree.contains(99) + " (esperado: false)");

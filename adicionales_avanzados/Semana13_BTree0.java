@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 13, lunes: nodo de BTree con arreglos de capacidad fija.
  * Adaptación didáctica de BTree de Pat Morin, sin BlockStore.
@@ -13,7 +14,7 @@ public class Semana13_BTree0 {
             if (b < 3 || b % 2 == 0) {
                 throw new IllegalArgumentException("El valor de b debe ser impar y mayor o igual que 3");
             }
-            keys = new Integer[b];       // incluye una posición de desborde
+            keys = new Integer[b]; // incluye una posición de desborde
             children = new Node[b + 1];
         }
 
@@ -28,8 +29,10 @@ public class Semana13_BTree0 {
             int high = keys.length;
             while (low < high) {
                 int middle = (low + high) / 2;
-                if (keys[middle] == null) high = middle;
-                else low = middle + 1;
+                if (keys[middle] == null)
+                    high = middle;
+                else
+                    low = middle + 1;
             }
             return low;
         }

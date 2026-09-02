@@ -10,7 +10,8 @@ public class Semana10_SegmentTreeLazy1 {
 
         LazySegmentTree(int[] values) {
             n = values.length;
-            if (n == 0) throw new IllegalArgumentException("arreglo vacío");
+            if (n == 0)
+                throw new IllegalArgumentException("arreglo vacío");
             tree = new long[4 * n];
             lazy = new long[4 * n];
             build(1, 0, n - 1, values);
@@ -37,7 +38,8 @@ public class Semana10_SegmentTreeLazy1 {
         }
 
         private void push(int node, int left, int right) {
-            if (lazy[node] == 0 || left == right) return;
+            if (lazy[node] == 0 || left == right)
+                return;
             int middle = (left + right) / 2;
             apply(2 * node, left, middle, lazy[node]);
             apply(2 * node + 1, middle + 1, right, lazy[node]);
@@ -52,7 +54,7 @@ public class Semana10_SegmentTreeLazy1 {
         // TODO(alumno): manejar no intersección, cobertura total y cobertura
         // parcial. En la parcial, ejecutar push antes de descender y pull al volver.
         private void addRange(int node, int left, int right,
-                              int queryLeft, int queryRight, long delta) {
+                int queryLeft, int queryRight, long delta) {
             throw new UnsupportedOperationException("TODO: implementar la versión recursiva de addRange");
         }
 
@@ -64,7 +66,7 @@ public class Semana10_SegmentTreeLazy1 {
         // TODO(alumno): no propagar si no hay intersección ni si existe cobertura
         // total. Usar push únicamente antes de descender parcialmente.
         private long rangeSum(int node, int left, int right,
-                              int queryLeft, int queryRight) {
+                int queryLeft, int queryRight) {
             throw new UnsupportedOperationException("TODO: implementar la versión recursiva de rangeSum");
         }
 
@@ -76,7 +78,7 @@ public class Semana10_SegmentTreeLazy1 {
     }
 
     public static void main(String[] args) {
-        LazySegmentTree st = new LazySegmentTree(new int[] {2, 1, 3, 4, 5});
+        LazySegmentTree st = new LazySegmentTree(new int[] { 2, 1, 3, 4, 5 });
         try {
             System.out.println("Suma del rango [0, 4]: " + st.rangeSum(0, 4) + " (esperado: 15)");
             st.addRange(1, 3, 10);

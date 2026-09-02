@@ -1,6 +1,6 @@
 ### Atribución
 
-Este repositorio contiene adaptaciones de conceptos y código de Pat Morin, autor de *Open Data Structures*.
+Este repositorio contiene adaptaciones de conceptos y código de Pat Morin, autor de _Open Data Structures_.
 
 #### Fuentes principales
 
@@ -23,7 +23,7 @@ También se añadieron:
 
 #### Material inspirado en Algorithms
 
-La carpeta `adicionales/` contiene ampliaciones docentes inspiradas en el curso y el libro *Algorithms*, de Robert Sedgewick y Kevin Wayne.
+La carpeta `adicionales/` contiene ampliaciones docentes inspiradas en el curso y el libro _Algorithms_, de Robert Sedgewick y Kevin Wayne.
 
 El repositorio no utiliza `algs4.jar`.
 

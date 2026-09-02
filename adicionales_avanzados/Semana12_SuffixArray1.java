@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 12, viernes: búsqueda y LCP sobre un Suffix Array.
  * Construcción simple para concentrar la sesión en las consultas.
@@ -13,10 +14,12 @@ public class Semana12_SuffixArray1 {
         SuffixArray(String text) {
             this.text = text;
             Integer[] indices = new Integer[text.length()];
-            for (int i = 0; i < indices.length; i++) indices[i] = i;
+            for (int i = 0; i < indices.length; i++)
+                indices[i] = i;
             Arrays.sort(indices, Comparator.comparing(text::substring));
             sa = new int[indices.length];
-            for (int i = 0; i < sa.length; i++) sa[i] = indices[i];
+            for (int i = 0; i < sa.length; i++)
+                sa[i] = indices[i];
         }
 
         // TODO(alumno): usar búsqueda binaria sobre sa. Comparar pattern con el

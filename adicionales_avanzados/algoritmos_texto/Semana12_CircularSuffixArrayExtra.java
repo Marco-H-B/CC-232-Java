@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 12, ampliación: arreglo de sufijos circulares.
  *
@@ -17,10 +18,12 @@ public class Semana12_CircularSuffixArrayExtra {
         private final Integer[] order;
 
         CircularSuffixArray(String text) {
-            if (text == null) throw new IllegalArgumentException("el texto no puede ser nulo");
+            if (text == null)
+                throw new IllegalArgumentException("el texto no puede ser nulo");
             this.text = text;
             order = new Integer[text.length()];
-            for (int i = 0; i < order.length; i++) order[i] = i;
+            for (int i = 0; i < order.length; i++)
+                order[i] = i;
             Arrays.sort(order, this::compareRotations);
         }
 

@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 12, ampliación: codificación Move-to-Front.
  *
@@ -12,18 +13,21 @@ public class Semana12_MoveToFrontExtra {
 
     private static char[] initialAlphabet() {
         char[] alphabet = new char[ALPHABET_SIZE];
-        for (int i = 0; i < alphabet.length; i++) alphabet[i] = (char) i;
+        for (int i = 0; i < alphabet.length; i++)
+            alphabet[i] = (char) i;
         return alphabet;
     }
 
     private static void moveToFront(char[] alphabet, int position) {
         char value = alphabet[position];
-        for (int i = position; i > 0; i--) alphabet[i] = alphabet[i - 1];
+        for (int i = position; i > 0; i--)
+            alphabet[i] = alphabet[i - 1];
         alphabet[0] = value;
     }
 
     static int[] encode(String text) {
-        if (text == null) throw new IllegalArgumentException("el texto no puede ser nulo");
+        if (text == null)
+            throw new IllegalArgumentException("el texto no puede ser nulo");
         char[] alphabet = initialAlphabet();
         int[] output = new int[text.length()];
 
@@ -33,7 +37,8 @@ public class Semana12_MoveToFrontExtra {
                 throw new IllegalArgumentException("esta versión admite caracteres de 8 bits");
             }
             int position = 0;
-            while (alphabet[position] != value) position++;
+            while (alphabet[position] != value)
+                position++;
             output[i] = position;
             moveToFront(alphabet, position);
         }
