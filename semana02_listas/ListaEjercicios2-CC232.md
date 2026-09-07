@@ -475,11 +475,11 @@ No necesitas escribir las tres implementaciones completas.
 
 Construye una tabla con:
 
-| Operación | Arreglo dinámico | SLList | DLList |
-|---|---|---|---|
-| costo de localizar | | | |
-| costo de modificar | | | |
-| trabajo dominante | | | |
+| Operación          | Arreglo dinámico | SLList | DLList |
+| ------------------ | ---------------- | ------ | ------ |
+| costo de localizar |                  |        |        |
+| costo de modificar |                  |        |        |
+| trabajo dominante  |                  |        |        |
 
 Después responde:
 
@@ -630,5 +630,5 @@ invariantes
 complejidad
 ```
 
-El objetivo final es explicar por qué elegir una estructura de datos significa elegir qué información estará disponible directamente y qué costos se aceptarán para 
+El objetivo final es explicar por qué elegir una estructura de datos significa elegir qué información estará disponible directamente y qué costos se aceptarán para
 las operaciones.
