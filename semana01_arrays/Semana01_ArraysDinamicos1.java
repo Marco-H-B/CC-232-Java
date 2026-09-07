@@ -55,13 +55,32 @@ public class Semana01_ArraysDinamicos1 {
         // TODO(alumno): guardar a[i], desplazar a la izquierda, decrementar n
         // y reducir capacidad cuando a.length >= 3*n. Retornar lo eliminado.
         Integer remove(int i) {
-            throw new UnsupportedOperationException("TODO: implementar el método remove");
+            checkElementIndex(i);
+            Integer temp = a[i];
+
+            for (int j = i; j < n - 1; j++) {
+                a[j] = a[j + 1];
+            }
+
+            n--;
+            a[n] = null;
+
+            if (a.length >= 3 * n) {
+                resize();
+            }
+
+            return temp;
         }
 
         // TODO(alumno): retornar el primer índice cuyo elemento equals(x),
         // o -1 si no existe. Costo esperado: O(n).
         int indexOf(Integer x) {
-            throw new UnsupportedOperationException("TODO: implementar el método indexOf");
+            for (int i = 0; i < n; i++) {
+                if (a[i].equals(x)) {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         private void checkElementIndex(int i) {
