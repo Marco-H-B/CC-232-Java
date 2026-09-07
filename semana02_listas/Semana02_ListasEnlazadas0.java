@@ -50,7 +50,8 @@ public class Semana02_ListasEnlazadas0 {
         public String toString() {
             StringBuilder out = new StringBuilder("[");
             for (Node u = head; u != null; u = u.next) {
-                if (out.length() > 1) out.append(", ");
+                if (out.length() > 1)
+                    out.append(", ");
                 out.append(u.x);
             }
             return out.append("] tamaño=").append(n).toString();
