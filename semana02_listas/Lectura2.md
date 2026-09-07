@@ -463,18 +463,18 @@ Considera `SLList.pop()`. Con tres nodos (`10 -> 20 -> 30`), hacer avanzar `head
 
 Podemos resumir varias operaciones de la semana.
 
-| Operación | Representación | Costo |
-|---|---|---|
-| `size()` | `SLList` o `DLList` con `n` | O(1) |
-| `SLList.add(x)` con `tail` | lista simple | O(1) |
-| `SLList.push(x)` | lista simple | O(1) |
-| `SLList.pop()` | lista simple | O(1) |
-| eliminar desde `tail` sin `prev` | lista simple | O(n) |
-| `DLList.getNode(i)` | lista doble | O(1 + min(i, n - i)) |
-| `DLList.get(i)` | lista doble | O(1 + min(i, n - i)) |
-| insertar antes de nodo conocido | lista doble | O(1) |
-| eliminar nodo conocido | lista doble | O(1) |
-| `DLList.remove(i)` | lista doble | O(1 + min(i, n - i)) |
+| Operación                        | Representación              | Costo                |
+| -------------------------------- | --------------------------- | -------------------- |
+| `size()`                         | `SLList` o `DLList` con `n` | O(1)                 |
+| `SLList.add(x)` con `tail`       | lista simple                | O(1)                 |
+| `SLList.push(x)`                 | lista simple                | O(1)                 |
+| `SLList.pop()`                   | lista simple                | O(1)                 |
+| eliminar desde `tail` sin `prev` | lista simple                | O(n)                 |
+| `DLList.getNode(i)`              | lista doble                 | O(1 + min(i, n - i)) |
+| `DLList.get(i)`                  | lista doble                 | O(1 + min(i, n - i)) |
+| insertar antes de nodo conocido  | lista doble                 | O(1)                 |
+| eliminar nodo conocido           | lista doble                 | O(1)                 |
+| `DLList.remove(i)`               | lista doble                 | O(1 + min(i, n - i)) |
 
 Esta tabla no debe memorizarse sin explicación; cada costo debe relacionarse con el trabajo realizado. **O(1)** significa una cantidad constante de referencias o accesos, mientras que **O(n)** significa un recorrido potencialmente proporcional a `n`.
 
