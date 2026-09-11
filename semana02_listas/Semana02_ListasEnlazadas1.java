@@ -30,7 +30,29 @@ public class Semana02_ListasEnlazadas1 {
         // TODO(alumno): localizar el nodo i. Recorrer desde el extremo más
         // cercano. Precondición: 0 <= i < n.
         private Node getNode(int i) {
-            throw new UnsupportedOperationException("TODO: implementar el método getNode");
+
+            if (i < 0 || i >= n) {
+                throw new IndexOutOfBoundsException("posición=" + i + ", tamaño=" + n);
+            }
+
+            Node p;
+
+            if (i < n / 2) {
+                p = dummy.next;
+
+                for (int j = 0; j < i; j++) {
+                    p = p.next;
+                }
+
+            } else {
+                p = dummy.prev;
+
+                for (int j = n - 1; j > i; j--) {
+                    p = p.prev;
+                }
+            }
+
+            return p;
         }
 
         int get(int i) {
@@ -38,12 +60,15 @@ public class Semana02_ListasEnlazadas1 {
         }
 
         private Node addBefore(Node w, int x) {
+
             Node u = new Node(x);
             u.prev = w.prev;
             u.next = w;
+
             u.next.prev = u;
             u.prev.next = u;
             n++;
+
             return u;
         }
 
@@ -56,7 +81,19 @@ public class Semana02_ListasEnlazadas1 {
 
         // TODO(alumno): desconectar getNode(i), decrementar n y retornar x.
         int remove(int i) {
-            throw new UnsupportedOperationException("TODO: implementar el método remove");
+
+            if (i < 0 || i >= n) {
+                throw new IndexOutOfBoundsException("posición=" + i + ", tamaño=" + n);
+            }
+
+            Node w = getNode(i);
+            int x = w.x;
+
+            w.prev.next = w.next;
+            w.next.prev = w.prev;
+
+            n--;
+            return x;
         }
 
         @Override
