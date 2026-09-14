@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 14, lunes: diseño integrador.
  * Repaso final de selección de estructuras e invariantes coordinados.
@@ -37,7 +38,8 @@ public class Semana14_Diseno1 {
         private int totalPendingMinutes;
 
         private boolean less(Job a, Job b) {
-            if (a.priority != b.priority) return a.priority < b.priority;
+            if (a.priority != b.priority)
+                return a.priority < b.priority;
             return a.id < b.id;
         }
 
@@ -50,7 +52,8 @@ public class Semana14_Diseno1 {
         private void bubbleUp(int i) {
             while (i > 0) {
                 int parent = (i - 1) / 2;
-                if (!less(heap.get(i), heap.get(parent))) return;
+                if (!less(heap.get(i), heap.get(parent)))
+                    return;
                 swap(i, parent);
                 i = parent;
             }
@@ -73,10 +76,21 @@ public class Semana14_Diseno1 {
             throw new UnsupportedOperationException("TODO: implementar trickleDown");
         }
 
-        boolean containsPendingId(int id) { return pendingIds.contains(id); }
-        int jobsForOwner(String owner) { return jobsByOwner.getOrDefault(owner, 0); }
-        int pending() { return heap.size(); }
-        int totalPendingMinutes() { return totalPendingMinutes; }
+        boolean containsPendingId(int id) {
+            return pendingIds.contains(id);
+        }
+
+        int jobsForOwner(String owner) {
+            return jobsByOwner.getOrDefault(owner, 0);
+        }
+
+        int pending() {
+            return heap.size();
+        }
+
+        int totalPendingMinutes() {
+            return totalPendingMinutes;
+        }
     }
 
     public static void main(String[] args) {
@@ -85,7 +99,8 @@ public class Semana14_Diseno1 {
             System.out.println("Agregar 201: " + system.addJob(new Job(201, 3, "ire", 12)) + " (esperado: true)");
             System.out.println("Agregar 202: " + system.addJob(new Job(202, 1, "chalo", 8)) + " (esperado: true)");
             System.out.println("Agregar 203: " + system.addJob(new Job(203, 2, "ire", 15)) + " (esperado: true)");
-            System.out.println("Duplicar 202: " + system.addJob(new Job(202, 4, "paulette", 20)) + " (esperado: false)");
+            System.out
+                    .println("Duplicar 202: " + system.addJob(new Job(202, 4, "paulette", 20)) + " (esperado: false)");
             System.out.println("Pendientes de ire: " + system.jobsForOwner("ire") + " (esperado: 2)");
             System.out.println("Minutos pendientes: " + system.totalPendingMinutes() + " (esperado: 35)");
             System.out.println("Atender: " + system.removeNext() + " (se espera id 202)");
