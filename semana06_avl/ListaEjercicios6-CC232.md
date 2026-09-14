@@ -2,7 +2,7 @@
 
 Estos ejercicios son opcionales y no requieren entrega obligatoria.
 
-La parte de consolidación es deliberadamente breve. La mayor parte de la lista contiene problemas retadores que combinan conceptos de las Semanas 1, 2, 3, 4, 5 y 6. 
+La parte de consolidación es deliberadamente breve. La mayor parte de la lista contiene problemas retadores que combinan conceptos de las Semanas 1, 2, 3, 4, 5 y 6.
 El objetivo no es repetir la Actividad 6 ni volver a resolver los mismos árboles utilizados para introducir `rotateRight`, `rotateLeft`, LL, RR, LR y RL.
 
 La mayoría de los problemas exige:
