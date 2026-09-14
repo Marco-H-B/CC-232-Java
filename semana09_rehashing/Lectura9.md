@@ -1563,6 +1563,7 @@ copiar !=rehashing
 ```text
 esperado !=amortizado
 ```
+
 ### 60. Síntesis
 
 La Semana 8 mostró cómo una función hash permite reducir una búsqueda global a una búsqueda dentro de una bucket.
