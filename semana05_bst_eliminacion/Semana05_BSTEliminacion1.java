@@ -9,7 +9,10 @@ public class Semana05_BSTEliminacion1 {
             Node left;
             Node right;
             Node parent;
-            Node(int x) { this.x = x; }
+
+            Node(int x) {
+                this.x = x;
+            }
         }
 
         private Node root;
@@ -20,9 +23,12 @@ public class Semana05_BSTEliminacion1 {
             Node prev = null;
             while (w != null) {
                 prev = w;
-                if (x < w.x) w = w.left;
-                else if (x > w.x) w = w.right;
-                else return w;
+                if (x < w.x)
+                    w = w.left;
+                else if (x > w.x)
+                    w = w.right;
+                else
+                    return w;
             }
             return prev;
         }
@@ -56,7 +62,9 @@ public class Semana05_BSTEliminacion1 {
             throw new UnsupportedOperationException("TODO: implementar el método remove");
         }
 
-        int size() { return n; }
+        int size() {
+            return n;
+        }
 
         void inorder() {
             inorder(root);
@@ -64,7 +72,8 @@ public class Semana05_BSTEliminacion1 {
         }
 
         private void inorder(Node u) {
-            if (u == null) return;
+            if (u == null)
+                return;
             inorder(u.left);
             System.out.print(u.x + " ");
             inorder(u.right);
@@ -73,7 +82,8 @@ public class Semana05_BSTEliminacion1 {
 
     public static void main(String[] args) {
         BinarySearchTree tree = new BinarySearchTree();
-        for (int x : new int[] {40, 20, 60, 10, 30, 50, 70, 55}) tree.add(x);
+        for (int x : new int[] { 40, 20, 60, 10, 30, 50, 70, 55 })
+            tree.add(x);
         System.out.print("Inicial: ");
         tree.inorder();
         try {
