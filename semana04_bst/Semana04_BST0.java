@@ -9,13 +9,18 @@ public class Semana04_BST0 {
             Node left;
             Node right;
             Node parent;
-            Node(int x) { this.x = x; }
+
+            Node(int x) {
+                this.x = x;
+            }
         }
 
         private Node root;
         private int n;
 
-        int size() { return n; }
+        int size() {
+            return n;
+        }
 
         // TODO(alumno): seguir el camino de búsqueda y retornar el último nodo
         // visitado, null cuando el árbol está vacío.
@@ -40,7 +45,8 @@ public class Semana04_BST0 {
         }
 
         private void inorder(Node u) {
-            if (u == null) return;
+            if (u == null)
+                return;
             inorder(u.left);
             System.out.print(u.x + " ");
             inorder(u.right);
@@ -50,7 +56,8 @@ public class Semana04_BST0 {
     public static void main(String[] args) {
         BinarySearchTree tree = new BinarySearchTree();
         try {
-            for (int x : new int[] {40, 20, 60, 10, 30, 50, 70}) tree.add(x);
+            for (int x : new int[] { 40, 20, 60, 10, 30, 50, 70 })
+                tree.add(x);
             tree.inorder();
             System.out.println("Esperado: 10 20 30 40 50 60 70");
             System.out.println("Resultado de contains(30): " + tree.contains(30) + " (esperado: true)");
