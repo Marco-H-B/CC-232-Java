@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 3, Lunes: ArrayQueue circular.
  * Adaptación didáctica de Open Data Structures, Pat Morin.
@@ -12,8 +13,13 @@ public class Semana03_PilasColas1 {
         private int j;
         private int n;
 
-        int size() { return n; }
-        Integer peek() { return n == 0 ? null : a[j]; }
+        int size() {
+            return n;
+        }
+
+        Integer peek() {
+            return n == 0 ? null : a[j];
+        }
 
         // TODO(alumno): copiar los n elementos en orden lógico a un arreglo
         // de capacidad max(1, 2*n), asignarlo a a y fijar j=0.
@@ -22,7 +28,8 @@ public class Semana03_PilasColas1 {
         }
 
         boolean add(Integer x) {
-            if (n + 1 > a.length) resize();
+            if (n + 1 > a.length)
+                resize();
             a[(j + n) % a.length] = x;
             n++;
             return true;
@@ -36,7 +43,8 @@ public class Semana03_PilasColas1 {
 
         String logicalView() {
             Integer[] view = new Integer[n];
-            for (int k = 0; k < n; k++) view[k] = a[(j + k) % a.length];
+            for (int k = 0; k < n; k++)
+                view[k] = a[(j + k) % a.length];
             return Arrays.toString(view) + " j=" + j + " capacidad=" + a.length;
         }
     }
