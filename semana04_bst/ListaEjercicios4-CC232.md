@@ -1,6 +1,6 @@
 ### Ejercicios de la Semana 4
 
-Estos ejercicios son opcionales y no requieren entrega obligatoria. 
+Estos ejercicios son opcionales y no requieren entrega obligatoria.
 
 La mayor parte de los problemas exige combinar ideas de las Semanas 1, 2, 3 y 4, reconstruir estados, revisar código que compila pero puede ser incorrecto, preservar invariantes, justificar decisiones estructurales y analizar costos.
 
