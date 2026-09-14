@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 13, viernes: sistema integrador.
  * Combina cola de prioridad, hashing y consultas acumuladas.
@@ -31,14 +32,16 @@ public class Semana13_Integracion1 {
         private int totalMinutes;
 
         boolean addTicket(Ticket ticket) {
-            if (served.contains(ticket.id)) return false;
+            if (served.contains(ticket.id))
+                return false;
             heap.add(ticket);
             bubbleUp(heap.size() - 1);
             return true;
         }
 
         private boolean less(Ticket a, Ticket b) {
-            if (a.priority != b.priority) return a.priority < b.priority;
+            if (a.priority != b.priority)
+                return a.priority < b.priority;
             return a.id < b.id;
         }
 
@@ -51,7 +54,8 @@ public class Semana13_Integracion1 {
         private void bubbleUp(int i) {
             while (i > 0) {
                 int parent = (i - 1) / 2;
-                if (!less(heap.get(i), heap.get(parent))) break;
+                if (!less(heap.get(i), heap.get(parent)))
+                    break;
                 swap(i, parent);
                 i = parent;
             }
@@ -68,9 +72,17 @@ public class Semana13_Integracion1 {
             throw new UnsupportedOperationException("TODO: implementar el método trickleDown");
         }
 
-        boolean wasServed(int id) { return served.contains(id); }
-        int totalMinutes() { return totalMinutes; }
-        int pending() { return heap.size(); }
+        boolean wasServed(int id) {
+            return served.contains(id);
+        }
+
+        int totalMinutes() {
+            return totalMinutes;
+        }
+
+        int pending() {
+            return heap.size();
+        }
     }
 
     public static void main(String[] args) {
