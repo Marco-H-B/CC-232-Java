@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 13, lunes: selección de estructuras e invariantes.
  * Cada método exige elegir una estructura ya estudiada y justificar su costo.
@@ -29,9 +30,9 @@ public class Semana13_Seleccion0 {
             System.out.println("Resultado de balanced para {[()]}: " + balanced("{[()]}") + " (esperado: true)");
             System.out.println("Resultado de balanced para ([)]: " + balanced("([)]") + " (esperado: false)");
             System.out.println("Primer duplicado: "
-                    + firstDuplicate(new int[] {4, 1, 7, 2, 7, 4}) + " (esperado: 7)");
+                    + firstDuplicate(new int[] { 4, 1, 7, 2, 7, 4 }) + " (esperado: 7)");
             System.out.println("3.er menor="
-                    + kthSmallest(new int[] {9, 1, 8, 2, 7, 3}, 3) + " (esperado: 3)");
+                    + kthSmallest(new int[] { 9, 1, 8, 2, 7, 3 }, 3) + " (esperado: 3)");
         } catch (UnsupportedOperationException e) {
             System.out.println(e.getMessage());
         }
