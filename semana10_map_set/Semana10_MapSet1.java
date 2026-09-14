@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 10, viernes: Set, duplicados y selección de implementación.
  */
@@ -14,17 +15,19 @@ public class Semana10_MapSet1 {
 
     static Set<Integer> uniqueSorted(int[] values) {
         Set<Integer> result = new TreeSet<>();
-        for (int value : values) result.add(value);
+        for (int value : values)
+            result.add(value);
         return result;
     }
 
     static String chooseImplementation(boolean needsOrder, boolean needsMinimum) {
-        if (needsOrder || needsMinimum) return "TreeSet, árbol balanceado";
+        if (needsOrder || needsMinimum)
+            return "TreeSet, árbol balanceado";
         return "HashSet, tabla hash";
     }
 
     public static void main(String[] args) {
-        int[] values = {7, 2, 9, 4, 2, 8};
+        int[] values = { 7, 2, 9, 4, 2, 8 };
         try {
             System.out.println("primer duplicado=" + firstDuplicate(values) + " (esperado: 2)");
             System.out.println("ordenados=" + uniqueSorted(values) + " (esperado: [2, 4, 7, 8, 9])");
