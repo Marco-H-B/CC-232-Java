@@ -12,7 +12,7 @@ https://creativecommons.org/licenses/by/4.0/
 
 #### Material derivado
 
-Las partes adaptadas de *Open Data Structures* conservan la atribución a Pat Morin y al proyecto:
+Las partes adaptadas de _Open Data Structures_ conservan la atribución a Pat Morin y al proyecto:
 
 https://opendatastructures.org/
 
