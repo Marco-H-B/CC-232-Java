@@ -402,7 +402,7 @@ DFS(source)
 Construye una tabla con:
 
 | Operación | Invariante que utiliza | Mejor caso relevante | Peor caso | Esperado/amortizado si aplica | Memoria auxiliar |
-|---|---|---:|---:|---|---|
+| --------- | ---------------------- | -------------------: | --------: | ----------------------------- | ---------------- |
 
 Después responde:
 
@@ -507,9 +507,10 @@ y no actualiza el Map.
 8. explica por qué el Map no convierte mágicamente la eliminación indexada en `O(1)`,
 9. propone una representación alternativa si las eliminaciones arbitrarias fueran extremadamente frecuentes,
 10. relaciona el problema con:
-   - desplazamientos de la Semana 1,
-   - referencias de la Semana 2,
-   - información redundante almacenada en AVL.
+
+- desplazamientos de la Semana 1,
+- referencias de la Semana 2,
+- información redundante almacenada en AVL.
 
 #### Reto 3. Un historial con deshacer, rehacer y unicidad
 
@@ -809,9 +810,10 @@ Se exige recorrer todos los alcanzables.
 8. construye un grafo donde marcar al `pop` produzca inserciones duplicadas,
 9. explica por qué el algoritmo puede seguir siendo correcto,
 10. distingue:
-   - memoria asintótica,
-   - límite práctico de la pila de ejecución,
-   - trabajo redundante.
+
+- memoria asintótica,
+- límite práctico de la pila de ejecución,
+- trabajo redundante.
 
 #### Reto 11. Un sistema parece O(1), pero esconde una operación lineal
 
@@ -1023,7 +1025,7 @@ Después:
 Concluye con una tabla:
 
 | Necesidad | ADT | Representación | Invariante | Costo |
-|---|---|---|---|---|
+| --------- | --- | -------------- | ---------- | ----- |
 
 ### C. Ampliaciones opcionales
 
@@ -1131,4 +1133,3 @@ TreeSet<String>
 10. analiza los costos,
 11. identifica cuántas estructuras deben cambiar en la peor operación,
 12. explica por qué agregar un índice acelera una consulta pero aumenta el costo y la complejidad de las actualizaciones.
-
