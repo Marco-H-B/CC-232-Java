@@ -606,8 +606,7 @@ Después de cada arista:
 boolean connectsDifferentComponents(Graph graph, int a, int b)
 ```
 
-usando recorridos ya estudiados,
-7. analiza su costo.
+usando recorridos ya estudiados, 7. analiza su costo.
 
 #### Reto 14. Probar `dfsOrder` mediante propiedades
 
