@@ -666,7 +666,7 @@ remove
 Para cada operación donde cambie la capacidad registra:
 
 | Operación | `n` antes | capacidad antes | `n` después | capacidad después | elementos copiados |
-|---|---:|---:|---:|---:|---:|
+| --------- | --------: | --------------: | ----------: | ----------------: | -----------------: |
 
 Además:
 
