@@ -474,8 +474,10 @@ get(101)
 9. construye dos claves distintas que colisionen bajo tu función corregida,
 10. explica por qué esa colisión no rompe la correctitud,
 11. identifica la diferencia entre:
-   - actualizar un valor,
-   - cambiar una clave,
+
+- actualizar un valor,
+- cambiar una clave,
+
 12. relaciona el defecto con el invariante:
 
 ```text
@@ -514,8 +516,10 @@ No modifica `size`.
 8. corrige únicamente la expresión necesaria,
 9. explica por qué rehashing debe recalcular la ubicación con la nueva capacidad,
 10. distingue:
-   - reinserción física,
-   - nueva inserción lógica,
+
+- reinserción física,
+- nueva inserción lógica,
+
 11. explica por qué una reinserción física no debe incrementar `size`,
 12. relaciona el problema con la Semana 9,
 13. determina la complejidad del `resize`,
@@ -663,7 +667,7 @@ valor visto -> índice
 4. explica por qué el orden:
    - consultar complemento,
    - insertar valor actual,
-   ayuda a impedir utilizar dos veces la misma posición,
+     ayuda a impedir utilizar dos veces la misma posición,
 5. traza la entrada dada,
 6. identifica la primera pareja encontrada,
 7. construye una entrada con valores repetidos donde actualizar siempre el índice de una clave produzca una pareja distinta,
@@ -830,19 +834,20 @@ Analiza el caso:
 Map<Integer,Integer>
 ```
 
-donde el valor represente cantidad de apariciones en la ventana,
-7. formula el invariante de la Queue,
-8. formula el invariante del Map,
-9. diseña las operaciones al:
-   - insertar un identificador,
-   - retirar el identificador más antiguo,
+donde el valor represente cantidad de apariciones en la ventana, 7. formula el invariante de la Queue, 8. formula el invariante del Map, 9. diseña las operaciones al:
+
+- insertar un identificador,
+- retirar el identificador más antiguo,
+
 10. determina cuándo debe eliminarse una clave del Map,
 11. traza toda la entrada,
 12. justifica la correctitud,
 13. analiza el tiempo esperado total,
 14. relaciona:
-   - Queue de Semana 3,
-   - Map de Semana 10,
+
+- Queue de Semana 3,
+- Map de Semana 10,
+
 15. explica por qué este problema muestra que "pertenencia" y "cantidad" son necesidades diferentes.
 
 #### Reto 10. HashSet, TreeSet o dos estructuras
@@ -998,8 +1003,10 @@ buscar la menor clave >= x
 9. explica cuál puede responder naturalmente la consulta "menor clave >= x",
 10. explica por qué H no puede descartar claves usando relaciones `<` y `>`,
 11. distingue:
-   - `O(1)` esperado,
-   - `O(log n)` garantizado por altura balanceada,
+
+- `O(1)` esperado,
+- `O(log n)` garantizado por altura balanceada,
+
 12. construye un escenario donde H sea una elección razonable,
 13. construye otro donde A sea preferible,
 14. explica por qué ambas implementan el mismo ADT sin tener la misma complejidad ni las mismas propiedades adicionales.
@@ -1158,9 +1165,11 @@ Supón además que, entre redimensionamientos, la función hash mantiene una lon
 9. explica por qué buena distribución no elimina el costo de resize,
 10. construye conceptualmente una mala función hash donde el análisis amortizado del crecimiento siga siendo válido pero `get` sea `O(n)`,
 11. distingue con tus propias palabras:
-   - esperado,
-   - amortizado,
-   - peor caso,
+
+- esperado,
+- amortizado,
+- peor caso,
+
 12. relaciona el crecimiento con el arreglo dinámico de la Semana 1,
 13. explica qué diferencia específica obliga a rehashing en lugar de copiar entradas al mismo índice.
 
@@ -1480,4 +1489,3 @@ recorrido de ids ordenados
    - velocidad de distintas operaciones,
    - cantidad de invariantes que deben preservarse,
 9. relaciona el problema con el Reto 11 de esta lista.
-
