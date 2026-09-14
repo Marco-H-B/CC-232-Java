@@ -9,15 +9,22 @@ public class Semana06_AVL1 {
             int height = 1;
             Node left;
             Node right;
-            Node(int x) { this.x = x; }
+
+            Node(int x) {
+                this.x = x;
+            }
         }
 
         private Node root;
 
-        private int height(Node u) { return u == null ? 0 : u.height; }
+        private int height(Node u) {
+            return u == null ? 0 : u.height;
+        }
+
         private int balanceFactor(Node u) {
             return u == null ? 0 : height(u.left) - height(u.right);
         }
+
         private void updateHeight(Node u) {
             u.height = 1 + Math.max(height(u.left), height(u.right));
         }
@@ -47,10 +54,14 @@ public class Semana06_AVL1 {
         }
 
         private Node add(Node u, int x) {
-            if (u == null) return new Node(x);
-            if (x < u.x) u.left = add(u.left, x);
-            else if (x > u.x) u.right = add(u.right, x);
-            else return u;
+            if (u == null)
+                return new Node(x);
+            if (x < u.x)
+                u.left = add(u.left, x);
+            else if (x > u.x)
+                u.right = add(u.right, x);
+            else
+                return u;
             updateHeight(u);
             return rebalance(u);
         }
@@ -67,7 +78,8 @@ public class Semana06_AVL1 {
         }
 
         private void preorder(Node u) {
-            if (u == null) return;
+            if (u == null)
+                return;
             System.out.print(u.x + "(fb=" + balanceFactor(u) + ") ");
             preorder(u.left);
             preorder(u.right);
@@ -76,15 +88,16 @@ public class Semana06_AVL1 {
 
     public static void main(String[] args) {
         int[][] cases = {
-            {30, 20, 10}, // LL
-            {10, 20, 30}, // RR
-            {30, 10, 20}, // LR
-            {10, 30, 20}  // RL
+                { 30, 20, 10 }, // LL
+                { 10, 20, 30 }, // RR
+                { 30, 10, 20 }, // LR
+                { 10, 30, 20 } // RL
         };
         for (int[] values : cases) {
             AVL tree = new AVL();
             try {
-                for (int x : values) tree.add(x);
+                for (int x : values)
+                    tree.add(x);
                 tree.preorder();
                 System.out.println("La raíz esperada es 20");
             } catch (UnsupportedOperationException e) {
