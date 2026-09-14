@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 10, lunes: Map para contar frecuencias.
  * No se introduce una estructura nueva: se usa una tabla hash como Map.
@@ -7,7 +8,8 @@ import java.util.Map;
 
 public class Semana10_MapSet0 {
     // TODO(alumno): contar cuántas veces aparece cada palabra.
-    // LinkedHashMap conserva el orden de la primera aparición para una salida determinista.
+    // LinkedHashMap conserva el orden de la primera aparición para una salida
+    // determinista.
     static Map<String, Integer> frequencies(String[] words) {
         throw new UnsupportedOperationException("TODO: implementar el método frequencies");
     }
@@ -25,7 +27,7 @@ public class Semana10_MapSet0 {
     }
 
     public static void main(String[] args) {
-        String[] words = {"heap", "grafo", "tabla hash", "grafo", "heap", "grafo"};
+        String[] words = { "heap", "grafo", "tabla hash", "grafo", "heap", "grafo" };
         try {
             Map<String, Integer> result = frequencies(words);
             System.out.println(result + " (esperado: {heap=2, grafo=3, tabla hash=1})");
