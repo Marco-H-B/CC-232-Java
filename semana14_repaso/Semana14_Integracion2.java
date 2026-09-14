@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 14, viernes: integración final con Map y Graph.
  * Se combinan nombres externos, ids internos, BFS y componentes conexas.
@@ -18,7 +19,8 @@ public class Semana14_Integracion2 {
         private final List<List<Integer>> adjacency = new ArrayList<>();
 
         void addPerson(String name) {
-            if (nameToId.containsKey(name)) return;
+            if (nameToId.containsKey(name))
+                return;
             int id = idToName.size();
             nameToId.put(name, id);
             idToName.add(name);
@@ -54,7 +56,9 @@ public class Semana14_Integracion2 {
             throw new UnsupportedOperationException("TODO: implementar connectedGroups");
         }
 
-        int size() { return idToName.size(); }
+        int size() {
+            return idToName.size();
+        }
     }
 
     public static void main(String[] args) {
