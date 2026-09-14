@@ -107,7 +107,7 @@ Los enteros permiten comparar cualquier par de claves mediante `<`, `>` e `==` (
 
 ### 7. BST como ADT de conjunto ordenado
 
-BST significa *Binary Search Tree*, árbol binario de búsqueda, pero conviene separar nuevamente ADT e implementación.
+BST significa _Binary Search Tree_, árbol binario de búsqueda, pero conviene separar nuevamente ADT e implementación.
 
 Durante esta semana queremos una estructura que se comporte como un **conjunto ordenado de enteros distintos**, con operaciones relevantes `int size()`, `boolean contains(int x)` y `boolean add(int x)`. La palabra "conjunto" implica que una clave aparece como máximo una vez: `add(30)` seguido de otro `add(30)` no debe crear dos nodos con valor 30; la segunda inserción debe rechazarse.
 
