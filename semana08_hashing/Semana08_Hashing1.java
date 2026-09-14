@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 8, viernes: tabla hash con encadenamiento separado.
  * Adaptación didáctica de ChainedHashTable de Pat Morin.
@@ -16,23 +17,28 @@ public class Semana08_Hashing1 {
 
         @SuppressWarnings("unchecked")
         ChainedHashSet(int capacity) {
-            if (capacity <= 0) throw new IllegalArgumentException("La capacidad debe ser positiva");
+            if (capacity <= 0)
+                throw new IllegalArgumentException("La capacidad debe ser positiva");
             buckets = new ArrayList[capacity];
-            for (int i = 0; i < capacity; i++) buckets[i] = new ArrayList<>();
+            for (int i = 0; i < capacity; i++)
+                buckets[i] = new ArrayList<>();
         }
 
         private int hash(Object value) {
             return Math.floorMod(value.hashCode(), buckets.length);
         }
 
-        int size() { return size; }
+        int size() {
+            return size;
+        }
 
         boolean contains(Object value) {
             return buckets[hash(value)].contains(value);
         }
 
         boolean add(T value) {
-            if (contains(value)) return false;
+            if (contains(value))
+                return false;
             buckets[hash(value)].add(value);
             size++;
             return true;
