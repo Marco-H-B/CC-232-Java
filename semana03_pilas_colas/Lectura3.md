@@ -34,7 +34,7 @@ Esta separación es importante: `Stack` describe una política LIFO, mientras qu
 
 Una pila permite insertar y retirar elementos por un mismo extremo. Ese extremo suele llamarse **tope**. En nuestra implementación enlazada utilizaremos `head` como referencia al tope.
 
-La política de la pila es **LIFO** (*Last In, First Out*, último en entrar, primero en salir). Considera `push('A')`, `push('B')`, `push('C')`. Después de esas operaciones, el último elemento insertado es `C`. Por tanto `pop() -> C`, después `pop() -> B` y finalmente `pop() -> A`. La secuencia de salida es la inversa de la secuencia de inserción.
+La política de la pila es **LIFO** (_Last In, First Out_, último en entrar, primero en salir). Considera `push('A')`, `push('B')`, `push('C')`. Después de esas operaciones, el último elemento insertado es `C`. Por tanto `pop() -> C`, después `pop() -> B` y finalmente `pop() -> A`. La secuencia de salida es la inversa de la secuencia de inserción.
 
 #### Una traza conceptual
 
@@ -220,7 +220,7 @@ El algoritmo `reverse()` no necesita conocer `Node`, `next` ni `head`; solo nece
 
 ### 10. Cola y política FIFO
 
-Una cola restringe una secuencia de forma diferente. Los elementos se insertan por un extremo y se retiran por el extremo opuesto. La política es **FIFO** (*First In, First Out*, primero en entrar, primero en salir).
+Una cola restringe una secuencia de forma diferente. Los elementos se insertan por un extremo y se retiran por el extremo opuesto. La política es **FIFO** (_First In, First Out_, primero en entrar, primero en salir).
 
 Considera `add(10)`, `add(20)`, `add(30)`. La cola lógica es:
 
@@ -450,12 +450,12 @@ Este método es útil para comprobar visualmente el invariante, pero no debe con
 
 Podemos comparar ahora ambas estructuras.
 
-| Propiedad | Stack | Queue |
-|---|---|---|
-| política | LIFO | FIFO |
-| inserción | tope | final |
-| eliminación | tope | frente |
-| elemento siguiente | más reciente | más antiguo |
+| Propiedad                        | Stack          | Queue            |
+| -------------------------------- | -------------- | ---------------- |
+| política                         | LIFO           | FIFO             |
+| inserción                        | tope           | final            |
+| eliminación                      | tope           | frente           |
+| elemento siguiente               | más reciente   | más antiguo      |
 | representación usada esta semana | lista enlazada | arreglo circular |
 
 La diferencia esencial no es "nodos frente a arreglos". La diferencia esencial es la **política de acceso**. Las representaciones son decisiones de implementación elegidas para soportar eficientemente esa política.
@@ -500,12 +500,12 @@ Una `DLList` conserva `prev` y `next`, y puede localizar ambos extremos mediante
 
 La relación entre las tres semanas puede resumirse así.
 
-| Representación | Información disponible directamente | Operaciones favorecidas |
-|---|---|---|
-| arreglo dinámico | índice, tamaño, capacidad | acceso por índice, inserción al final amortizada |
-| SLList | cabecera, final si existe `tail`, siguiente | modificaciones en extremos adecuados |
-| DLList | ambos vecinos y ambos extremos con `dummy` | modificaciones locales y ambos extremos |
-| ArrayQueue circular | frente `j`, tamaño `n`, posición modular | `add` y `remove` FIFO amortizados |
+| Representación      | Información disponible directamente         | Operaciones favorecidas                          |
+| ------------------- | ------------------------------------------- | ------------------------------------------------ |
+| arreglo dinámico    | índice, tamaño, capacidad                   | acceso por índice, inserción al final amortizada |
+| SLList              | cabecera, final si existe `tail`, siguiente | modificaciones en extremos adecuados             |
+| DLList              | ambos vecinos y ambos extremos con `dummy`  | modificaciones locales y ambos extremos          |
+| ArrayQueue circular | frente `j`, tamaño `n`, posición modular    | `add` y `remove` FIFO amortizados                |
 
 No existe una representación universalmente mejor. Una estructura es adecuada cuando su información interna coincide con las operaciones que el ADT necesita realizar con frecuencia.
 
