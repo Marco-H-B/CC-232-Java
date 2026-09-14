@@ -129,14 +129,14 @@ while (!queue.isEmpty()) {
 
 Completa:
 
-| Pregunta | BFS | DFS | Ambos | Ninguno por sí solo |
-|---|---|---|---|---|
-| alcanzabilidad | | | | |
-| menor número de aristas | | | | |
-| componentes conexas | | | | |
-| exploración por niveles | | | | |
-| profundizar antes de regresar | | | | |
-| reconocer camino activo con tres colores | | | | |
+| Pregunta                                 | BFS | DFS | Ambos | Ninguno por sí solo |
+| ---------------------------------------- | --- | --- | ----- | ------------------- |
+| alcanzabilidad                           |     |     |       |                     |
+| menor número de aristas                  |     |     |       |                     |
+| componentes conexas                      |     |     |       |                     |
+| exploración por niveles                  |     |     |       |                     |
+| profundizar antes de regresar            |     |     |       |                     |
+| reconocer camino activo con tres colores |     |     |       |                     |
 
 #### 9. Cierre
 
