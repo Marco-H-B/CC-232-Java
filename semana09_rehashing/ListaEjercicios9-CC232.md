@@ -429,16 +429,16 @@ Responde:
 Para evitar depender de `hashCode()`, se proporciona la siguiente tabla de índices:
 
 | Clave | `d = 2` | `d = 3` | `d = 4` |
-|---|---:|---:|---:|
-| A | 0 | 4 | 12 |
-| B | 1 | 2 | 10 |
-| C | 3 | 7 | 7 |
-| D | 1 | 5 | 13 |
-| E | 2 | 6 | 14 |
-| F | 0 | 1 | 9 |
-| G | 2 | 3 | 11 |
-| H | 3 | 0 | 8 |
-| I | 1 | 4 | 4 |
+| ----- | ------: | ------: | ------: |
+| A     |       0 |       4 |      12 |
+| B     |       1 |       2 |      10 |
+| C     |       3 |       7 |       7 |
+| D     |       1 |       5 |      13 |
+| E     |       2 |       6 |      14 |
+| F     |       0 |       1 |       9 |
+| G     |       2 |       3 |      11 |
+| H     |       3 |       0 |       8 |
+| I     |       1 |       4 |       4 |
 
 La tabla comienza vacía con:
 
