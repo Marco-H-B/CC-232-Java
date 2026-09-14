@@ -7,14 +7,23 @@ public class Semana03_PilasColas0 {
         static class Node {
             char x;
             Node next;
-            Node(char x, Node next) { this.x = x; this.next = next; }
+
+            Node(char x, Node next) {
+                this.x = x;
+                this.next = next;
+            }
         }
 
         private Node head;
         private int n;
 
-        int size() { return n; }
-        boolean isEmpty() { return n == 0; }
+        int size() {
+            return n;
+        }
+
+        boolean isEmpty() {
+            return n == 0;
+        }
 
         // TODO(alumno): insertar en la cabeza. Costo O(1).
         void push(char x) {
@@ -30,9 +39,11 @@ public class Semana03_PilasColas0 {
 
     static String reverse(String text) {
         LinkedStack stack = new LinkedStack();
-        for (char c : text.toCharArray()) stack.push(c);
+        for (char c : text.toCharArray())
+            stack.push(c);
         StringBuilder out = new StringBuilder();
-        while (!stack.isEmpty()) out.append(stack.pop());
+        while (!stack.isEmpty())
+            out.append(stack.pop());
         return out.toString();
     }
 
