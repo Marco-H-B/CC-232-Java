@@ -17,12 +17,12 @@ int totalPendingMinutes
 
 Para cada estado responde qué operación favorece, qué información representa y qué invariante debe conservar.
 
-| Estado | Responsabilidad | Invariante |
-|---|---|---|
-| `heap` | | |
-| `pendingIds` | | |
-| `jobsByOwner` | | |
-| `totalPendingMinutes` | | |
+| Estado                | Responsabilidad | Invariante |
+| --------------------- | --------------- | ---------- |
+| `heap`                |                 |            |
+| `pendingIds`          |                 |            |
+| `jobsByOwner`         |                 |            |
+| `totalPendingMinutes` |                 |            |
 
 #### 2. `addJob(...)`
 
@@ -102,14 +102,14 @@ Job removeNext() {
 
 Completa:
 
-| Operación | Costo dominante | Tipo de cota |
-|---|---:|---|
-| `containsPendingId` | | |
-| `jobsForOwner` | | |
-| `addJob` | | |
-| `removeNext` | | |
-| `pending` | | |
-| `totalPendingMinutes` | | |
+| Operación             | Costo dominante | Tipo de cota |
+| --------------------- | --------------: | ------------ |
+| `containsPendingId`   |                 |              |
+| `jobsForOwner`        |                 |              |
+| `addJob`              |                 |              |
+| `removeNext`          |                 |              |
+| `pending`             |                 |              |
+| `totalPendingMinutes` |                 |              |
 
 Distingue peor caso, esperado y amortizado cuando corresponda.
 
