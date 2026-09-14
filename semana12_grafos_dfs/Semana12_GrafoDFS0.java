@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 12, lunes: recorrido DFS con tres estados.
  * Adaptación didáctica del DFS recursivo de Pat Morin.
@@ -15,10 +16,13 @@ public class Semana12_GrafoDFS0 {
 
         Graph(int vertices) {
             adjacency = new ArrayList<>(vertices);
-            for (int i = 0; i < vertices; i++) adjacency.add(new ArrayList<>());
+            for (int i = 0; i < vertices; i++)
+                adjacency.add(new ArrayList<>());
         }
 
-        int nVertices() { return adjacency.size(); }
+        int nVertices() {
+            return adjacency.size();
+        }
 
         void addDirectedEdge(int source, int destination) {
             adjacency.get(source).add(destination);
