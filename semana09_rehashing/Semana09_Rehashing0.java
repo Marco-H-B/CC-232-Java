@@ -4,7 +4,8 @@
  */
 public class Semana09_Rehashing0 {
     static double loadFactor(int size, int capacity) {
-        if (capacity <= 0) throw new IllegalArgumentException("La capacidad debe ser positiva");
+        if (capacity <= 0)
+            throw new IllegalArgumentException("La capacidad debe ser positiva");
         return (double) size / capacity;
     }
 
