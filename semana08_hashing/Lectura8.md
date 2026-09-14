@@ -108,7 +108,7 @@ complejidad
     cuánto trabajo exige cada operación
 ```
 
-Al finalizar la lectura deberías poder explicar por qué una tabla hash puede localizar una clave sin mantener orden global, 
+Al finalizar la lectura deberías poder explicar por qué una tabla hash puede localizar una clave sin mantener orden global,
 por qué las colisiones son normales, cómo el encadenamiento separado permite resolverlas y por qué el costo depende de la longitud del bucket seleccionado.
 
 ### 1. El nuevo problema: localizar una clave exacta
