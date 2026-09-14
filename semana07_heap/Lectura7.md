@@ -380,15 +380,15 @@ Supongamos que queremos saber si existe el valor 70 en un min-heap cuya raíz va
 
 Podemos reunir la representación de la semana: `Integer[] a` e `int n`, donde el prefijo lógico representa un árbol completo. El invariante de forma exige que los nodos ocupen exactamente `a[0..n-1]`, sin huecos lógicos internos. El invariante de prioridad exige `a[parent(i)] <= a[i]` para todo `i > 0`. De ahí se derivan el mínimo en `a[0]` y la altura O(log n).
 
-| Operación | Qué hace | Costo |
-|---|---|---|
-| `size()` | retorna `n` | O(1) |
-| `peek()` | retorna `a[0]` | O(1) |
-| `add(x)` | inserta en `a[n]` y ejecuta `bubbleUp` | O(log n) |
-| `remove()` | mueve `a[n-1]` a la raíz y ejecuta `trickleDown` | O(log n) |
-| `bubbleUp(i)` | camino hacia arriba, un nivel por intercambio | O(log n) |
-| `trickleDown(i)` | camino hacia abajo, un nivel por intercambio | O(log n) |
-| `heapify()` | repara desde `n/2 - 1` hasta la raíz | O(n) |
+| Operación        | Qué hace                                         | Costo    |
+| ---------------- | ------------------------------------------------ | -------- |
+| `size()`         | retorna `n`                                      | O(1)     |
+| `peek()`         | retorna `a[0]`                                   | O(1)     |
+| `add(x)`         | inserta en `a[n]` y ejecuta `bubbleUp`           | O(log n) |
+| `remove()`       | mueve `a[n-1]` a la raíz y ejecuta `trickleDown` | O(log n) |
+| `bubbleUp(i)`    | camino hacia arriba, un nivel por intercambio    | O(log n) |
+| `trickleDown(i)` | camino hacia abajo, un nivel por intercambio     | O(log n) |
+| `heapify()`      | repara desde `n/2 - 1` hasta la raíz             | O(n)     |
 
 La complejidad no aparece por casualidad, es consecuencia directa de las propiedades de la representación.
 
