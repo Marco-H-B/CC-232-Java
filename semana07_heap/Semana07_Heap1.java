@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 7, viernes: trickleDown, remove y heapify.
  * Adaptación didáctica de BinaryHeap de Pat Morin.
@@ -20,9 +21,17 @@ public class Semana07_Heap1 {
             heapify();
         }
 
-        private int left(int i) { return 2 * i + 1; }
-        private int right(int i) { return 2 * i + 2; }
-        private int parent(int i) { return (i - 1) / 2; }
+        private int left(int i) {
+            return 2 * i + 1;
+        }
+
+        private int right(int i) {
+            return 2 * i + 2;
+        }
+
+        private int parent(int i) {
+            return (i - 1) / 2;
+        }
 
         private void resize() {
             a = Arrays.copyOf(a, Math.max(1, 2 * n));
@@ -55,19 +64,23 @@ public class Semana07_Heap1 {
         }
 
         boolean add(int x) {
-            if (n + 1 > a.length) resize();
+            if (n + 1 > a.length)
+                resize();
             a[n++] = x;
             bubbleUp(n - 1);
             return true;
         }
 
         int remove() {
-            if (n == 0) throw new NoSuchElementException("el montículo está vacío");
+            if (n == 0)
+                throw new NoSuchElementException("el montículo está vacío");
             int min = a[0];
             a[0] = a[--n];
             a[n] = null;
-            if (n > 0) trickleDown(0);
-            if (a.length >= 3 * n) resize();
+            if (n > 0)
+                trickleDown(0);
+            if (a.length >= 3 * n)
+                resize();
             return min;
         }
 
@@ -79,10 +92,11 @@ public class Semana07_Heap1 {
 
     public static void main(String[] args) {
         try {
-            BinaryHeap heap = new BinaryHeap(new Integer[] {9, 4, 7, 1, 3, 6, 2});
+            BinaryHeap heap = new BinaryHeap(new Integer[] { 9, 4, 7, 1, 3, 6, 2 });
             System.out.println("Montículo: " + heap);
             System.out.print("Orden de extracción: ");
-            while (true) System.out.print(heap.remove() + " ");
+            while (true)
+                System.out.print(heap.remove() + " ");
         } catch (UnsupportedOperationException e) {
             System.out.println(e.getMessage());
         } catch (NoSuchElementException e) {
