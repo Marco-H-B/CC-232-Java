@@ -6,14 +6,14 @@ Los archivos Java del repositorio se validan de forma independiente.
 
 La validación actual se realizó con JDK 23.0.2 utilizando `javac --release 17`. De esta forma se comprueba la compilación con el JDK instalado y, al mismo tiempo, que el código sea compatible con Java 17.
 
-| Indicador | Resultado |
-|---|---:|
-| Archivos Java totales | 46 |
-| Archivos del núcleo obligatorio | 28 |
-| Archivos obligatorios de grafos | 4 |
-| Versión mínima comprobada | Java 17 |
-| JDK utilizado para la validación | JDK 23.0.2 |
-| Archivos con error de compilación | 0 |
+| Indicador                         |  Resultado |
+| --------------------------------- | ---------: |
+| Archivos Java totales             |         46 |
+| Archivos del núcleo obligatorio   |         28 |
+| Archivos obligatorios de grafos   |          4 |
+| Versión mínima comprobada         |    Java 17 |
+| JDK utilizado para la validación  | JDK 23.0.2 |
+| Archivos con error de compilación |          0 |
 
 #### Resultados de compilación
 
@@ -150,12 +150,12 @@ En el repositorio no deben existir errores reales de:
 
 Las soluciones completas del bloque obligatorio de grafos se probaron temporalmente sin incluirlas en los archivos públicos.
 
-| Prueba | Resultado esperado |
-|---|---|
-| Representación por lista y matriz | Vecinos `[1, 3]`, grado 2 |
-| BFS | Distancias `[0, 1, 1, 2, 2, 3, -1]` |
-| DFS | Orden `[0, 1, 3, 2, 4, 5]` |
-| Componentes conexas | 4 componentes |
+| Prueba                            | Resultado esperado                  |
+| --------------------------------- | ----------------------------------- |
+| Representación por lista y matriz | Vecinos `[1, 3]`, grado 2           |
+| BFS                               | Distancias `[0, 1, 1, 2, 2, 3, -1]` |
+| DFS                               | Orden `[0, 1, 3, 2, 4, 5]`          |
+| Componentes conexas               | 4 componentes                       |
 
 Las cuatro soluciones produjeron los resultados esperados.
 
