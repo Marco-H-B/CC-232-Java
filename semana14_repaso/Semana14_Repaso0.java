@@ -17,7 +17,7 @@ public class Semana14_Repaso0 {
 
     // TODO(alumno): indicar una estructura apropiada según la operación dominante.
     static String chooseStructure(boolean needsIndex, boolean needsMinimum,
-                                  boolean needsOrder, boolean modelsConnections) {
+            boolean needsOrder, boolean modelsConnections) {
         throw new UnsupportedOperationException("TODO: implementar el método chooseStructure");
     }
 
