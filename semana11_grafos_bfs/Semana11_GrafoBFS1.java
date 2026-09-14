@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 11, viernes: recorrido BFS y distancias no ponderadas.
  * Adaptación didáctica del BFS de Algorithms.java de Pat Morin.
@@ -17,10 +18,13 @@ public class Semana11_GrafoBFS1 {
 
         Graph(int vertices) {
             adjacency = new ArrayList<>(vertices);
-            for (int i = 0; i < vertices; i++) adjacency.add(new ArrayList<>());
+            for (int i = 0; i < vertices; i++)
+                adjacency.add(new ArrayList<>());
         }
 
-        int nVertices() { return adjacency.size(); }
+        int nVertices() {
+            return adjacency.size();
+        }
 
         void addUndirectedEdge(int a, int b) {
             adjacency.get(a).add(b);
