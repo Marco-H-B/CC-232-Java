@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 11, lunes: representaciones de grafos.
  * Adaptación didáctica de Graph, AdjacencyLists y AdjacencyMatrix de Pat Morin.
@@ -11,10 +12,15 @@ import java.util.List;
 public class Semana11_GrafoRepresentacion0 {
     interface Graph {
         int nVertices();
+
         void addEdge(int source, int destination);
+
         void removeEdge(int source, int destination);
+
         boolean hasEdge(int source, int destination);
+
         List<Integer> outEdges(int vertex);
+
         int outDegree(int vertex);
     }
 
@@ -22,12 +28,16 @@ public class Semana11_GrafoRepresentacion0 {
         private final List<List<Integer>> adjacency;
 
         AdjacencyListGraph(int vertices) {
-            if (vertices < 0) throw new IllegalArgumentException("El número de vértices no puede ser negativo");
+            if (vertices < 0)
+                throw new IllegalArgumentException("El número de vértices no puede ser negativo");
             adjacency = new ArrayList<>(vertices);
-            for (int i = 0; i < vertices; i++) adjacency.add(new ArrayList<>());
+            for (int i = 0; i < vertices; i++)
+                adjacency.add(new ArrayList<>());
         }
 
-        public int nVertices() { return adjacency.size(); }
+        public int nVertices() {
+            return adjacency.size();
+        }
 
         private void checkVertex(int vertex) {
             if (vertex < 0 || vertex >= nVertices()) {
@@ -66,11 +76,14 @@ public class Semana11_GrafoRepresentacion0 {
         private final boolean[][] matrix;
 
         AdjacencyMatrixGraph(int vertices) {
-            if (vertices < 0) throw new IllegalArgumentException("El número de vértices no puede ser negativo");
+            if (vertices < 0)
+                throw new IllegalArgumentException("El número de vértices no puede ser negativo");
             matrix = new boolean[vertices][vertices];
         }
 
-        public int nVertices() { return matrix.length; }
+        public int nVertices() {
+            return matrix.length;
+        }
 
         private void checkVertex(int vertex) {
             if (vertex < 0 || vertex >= nVertices()) {
@@ -100,14 +113,17 @@ public class Semana11_GrafoRepresentacion0 {
             checkVertex(vertex);
             List<Integer> result = new ArrayList<>();
             for (int destination = 0; destination < nVertices(); destination++) {
-                if (matrix[vertex][destination]) result.add(destination);
+                if (matrix[vertex][destination])
+                    result.add(destination);
             }
             return result;
         }
 
         public int outDegree(int vertex) {
             int degree = 0;
-            for (boolean edge : matrix[vertex]) if (edge) degree++;
+            for (boolean edge : matrix[vertex])
+                if (edge)
+                    degree++;
             return degree;
         }
     }
@@ -116,7 +132,7 @@ public class Semana11_GrafoRepresentacion0 {
         Graph listGraph = new AdjacencyListGraph(5);
         Graph matrixGraph = new AdjacencyMatrixGraph(5);
         try {
-            for (Graph graph : new Graph[] {listGraph, matrixGraph}) {
+            for (Graph graph : new Graph[] { listGraph, matrixGraph }) {
                 graph.addEdge(0, 1);
                 graph.addEdge(0, 3);
                 graph.addEdge(3, 4);
