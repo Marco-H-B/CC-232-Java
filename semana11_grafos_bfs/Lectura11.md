@@ -3185,7 +3185,6 @@ BFS para visitar
 BFS para medir niveles
 ```
 
-
 ### 79. Cómo verificar una implementación sin depender solo del ejemplo
 
 Para `AdjacencyListGraph` conviene preguntar:
@@ -3211,7 +3210,6 @@ Para BFS conviene preguntar:
 Estas preguntas verifican invariantes.
 
 No solo salidas particulares.
-
 
 ### 80. Un patrón general: una estructura auxiliar cambia el costo del recorrido
 
@@ -3321,7 +3319,6 @@ ordenamiento topológico
 ```
 
 El objetivo del puente es mostrar continuidad, no adelantar la siguiente semana.
-
 
 ### 83. Síntesis
 
