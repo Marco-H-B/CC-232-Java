@@ -391,7 +391,7 @@ nuevas inserciones
 Registra únicamente cuando cambie la capacidad:
 
 | Evento | `n` antes | capacidad antes | operación | `n` después | capacidad después |
-|---|---:|---:|---|---:|---:|
+| ------ | --------: | --------------: | --------- | ----------: | ----------------: |
 
 Después responde:
 
