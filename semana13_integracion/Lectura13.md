@@ -808,16 +808,16 @@ la propiedad que realmente representa
 
 Semana 13 integra estructuras, por lo que conviene analizar cada operación por separado.
 
-| Operación | Estructura dominante | Costo |
-|---|---|---:|
-| `balanced` | Stack/`ArrayDeque` | `O(n)` |
-| `firstDuplicate` | `HashSet` | `O(n)` esperado |
-| `kthSmallest` con min-heap | `BinaryHeap` | `O(n + k log n)` |
-| `addTicket` | min-heap | `O(log n)` |
-| `serveNext` | min-heap + estado auxiliar | `O(log n)` |
-| `wasServed` | `HashSet` | `O(1)` esperado |
-| `totalMinutes` | acumulador | `O(1)` |
-| `pending` | tamaño del heap | `O(1)` |
+| Operación                  | Estructura dominante       |            Costo |
+| -------------------------- | -------------------------- | ---------------: |
+| `balanced`                 | Stack/`ArrayDeque`         |           `O(n)` |
+| `firstDuplicate`           | `HashSet`                  |  `O(n)` esperado |
+| `kthSmallest` con min-heap | `BinaryHeap`               | `O(n + k log n)` |
+| `addTicket`                | min-heap                   |       `O(log n)` |
+| `serveNext`                | min-heap + estado auxiliar |       `O(log n)` |
+| `wasServed`                | `HashSet`                  |  `O(1)` esperado |
+| `totalMinutes`             | acumulador                 |           `O(1)` |
+| `pending`                  | tamaño del heap            |           `O(1)` |
 
 No existe una única complejidad para todo el sistema.
 
@@ -1021,7 +1021,7 @@ Estos temas pueden estudiarse posteriormente.
 
 #### Texto principal
 
-Pat Morin, *Open Data Structures (in Java)*.
+Pat Morin, _Open Data Structures (in Java)_.
 
 Revisar de manera selectiva los capítulos sobre:
 
@@ -1033,7 +1033,7 @@ BinaryHeap
 
 #### Referencias complementarias
 
-Michael T. Goodrich, Roberto Tamassia y Michael H. Goldwasser, *Data Structures and Algorithms in Java*.
+Michael T. Goodrich, Roberto Tamassia y Michael H. Goldwasser, _Data Structures and Algorithms in Java_.
 
 Revisar selectivamente:
 
@@ -1044,7 +1044,7 @@ Maps, Hash Tables and Sets
 Sorting and Selection
 ```
 
-Robert Sedgewick y Kevin Wayne, *Algorithms*.
+Robert Sedgewick y Kevin Wayne, _Algorithms_.
 
 Consultar como apoyo:
 
