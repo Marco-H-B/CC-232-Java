@@ -9,7 +9,10 @@ public class Semana06_AVL0 {
         int height = 1;
         Node left;
         Node right;
-        Node(int x) { this.x = x; }
+
+        Node(int x) {
+            this.x = x;
+        }
     }
 
     static int height(Node u) {
@@ -36,7 +39,8 @@ public class Semana06_AVL0 {
     }
 
     static void preorder(Node u) {
-        if (u == null) return;
+        if (u == null)
+            return;
         System.out.print(u.x + "(h=" + u.height + ") ");
         preorder(u.left);
         preorder(u.right);
