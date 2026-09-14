@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 7, lunes: BinaryHeap y bubbleUp.
  * Adaptación didáctica de Open Data Structures, Pat Morin.
@@ -10,9 +11,17 @@ public class Semana07_Heap0 {
         private Integer[] a = new Integer[1];
         private int n;
 
-        private int left(int i) { return 2 * i + 1; }
-        private int right(int i) { return 2 * i + 2; }
-        private int parent(int i) { return (i - 1) / 2; }
+        private int left(int i) {
+            return 2 * i + 1;
+        }
+
+        private int right(int i) {
+            return 2 * i + 2;
+        }
+
+        private int parent(int i) {
+            return (i - 1) / 2;
+        }
 
         private void resize() {
             a = Arrays.copyOf(a, Math.max(1, 2 * n));
@@ -31,14 +40,20 @@ public class Semana07_Heap0 {
         }
 
         boolean add(int x) {
-            if (n + 1 > a.length) resize();
+            if (n + 1 > a.length)
+                resize();
             a[n++] = x;
             bubbleUp(n - 1);
             return true;
         }
 
-        int size() { return n; }
-        Integer peek() { return n == 0 ? null : a[0]; }
+        int size() {
+            return n;
+        }
+
+        Integer peek() {
+            return n == 0 ? null : a[0];
+        }
 
         @Override
         public String toString() {
@@ -49,7 +64,7 @@ public class Semana07_Heap0 {
     public static void main(String[] args) {
         BinaryHeap heap = new BinaryHeap();
         try {
-            for (int x : new int[] {8, 3, 10, 1, 6}) {
+            for (int x : new int[] { 8, 3, 10, 1, 6 }) {
                 heap.add(x);
                 System.out.println("Después de add(" + x + "): " + heap);
             }
