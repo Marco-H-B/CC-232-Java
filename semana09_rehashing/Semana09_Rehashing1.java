@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 9, viernes: rehashing: ChainedHashTable y redimensionamiento.
  * Adaptación didáctica de Open Data Structures, Pat Morin.
@@ -23,7 +24,8 @@ public class Semana09_Rehashing1 {
         @SuppressWarnings("unchecked")
         private List<T>[] allocateTable(int size) {
             List<T>[] table = new ArrayList[size];
-            for (int i = 0; i < size; i++) table[i] = new ArrayList<>();
+            for (int i = 0; i < size; i++)
+                table[i] = new ArrayList<>();
             return table;
         }
 
@@ -31,18 +33,23 @@ public class Semana09_Rehashing1 {
             return (z * x.hashCode()) >>> (W - d);
         }
 
-        int size() { return n; }
+        int size() {
+            return n;
+        }
 
         T find(Object x) {
             for (T y : t[hash(x)]) {
-                if (y.equals(x)) return y;
+                if (y.equals(x))
+                    return y;
             }
             return null;
         }
 
         boolean add(T x) {
-            if (find(x) != null) return false;
-            if (n + 1 > t.length) resize();
+            if (find(x) != null)
+                return false;
+            if (n + 1 > t.length)
+                resize();
             t[hash(x)].add(x);
             n++;
             return true;
