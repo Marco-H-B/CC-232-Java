@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 14, viernes: repaso integrador de grafos.
  * Se completa una traza breve, no una aplicación nueva.
@@ -29,7 +30,8 @@ public class Semana14_Repaso1 {
 
     static List<List<Integer>> graph(int vertices, int[][] edges) {
         List<List<Integer>> adjacency = new ArrayList<>();
-        for (int i = 0; i < vertices; i++) adjacency.add(new ArrayList<>());
+        for (int i = 0; i < vertices; i++)
+            adjacency.add(new ArrayList<>());
         for (int[] edge : edges) {
             adjacency.get(edge[0]).add(edge[1]);
             adjacency.get(edge[1]).add(edge[0]);
@@ -39,7 +41,7 @@ public class Semana14_Repaso1 {
 
     public static void main(String[] args) {
         List<List<Integer>> graph = graph(6, new int[][] {
-                {0, 1}, {0, 2}, {1, 3}, {2, 4}, {4, 5}
+                { 0, 1 }, { 0, 2 }, { 1, 3 }, { 2, 4 }, { 4, 5 }
         });
         System.out.println(Arrays.toString(shortestHops(graph, 0)));
         System.out.println("Esperado: [0, 1, 1, 2, 2, 3]");
