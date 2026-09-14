@@ -22,14 +22,13 @@ void addEdge(int source, int destination)
 #### Términos recomendados
 
 | Término en la documentación | Identificador en el código |
-|---|---|
-| arreglo dinámico | `ArrayStack` |
-| lista enlazada | `SLList`, `DLList` |
-| heap | `BinaryHeap`, `MinHeap` |
-| tabla hash | `HashTable`, `HashSet` |
-| vértice de origen | `source` |
-| vértice de destino | `destination` |
-| visitado | `visited` |
-| distancia | `distance` |
-| componentes conexas | `connectedComponents` |
-
+| --------------------------- | -------------------------- |
+| arreglo dinámico            | `ArrayStack`               |
+| lista enlazada              | `SLList`, `DLList`         |
+| heap                        | `BinaryHeap`, `MinHeap`    |
+| tabla hash                  | `HashTable`, `HashSet`     |
+| vértice de origen           | `source`                   |
+| vértice de destino          | `destination`              |
+| visitado                    | `visited`                  |
+| distancia                   | `distance`                 |
+| componentes conexas         | `connectedComponents`      |
