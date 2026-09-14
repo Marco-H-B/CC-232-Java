@@ -1,3 +1,4 @@
+
 /*
  * CC-232 - Semana 12, viernes: componentes conexas mediante DFS.
  * Cada llamada nueva a markComponent descubre exactamente un componente.
@@ -13,10 +14,13 @@ public class Semana12_Componentes1 {
 
         Graph(int vertices) {
             adjacency = new ArrayList<>(vertices);
-            for (int i = 0; i < vertices; i++) adjacency.add(new ArrayList<>());
+            for (int i = 0; i < vertices; i++)
+                adjacency.add(new ArrayList<>());
         }
 
-        int nVertices() { return adjacency.size(); }
+        int nVertices() {
+            return adjacency.size();
+        }
 
         void addUndirectedEdge(int a, int b) {
             adjacency.get(a).add(b);
@@ -39,10 +43,12 @@ public class Semana12_Componentes1 {
         stack.push(source);
         while (!stack.isEmpty()) {
             int vertex = stack.pop();
-            if (seen[vertex]) continue;
+            if (seen[vertex])
+                continue;
             seen[vertex] = true;
             for (int neighbor : graph.outEdges(vertex)) {
-                if (!seen[neighbor]) stack.push(neighbor);
+                if (!seen[neighbor])
+                    stack.push(neighbor);
             }
         }
     }
