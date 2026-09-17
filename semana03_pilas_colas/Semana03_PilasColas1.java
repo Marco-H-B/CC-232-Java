@@ -24,27 +24,51 @@ public class Semana03_PilasColas1 {
         // TODO(alumno): copiar los n elementos en orden lógico a un arreglo
         // de capacidad max(1, 2*n), asignarlo a a y fijar j=0.
         private void resize() {
-            throw new UnsupportedOperationException("TODO: implementar el método resize");
+            Integer[] b = new Integer[Math.max(1, 2 * n)];
+
+            for (int k = 0; k < n; k++) {
+                b[k] = a[(j + k) % a.length];
+            }
+
+            a = b;
+            j = 0;
         }
 
         boolean add(Integer x) {
             if (n + 1 > a.length)
                 resize();
+
             a[(j + n) % a.length] = x;
             n++;
+
             return true;
         }
 
-        // TODO(alumno): retirar a[j], avanzar j modularmente, reducir n y
-        // llamar resize cuando a.length >= 3*n. Costo amortizado O(1).
+        // TODO(alumno): retirar a[j], avanzar j modularmente, reducir n y llamar resize
+        // cuando a.length >= 3*n. Costo amortizado O(1).
         Integer remove() {
-            throw new UnsupportedOperationException("TODO: implementar el método remove");
+            if (n == 0) {
+                throw new java.util.NoSuchElementException("array vacía");
+            }
+
+            Integer x = a[j];
+            a[j] = null;
+            j = (j + 1) % a.length;
+            n--;
+
+            if (a.length >= 3 * n) {
+                resize();
+            }
+
+            return x;
         }
 
         String logicalView() {
             Integer[] view = new Integer[n];
+
             for (int k = 0; k < n; k++)
                 view[k] = a[(j + k) % a.length];
+
             return Arrays.toString(view) + " j=" + j + " capacidad=" + a.length;
         }
     }
