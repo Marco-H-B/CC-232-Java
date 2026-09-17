@@ -27,23 +27,36 @@ public class Semana03_PilasColas0 {
 
         // TODO(alumno): insertar en la cabeza. Costo O(1).
         void push(char x) {
-            throw new UnsupportedOperationException("TODO: implementar el método push");
+            head = new Node(x, head);
+            n++;
         }
 
         // TODO(alumno): retirar y retornar la cabeza. Lanzar una excepción
         // si la pila está vacía. Costo O(1).
         char pop() {
-            throw new UnsupportedOperationException("TODO: implementar el método pop");
+            if (n == 0) {
+                throw new java.util.NoSuchElementException("pila vacía");
+            }
+
+            char x = head.x;
+            head = head.next;
+            n--;
+
+            return x;
         }
     }
 
     static String reverse(String text) {
         LinkedStack stack = new LinkedStack();
+
         for (char c : text.toCharArray())
             stack.push(c);
+
         StringBuilder out = new StringBuilder();
+
         while (!stack.isEmpty())
             out.append(stack.pop());
+
         return out.toString();
     }
 
