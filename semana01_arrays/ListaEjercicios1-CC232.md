@@ -33,11 +33,22 @@ Se observa únicamente la siguiente salida de depuración:
 Sin observar el código que produjo ese estado, responde:
 
 1. ¿qué representa el valor 4?
+   - Representa el tamaño logico del array (Corresponde al ADT).
+
 2. ¿qué representa el valor 8?
+   - Representa el tamaño físico del array (Corresponde a la representación).
+
 3. ¿qué posiciones del arreglo contienen elementos lógicos?
+   - 0, 1 ,2 y 3 (Corresponde a la representación).
+
 4. ¿cuál es la primera posición disponible para una inserción al final?
+   - La posicion con indice 4 (Corresponde a la representación).
+
 5. ¿qué desigualdad debe cumplirse entre tamaño y capacidad?
+   - 0 <= n <= a.length (Corresponde a la representación (Esta desigualdad esta la "Invariante de Representación")).
+
 6. ¿qué información no puede determinarse únicamente a partir de esta salida?.
+   - 1. No sabemos si los otros 4 objetos (posiciones i = 4, 5, 6 y 7) son null o no. 2. Como se redimensiona el array si se llena. 3. En el array se hizo 4 add() seguimos o 8 add() y luego se removio 4?
 
 Explica qué parte de tus respuestas pertenece a la representación y qué parte pertenece al comportamiento observable de la estructura.
 
@@ -150,7 +161,7 @@ Reconstruye toda la ejecución.
 Para cada operación registra:
 
 | Operación | Contenido lógico | `n` | `a.length` | Copias por `resize` | Desplazamientos | Comparaciones |
-|---|---|---:|---:|---:|---:|---:|
+| --------- | ---------------- | --: | ---------: | ------------------: | --------------: | ------------: |
 
 Después responde:
 
@@ -598,7 +609,7 @@ Realiza una auditoría completa de la ejecución.
 Para cada operación registra:
 
 | Paso | Operación | Contenido lógico | `n` | Capacidad | Copias | Desplazamientos | Comparaciones |
-|---:|---|---|---:|---:|---:|---:|---:|
+| ---: | --------- | ---------------- | --: | --------: | -----: | --------------: | ------------: |
 
 Después responde:
 
