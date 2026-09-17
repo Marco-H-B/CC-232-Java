@@ -76,9 +76,40 @@ indexOf(50)
 Para cada operación indica:
 
 1. si necesita desplazamientos
+   - Para get(3) no necesita desplazamiento.
+   - Para set(3, 99) no necesita desplazamiento.
+   - Para add (5, 60) no necesita desplazamiento.
+   - Para add (0, 60) si se necesita desplazamiento.
+   - Para remove (0, 60) si se necesita desplazamiento.
+   - Para remove (0, 60) si se necesita desplazamiento.
+   - Para indexOf(50) no necesita desplazamiento.
+
 2. cuántos elementos como máximo se desplazan o examinan en este estado
+   - Para get(3) se examina un solo objeto.
+   - Para set(3, 99) se examina un solo objeto.
+   - Para add (5, 60) no necesita desplazamiento.
+   - Para add (0, 60) si se necesita desplazamiento.
+   - Para remove (0, 60) si se necesita desplazamiento.
+   - Para remove (0, 60) si se necesita desplazamiento.
+   - Para indexOf(50) no se necesita desplazar los objetos pero si se necesita recorrer el arreglo hasta encontrar el valor 50.
+
 3. si puede necesitar `resize()`
+   - Para get(3) no necesita desplazamiento.
+   - Para set(3, 99) no necesita desplazamiento.
+   - Para add (5, 60) no necesita desplazamiento.
+   - Para add (0, 60) si se necesita desplazamiento.
+   - Para remove (0, 60) si se necesita desplazamiento.
+   - Para remove (0, 60) si se necesita desplazamiento.
+   - Para indexOf(50) no se necesita desplazar los objetos pero si se necesita recorrer el arreglo hasta encontrar el valor 50.
+
 4. cuál es su complejidad asintótica relevante.
+   - Para get(3) no necesita desplazamiento.
+   - Para set(3, 99) no necesita desplazamiento.
+   - Para add (5, 60) no necesita desplazamiento.
+   - Para add (0, 60) si se necesita desplazamiento.
+   - Para remove (0, 60) si se necesita desplazamiento.
+   - Para remove (0, 60) si se necesita desplazamiento.
+   - Para indexOf(50) no se necesita desplazar los objetos pero si se necesita recorrer el arreglo hasta encontrar el valor 50.
 
 No ejecutes el programa para responder.
 
