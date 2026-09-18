@@ -76,40 +76,41 @@ indexOf(50)
 Para cada operación indica:
 
 1. si necesita desplazamientos
-   - Para get(3) no necesita desplazamiento.
-   - Para set(3, 99) no necesita desplazamiento.
-   - Para add (5, 60) no necesita desplazamiento.
-   - Para add (0, 60) si se necesita desplazamiento.
-   - Para remove (0, 60) si se necesita desplazamiento.
-   - Para remove (0, 60) si se necesita desplazamiento.
-   - Para indexOf(50) no necesita desplazamiento.
+   - `get(3)`: No necesita desplazamientos (acceso directo por índice).
+   - `set(3, 99)`: No necesita desplazamientos (modificación directa por índice).
+   - `add(5, 60)`: No necesita desplazamientos (inserción al final, $i = n = 5$).
+   - `add(0, 60)`: Sí necesita desplazamientos (inserción al inicio).
+   - `remove(4)`: No necesita desplazamientos (es el último elemento $i = n - 1 = 4$).
+   - `remove(0)`: Sí necesita desplazamientos (eliminación al inicio).
+   - `indexOf(50)`: No necesita desplazamientos (es una operación de solo lectura / búsqueda).
 
 2. cuántos elementos como máximo se desplazan o examinan en este estado
-   - Para get(3) se examina un solo objeto.
-   - Para set(3, 99) se examina un solo objeto.
-   - Para add (5, 60) no necesita desplazamiento.
-   - Para add (0, 60) si se necesita desplazamiento.
-   - Para remove (0, 60) si se necesita desplazamiento.
-   - Para remove (0, 60) si se necesita desplazamiento.
-   - Para indexOf(50) no se necesita desplazar los objetos pero si se necesita recorrer el arreglo hasta encontrar el valor 50.
+   - `get(3)`: 0 desplazamientos; examina 1 elemento ($a[3] = 40$).
+   - `set(3, 99)`: 0 desplazamientos; examina y modifica 1 elemento ($a[3]$ pasa a ser 99).
+   - `add(5, 60)`: 0 desplazamientos; se escribe directamente en la primera posición disponible ($a[5]$).
+   - `add(0, 60)`: 5 desplazamientos a la derecha (los elementos $a[0..4]$: 10, 20, 30, 40, 50).
+   - `remove(4)`: 0 desplazamientos; se limpia el último elemento ($a[4] = \text{null}$) y $n$ pasa a 4.
+   - `remove(0)`: 4 desplazamientos a la izquierda (los elementos $a[1..4]$: 20, 30, 40, 50 pasan a $a[0..3]$).
+   - `indexOf(50)`: 0 desplazamientos; examina 5 elementos ($a[0..4]$) y encuentra el 50 en $a[4]$.
 
 3. si puede necesitar `resize()`
-   - Para get(3) no necesita desplazamiento.
-   - Para set(3, 99) no necesita desplazamiento.
-   - Para add (5, 60) no necesita desplazamiento.
-   - Para add (0, 60) si se necesita desplazamiento.
-   - Para remove (0, 60) si se necesita desplazamiento.
-   - Para remove (0, 60) si se necesita desplazamiento.
-   - Para indexOf(50) no se necesita desplazar los objetos pero si se necesita recorrer el arreglo hasta encontrar el valor 50.
+   - En este estado particular ($n = 5$, $a.\text{length} = 8$):
+   - `get(3)`: No necesita `resize()`.
+   - `set(3, 99)`: No necesita `resize()`.
+   - `add(5, 60)`: No necesita `resize()` (el nuevo tamaño $n = 6 \le 8$).
+   - `add(0, 60)`: No necesita `resize()` (el nuevo tamaño $n = 6 \le 8$).
+   - `remove(4)`: No necesita `resize()`.
+   - `remove(0)`: No necesita `resize()`.
+   - `indexOf(50)`: No necesita `resize()`.
 
 4. cuál es su complejidad asintótica relevante.
-   - Para get(3) no necesita desplazamiento.
-   - Para set(3, 99) no necesita desplazamiento.
-   - Para add (5, 60) no necesita desplazamiento.
-   - Para add (0, 60) si se necesita desplazamiento.
-   - Para remove (0, 60) si se necesita desplazamiento.
-   - Para remove (0, 60) si se necesita desplazamiento.
-   - Para indexOf(50) no se necesita desplazar los objetos pero si se necesita recorrer el arreglo hasta encontrar el valor 50.
+   - `get(3)`: $\mathcal{O}(1)$ (acceso directo por cálculo de offset en memoria contigua).
+   - `set(3, 99)`: $\mathcal{O}(1)$ (acceso y mutación directa por índice).
+   - `add(5, 60)`: $\mathcal{O}(1)$ amortizado ($\mathcal{O}(1)$ en este estado sin resize).
+   - `add(0, 60)`: $\mathcal{O}(n)$ (desplaza los $n$ elementos hacia la derecha).
+   - `remove(4)`: $\mathcal{O}(1)$ (eliminar en el extremo final $i = n - 1$ toma $\mathcal{O}(n - 1 - i) = \mathcal{O}(0) \implies \mathcal{O}(1)$).
+   - `remove(0)`: $\mathcal{O}(n)$ (desplaza $n - 1$ elementos a la izquierda).
+   - `indexOf(50)`: $\mathcal{O}(n)$ (búsqueda secuencial lineal en el peor caso).
 
 No ejecutes el programa para responder.
 
@@ -126,9 +127,57 @@ D. ejecutar resize si es necesario
 
 Construye el orden correcto para implementar una inserción al final.
 
+    - C. Comprobar capacidad.
+    - D. Ejecutar resize si es necesario.
+    - B. Escribir x.
+    - A. Incrementar n.
+
 Después propone dos órdenes incorrectos distintos y, para cada uno, construye un estado concreto que muestre el error producido.
 
-No basta con indicar que el código "fallaría". Debes mostrar cómo evoluciona el estado.
+---
+
+Caso 1:
+
+    - C. Comprobar capacidad.
+    - D. Ejecutar resize si es necesario.
+    - A. Incrementar n.
+    - B. Escribir x.
+
+Aqui el error es que al incrementar n primero dejarias el espacio vacio n-1 y agregarias el x en el nuevo n.
+
+Mostrando con un estado concreto:
+
+- **Estado inicial:** `a = [10, 20, _, _]`, `n = 2`, capacidad = 4. Insertar `x = 30`.
+- **Evolución:**
+  1. Comprueba capacidad (2 < 4, no hace resize).
+  2. Incrementa `n` primero: `n = 3`.
+  3. Escribe `x` en `a[n]`: `a[3] = 30`.
+- **Estado final:** `a = [10, 20, _, 30]`, `n = 3`.
+- **Falla:** La posición `a[2]` quedó vacía (hueco), rompiendo el orden de los elementos contiguos.
+
+---
+
+Caso 2:
+
+    - D. Ejecutar resize si es necesario.
+    - C. Comprobar capacidad.
+    - B. Escribir x.
+    - A. Incrementar n.
+
+Aqui el error es que al ejecutar el resize() podria ser en vano porque podría existir capacidad fisica y hacer el resize hace que la complejidad de este caso sea O(n).
+
+Mostrando con un estado concreto:
+
+- **Estado inicial:** `a = [10, 20, _, _]`, `n = 2`, capacidad = 4. Insertar `x = 30`.
+- **Evolución:**
+  1. Ejecuta `resize()` sin comprobar antes si de verdad se necesita: crea un nuevo arreglo de tamaño 8 y copia los 2 elementos (`[10, 20]`).
+  2. Comprueba capacidad (ahora es 8).
+  3. Escribe `x`: `a[2] = 30`.
+  4. Incrementa `n`: `n = 3`.
+- **Estado final:** `a = [10, 20, 30, _, _, _, _, _]`, `n = 3`, capacidad = 8.
+- **Falla:** Hizo copias innecesarias y duplicó la memoria en vano, volviendo la inserción $O(n)$ en vez de $O(1)$ cuando todavía había espacio libre.
+
+---
 
 #### Ejercicio 4. Elemento válido frente a posición válida
 
