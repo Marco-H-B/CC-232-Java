@@ -24,13 +24,16 @@ public class Semana02_ListasEnlazadas0 {
 
         boolean add(int x) {
             Node u = new Node(x);
+
             if (n == 0) {
                 head = u;
             } else {
                 tail.next = u;
             }
+
             tail = u;
             n++;
+
             return true;
         }
 
@@ -39,8 +42,12 @@ public class Semana02_ListasEnlazadas0 {
         int push(int x) {
             Node u = new Node(x);
             u.next = head;
+
             head = u;
-            tail = u;
+
+            if (n == 0) {
+                tail = u;
+            }
             n++;
 
             return x;
