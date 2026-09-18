@@ -210,6 +210,67 @@ remove(i)
 
 Explica por qué una posición puede ser válida para insertar y no ser válida para consultar un elemento existente.
 
+---
+
+Caso 1:
+
+    -  Para get(-1) porque el indice es negativo.
+    -  Para set(-1, x) porque el indice es negativo.
+    -  Para add (-1, x) porque el indice es negativo.
+    -  Para remove (-1) porque el indice es negativo.
+
+---
+
+Caso 2:
+
+    -  Para get(0) si es valido es el primer objeto.
+    -  Para set(0, x) si es valido es el primer objeto.
+    -  Para add (0, x) si es valido es el primer objeto.
+    -  Para remove (0) si es valido es el primer objeto.
+
+---
+
+Caso 3:
+
+    -  Para get(3) si es valido es el ultimo elemento existente (n-1).
+    -  Para set(3, x) si es valido es el ultimo elemento existente (n-1).
+    -  Para add (3, x) si es valido es el ultimo elemento existente (n-1).
+    -  Para remove (3) si es valido es el ultimo elemento existente (n-1).
+
+---
+
+Caso 4:
+
+    -  Para get(4) no es valido porque solo existe hasta n-1.
+    -  Para set(4, x) no es valido porque solo existe hasta n-1.
+    -  Para add (4, x) si es valido agrega al final.
+    -  Para remove (4) no es valido porque solo existe hasta n-1.
+
+---
+
+Caso 5:
+
+    -  Para get(7) no es valido porque solo existe hasta n-1.
+    -  Para set(7, x) no es valido porque solo existe hasta n-1.
+    -  Para add (7, x) no es valido porque dejarias hueco y romperias con la invariante de contiguidad.
+    -  Para remove (7) no es valido porque solo existe hasta n-1.
+
+---
+
+Caso 6:
+
+    -  Para get(8) no es valido porque n = 4.
+    -  Para set(8, x) no es valido porque n = 4.
+    -  Para add (8, x) no es valido porque dejarias hueco y romperias con la invariante de contiguidad.
+    -  Para remove (8) no es valido porque solo existe hasta n-1.
+
+---
+
+Porque para consultar (get(i)), el elemento ya debe existir en la secuencia (0 ≤ i < n). En cambio, para insertar (add(i, x)), la posición
+i = n es válida porque representa la primera celda libre para colocar un nuevo elemento al final y extender la lista sin dejar huecos.
+
+---
+
 ### B. Retos integradores
 
 #### Reto 1. Historia completa de una estructura
