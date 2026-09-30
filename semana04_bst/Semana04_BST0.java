@@ -22,10 +22,24 @@ public class Semana04_BST0 {
             return n;
         }
 
-        // TODO(alumno): seguir el camino de búsqueda y retornar el último nodo
-        // visitado, null cuando el árbol está vacío.
+        // Función privada que sigue el camino de búsqueda y retorna el último nodo
         private Node findLast(int x) {
-            throw new UnsupportedOperationException("TODO: implementar el método findLast");
+            Node w = root;
+            Node prev = null;
+
+            while (w != null) {
+                prev = w;
+
+                if (x < w.x) {
+                    w = w.left;
+                } else if (x > w.x) {
+                    w = w.right;
+                } else {
+                    return w;
+                }
+            }
+
+            return prev;
         }
 
         boolean contains(int x) {
@@ -33,10 +47,30 @@ public class Semana04_BST0 {
             return p != null && p.x == x;
         }
 
-        // TODO(alumno): usar findLast y enlazar un nuevo nodo como hijo de p.
-        // Rechazar duplicados y mantener parent y n.
+        // Función publica que permite agregar un nuevo nodo al árbol.
         boolean add(int x) {
-            throw new UnsupportedOperationException("TODO: implementar el método add");
+            Node p = findLast(x);
+
+            if (p != null && p.x == x) {
+                return false;
+            }
+
+            Node u = new Node(x);
+
+            if (p == null) {
+                root = u;
+            } else {
+                u.parent = p;
+
+                if (x < p.x) {
+                    p.left = u;
+                } else {
+                    p.right = u;
+                }
+            }
+
+            n++;
+            return true;
         }
 
         void inorder() {
@@ -45,8 +79,10 @@ public class Semana04_BST0 {
         }
 
         private void inorder(Node u) {
-            if (u == null)
+            if (u == null) {
                 return;
+            }
+
             inorder(u.left);
             System.out.print(u.x + " ");
             inorder(u.right);
