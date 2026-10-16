@@ -26,7 +26,7 @@ Un BST permite decidir por qué rama continuar gracias a un invariante global de
 
 ### 4. Dos decisiones independientes: forma y prioridad
 
-Un `BinaryHeap` combina dos propiedades distintas que no debemos mezclar. La primera controla la **forma**, un árbol binario completo. La segunda controla la **prioridad**, padre ≤ hijos. Podemos tener un árbol completo que no sea heap porque sus valores violan el orden padre-hijo, o imaginar un árbol que cumpla padre-hijo pero con una forma que no corresponda al `BinaryHeap` basado en arreglo. La estructura correcta necesita ambas propiedades simultáneamente: **forma completa + invariante min-heap = BinaryHeap válido**.
+Un `BinaryHeap` combina dos propiedades distintas que no debemos mezclar. La primera controla la **forma**, un árbol binario completo. La segunda controla la **prioridad**, padre ≤ hijos. Podemos tener un árbol completo que no sea heap porque sus valores violan el orden padre-hijo, o imaginar un árbol que cumpla padre-hijo pero con una forma que no corresponda al `BinaryHeap` basado en arreglo. La estructura correcta necesita ambas propiedades simultáneamente: **<mark>forma completa + invariante min-heap = BinaryHeap válido</mark>**.
 
 ### 5. Árbol binario completo
 
@@ -103,7 +103,7 @@ El estado lógico del heap está únicamente en `a[0..n-1]`, es decir, `a[0..6]`
 
 ### 7. Relación árbol-arreglo
 
-Cuando la raíz se almacena en el índice 0, las relaciones jerárquicas pueden calcularse aritméticamente: `left(i) = 2*i + 1`, `right(i) = 2*i + 2`, y para un nodo distinto de la raíz, `parent(i) = (i - 1) / 2` con división entera. Por ejemplo, si `i = 2`, `left(2) = 5`, `right(2) = 6`, `parent(2) = 0`. Si `i = 5`, `left(5) = 11`, `right(5) = 12`, `parent(5) = 2`. Pero calcular `left(5) = 11` no significa que el hijo exista; para que exista lógicamente debe cumplirse `11 < n`. Índice calculable no implica nodo existente.
+Cuando la raíz se almacena en el índice 0, las relaciones jerárquicas pueden calcularse aritméticamente: **<mark>left(i) = 2*i + 1</mark>**, **<mark>right(i) = 2*i + 2</mark>**, y para un nodo distinto de la raíz, **<mark>parent(i) = (i - 1) / 2</mark>** con división entera. Por ejemplo, si `i = 2`, `left(2) = 5`, `right(2) = 6`, `parent(2) = 0`. Si `i = 5`, `left(5) = 11`, `right(5) = 12`, `parent(5) = 2`. Pero calcular `left(5) = 11` no significa que el hijo exista; para que exista lógicamente debe cumplirse **<mark>left(i) < n</mark>**. **<mark>Índice calculable no implica nodo existente</mark>**.
 
 No conviene memorizar estas expresiones sin entender su origen. Los índices por nivel son:
 
@@ -125,7 +125,7 @@ Para un nodo `i`, las posiciones del nivel siguiente que corresponden a sus dos 
 
 ### 8. El invariante min-heap
 
-La forma completa todavía no dice nada sobre las prioridades; necesitamos un segundo invariante. Para todo índice lógico `i > 0`, `a[parent(i)] <= a[i]`, es decir, cada padre es menor o igual que cada hijo existente. Por ejemplo,
+La forma completa todavía no dice nada sobre las prioridades; necesitamos un segundo invariante. Para todo índice lógico `i > 0`, **<mark>a[parent(i)] <= a[i]</mark>**, es decir, **<mark>cada padre es menor o igual que cada hijo existente</mark>**. Por ejemplo,
 
 ```text
      2
@@ -139,7 +139,7 @@ cumple `2<=5`, `2<=4`, `5<=9`, `5<=7`, `4<=8`, `4<=6`, así que es un min-heap v
 
 ### 9. Por qué el mínimo está en a[0]
 
-La raíz corresponde a `a[0]`. Tomemos cualquier nodo `u`: por el invariante, `parent(u) <= u`, y también `parent(parent(u)) <= parent(u)`. Repitiendo el argumento hasta llegar a la raíz obtenemos raíz ≤ ... ≤ padre ≤ nodo, así que la raíz es menor o igual que cualquier nodo alcanzable, y el mínimo global es `a[0]`. Esta propiedad explica directamente por qué `peek() -> O(1)`: `peek` no busca el mínimo, el trabajo para mantenerlo accesible ya fue realizado por las operaciones que modificaron la estructura.
+La raíz corresponde a `a[0]`. Tomemos cualquier nodo `u`: por el invariante, `parent(u) <= u`, y también `parent(parent(u)) <= parent(u)`. Repitiendo el argumento hasta llegar a la raíz obtenemos raíz ≤ ... ≤ padre ≤ nodo, así que la raíz es menor o igual que cualquier nodo alcanzable, y **<mark>el mínimo global está siempre en a[0]</mark>**. Esta propiedad explica directamente por qué **<mark>peek() -> O(1)</mark>**: `peek` no busca el mínimo, el trabajo para mantenerlo accesible ya fue realizado por las operaciones que modificaron la estructura.
 
 ### 10. Un heap no es un arreglo ordenado ni un BST
 
@@ -163,7 +163,7 @@ pero 8 > 2;
 por tanto no puede ser un BST.
 ```
 
-La regla de un heap es local (padre ≤ hijos); la regla de un BST es global (todo el subárbol izquierdo menor que el nodo, todo el subárbol derecho mayor). Son invariantes diferentes para ADT diferentes.
+**<mark>La regla de un heap es local (padre <= hijos)</mark>**; **<mark>la regla de un BST es global (todo el subárbol izquierdo menor que el nodo, todo el subárbol derecho mayor)</mark>**. Son invariantes diferentes para ADT diferentes. En un heap, **<mark>buscar una clave arbitraria cuesta O(n)</mark>** porque ambos subárboles pueden contener valores mayores que la raíz.
 
 El invariante usa `<=` y no `<`, así que un estado como
 
@@ -344,7 +344,7 @@ El arreglo final no está totalmente ordenado, pero sí es un min-heap:
 4   9 6   7
 ```
 
-### 21. Por qué heapify no cuesta O(n log n)
+### 21. Por qué heapify no cuesta O(n log n) (¡Pregunta Fija de Examen!)
 
 Una llamada individual a `trickleDown` puede costar O(log n); multiplicar aproximadamente `n/2` nodos internos por O(log n) da **O(n log n)**, una cota superior válida pero que no describe ajustadamente el trabajo real. La mayoría de los nodos está muy cerca de las hojas:
 
@@ -366,9 +366,11 @@ n/16 nodos
     pueden bajar como máximo 3 niveles
 ```
 
-El trabajo total tiene la forma aproximada `n/4 * 1 + n/8 * 2 + n/16 * 3 + ...`, que factorizando `n` da `n * (1/4 + 2/8 + 3/16 + ...)`; la serie entre paréntesis está acotada por una constante, así que **`heapify -> O(n)`**. La idea importante es que hay muchos nodos baratos y pocos nodos caros.
+El trabajo total tiene la forma aproximada `n/4 * 1 + n/8 * 2 + n/16 * 3 + ...`, que factorizando `n` da `n * (1/4 + 2/8 + 3/16 + ...)`; la serie entre paréntesis está acotada por una constante ($2$), así que **<mark>heapify -> O(n)</mark>**. La idea importante es que **<mark>hay muchos nodos baratos y pocos nodos caros</mark>**.
 
-Tenemos entonces dos estrategias correctas para construir un heap desde `n` valores: insertar uno por uno con `add` desde un heap vacío, en O(n log n), o copiar los valores preservando directamente la forma completa y ejecutar `heapify` de abajo hacia arriba, en O(n). Ambas pueden producir heaps válidos diferentes, y eso no es un problema, el ADT no exige una única representación interna, solo que la estructura satisfaga sus invariantes.
+Tenemos entonces dos estrategias:
+- Insertar uno por uno con `add` desde un heap vacío: **<mark>O(n log n)</mark>**.
+- Copiar los valores y ejecutar `heapify` de abajo hacia arriba: **<mark>O(n)</mark>**.
 
 ### 22. Extracciones repetidas y por qué el heap no favorece búsqueda arbitraria
 
