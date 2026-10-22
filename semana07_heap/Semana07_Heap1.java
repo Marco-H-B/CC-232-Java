@@ -73,7 +73,7 @@ public class Semana07_Heap1 {
 
         int remove() {
             if (n == 0)
-                throw new NoSuchElementException("el montículo está vacío");
+                throw new NoSuchElementException("el heap está vacío");
             int min = a[0];
             a[0] = a[--n];
             a[n] = null;
@@ -93,7 +93,7 @@ public class Semana07_Heap1 {
     public static void main(String[] args) {
         try {
             BinaryHeap heap = new BinaryHeap(new Integer[] { 9, 4, 7, 1, 3, 6, 2 });
-            System.out.println("Montículo: " + heap);
+            System.out.println("Heap: " + heap);
             System.out.print("Orden de extracción: ");
             while (true)
                 System.out.print(heap.remove() + " ");
