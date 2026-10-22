@@ -226,6 +226,7 @@ Para comprender el rebalanceo debemos observar dos decisiones: ¿el nodo desbala
 ### **<mark>18. Decidir el caso con balanceFactor</mark>**
 
 En código de `rebalance(Node u)`:
+
 - Si **<mark>bf > 1</mark>**: si `balanceFactor(u.left) < 0` entonces **<mark>LR: u.left = rotateLeft(u.left)</mark>**; finalmente **<mark>return rotateRight(u)</mark>** (LL o paso final de LR).
 - Si **<mark>bf < -1</mark>**: si `balanceFactor(u.right) > 0` entonces **<mark>RL: u.right = rotateRight(u.right)</mark>**; finalmente **<mark>return rotateLeft(u)</mark>** (RR o paso final de RL).
 
@@ -322,7 +323,7 @@ La inserción desciende hasta una referencia `null` y después regresa por los a
 
 ### **<mark>25. BST simple frente a AVL</mark>**
 
-**<mark>BST simple:</mark>** mantiene orden, pero no controla la forma: representación más sencilla, menos mantenimiento, puede degenerar, **<mark>costo general O(h) con h potencialmente O(n)</mark>**. 
+**<mark>BST simple:</mark>** mantiene orden, pero no controla la forma: representación más sencilla, menos mantenimiento, puede degenerar, **<mark>costo general O(h) con h potencialmente O(n)</mark>**.
 
 **<mark>Árbol AVL:</mark>** mantiene orden, altura almacenada y balance: más estado, más invariantes, más mantenimiento, rotaciones, pero **<mark>h = O(log n), con búsqueda e inserción estrictamente en O(log n)</mark>**.
 
