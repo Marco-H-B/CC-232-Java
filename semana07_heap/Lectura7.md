@@ -103,7 +103,7 @@ El estado lógico del heap está únicamente en `a[0..n-1]`, es decir, `a[0..6]`
 
 ### 7. Relación árbol-arreglo
 
-Cuando la raíz se almacena en el índice 0, las relaciones jerárquicas pueden calcularse aritméticamente: **<mark>left(i) = 2*i + 1</mark>**, **<mark>right(i) = 2*i + 2</mark>**, y para un nodo distinto de la raíz, **<mark>parent(i) = (i - 1) / 2</mark>** con división entera. Por ejemplo, si `i = 2`, `left(2) = 5`, `right(2) = 6`, `parent(2) = 0`. Si `i = 5`, `left(5) = 11`, `right(5) = 12`, `parent(5) = 2`. Pero calcular `left(5) = 11` no significa que el hijo exista; para que exista lógicamente debe cumplirse **<mark>left(i) < n</mark>**. **<mark>Índice calculable no implica nodo existente</mark>**.
+Cuando la raíz se almacena en el índice 0, las relaciones jerárquicas pueden calcularse aritméticamente: **<mark>left(i) = 2\*i + 1</mark>**, **<mark>right(i) = 2\*i + 2</mark>**, y para un nodo distinto de la raíz, **<mark>parent(i) = (i - 1) / 2</mark>** con división entera. Por ejemplo, si `i = 2`, `left(2) = 5`, `right(2) = 6`, `parent(2) = 0`. Si `i = 5`, `left(5) = 11`, `right(5) = 12`, `parent(5) = 2`. Pero calcular `left(5) = 11` no significa que el hijo exista; para que exista lógicamente debe cumplirse **<mark>left(i) < n</mark>**. **<mark>Índice calculable no implica nodo existente</mark>**.
 
 No conviene memorizar estas expresiones sin entender su origen. Los índices por nivel son:
 
@@ -369,6 +369,7 @@ n/16 nodos
 El trabajo total tiene la forma aproximada `n/4 * 1 + n/8 * 2 + n/16 * 3 + ...`, que factorizando `n` da `n * (1/4 + 2/8 + 3/16 + ...)`; la serie entre paréntesis está acotada por una constante ($2$), así que **<mark>heapify -> O(n)</mark>**. La idea importante es que **<mark>hay muchos nodos baratos y pocos nodos caros</mark>**.
 
 Tenemos entonces dos estrategias:
+
 - Insertar uno por uno con `add` desde un heap vacío: **<mark>O(n log n)</mark>**.
 - Copiar los valores y ejecutar `heapify` de abajo hacia arriba: **<mark>O(n)</mark>**.
 
