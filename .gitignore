@@ -3,3 +3,16 @@ UNI-Virtual/
 wiki/
 AGENTS.md
 .agents/
+*guion*
+*GUION*
+evaluaciones/video_parcial/*.md
+evaluaciones/video_parcial/*.html
+*.class
+
+# Videos de grabaciones
+*.mp4
+*.mkv
+*.mov
+*.webm
+*.avi
+**/videos/
