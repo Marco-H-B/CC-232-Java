@@ -1,0 +1,1270 @@
+% Simulacro de Examen Parcial - CC232 Algoritmos y Estructuras de Datos (UNI 2026-2)
+% Formato inspirado en el Control 1 y la Practica Calificada 1 de la catedra.
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[spanish,es-noshorthands,es-nolists,es-nodecimaldot,es-tabla]{babel}
+\usepackage[a4paper,top=2.2cm,bottom=2.2cm,left=2.2cm,right=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{array,booktabs,tabularx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,babel}
+\usepackage[hidelinks]{hyperref}
+
+% ---------------------------------------------------------------
+% Encabezado y pie
+% ---------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small CC232 - Algoritmos y Estructuras de Datos}
+\rhead{\small Simulacro de Examen Parcial}
+\cfoot{\small Página \thepage\ de \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3.5pt}
+\emergencystretch=1.5em
+
+\titleformat{\section}{\Large\bfseries}{}{0pt}{}
+\titleformat{\subsection}{\large\bfseries}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{12pt}{4pt}
+
+% ---------------------------------------------------------------
+% Codigo Java
+% ---------------------------------------------------------------
+\lstset{
+  language=Java,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\bfseries,
+  commentstyle=\itshape\color{black!65},
+  frame=single,
+  framerule=0.4pt,
+  rulecolor=\color{black!50},
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  xleftmargin=4pt,
+  xrightmargin=4pt,
+  aboveskip=6pt,
+  belowskip=6pt,
+  literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1
+}
+
+% ---------------------------------------------------------------
+% Estilos TikZ
+% ---------------------------------------------------------------
+\tikzset{
+  ln/.style={draw,rectangle,minimum width=9mm,minimum height=6mm,font=\small},
+  ar/.style={-{Stealth[length=2mm]},thick},
+  dar/.style={{Stealth[length=2mm]}-{Stealth[length=2mm]},thick},
+  tn/.style={circle,draw,minimum size=7mm,inner sep=0pt,font=\small},
+  ptr/.style={font=\small\ttfamily},
+  tree/.style={every child node/.style={tn}, level distance=11mm,
+    level 1/.style={sibling distance=40mm},
+    level 2/.style={sibling distance=20mm},
+    level 3/.style={sibling distance=10mm}},
+  smalltree/.style={every child node/.style={tn}, level distance=10mm,
+    level 1/.style={sibling distance=24mm},
+    level 2/.style={sibling distance=12mm},
+    level 3/.style={sibling distance=8mm}}
+}
+
+% Arreglo con indices: \cellarray{v0,v1,...}
+\newcommand{\cellarray}[1]{%
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+\foreach \v [count=\i from 0] in {#1} {
+  \draw (\i*0.85,0) rectangle ++(0.85,0.6);
+  \node[font=\small] at (\i*0.85+0.425,0.3) {\v};
+  \node[font=\scriptsize,text=black!60] at (\i*0.85+0.425,0.85) {\i};
+}
+\end{tikzpicture}}
+\newcommand{\nl}{{\scriptsize null}}
+
+% Cadena de nodos (uso dentro de tikzpicture): \chain{etiquetas}{estilo flecha}{separacion}
+\newcommand{\chain}[3]{%
+\foreach \v [count=\i] in {#1} {
+  \node[ln] (c\i) at (\i*#3,0) {\v};
+  \ifnum\i>1 \pgfmathtruncatemacro{\p}{\i-1}\draw[#2] (c\p) -- (c\i);\fi
+}}
+
+\newcommand{\pts}[1]{\textbf{(#1)}}
+
+% ===============================================================
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries CC232 - Algoritmos y Estructuras de Datos}\\[4pt]
+{\large Simulacro de Examen Parcial - Semanas 1 a 7}\\[2pt]
+{\small Universidad Nacional de Ingeniería - Ciclo 2026-2}
+\end{center}
+
+\vspace{2pt}
+\begin{tabularx}{\textwidth}{|l|X|l|X|}
+\hline
+\textbf{Duración} & 180 minutos & \textbf{Tiempo adicional} & Hasta 20 minutos para revisar \\ \hline
+\textbf{Puntaje} & 28 puntos (7 problemas de 4 puntos) & \textbf{Modalidad} & Individual, presencial, lápiz y papel \\ \hline
+\end{tabularx}
+
+\vspace{8pt}
+Nombre: \rule{9cm}{0.4pt} \hfill Código: \rule{3.5cm}{0.4pt}
+
+\begin{tcolorbox}[enhanced,sharp corners,colback=white,colframe=black!70,boxrule=0.5pt,title=Indicaciones,coltitle=black,colbacktitle=black!8,fonttitle=\bfseries]
+\begin{itemize}[leftmargin=12pt,itemsep=1pt,topsep=0pt]
+\item Responde en las hojas de respuesta entregadas. Conserva los diagramas necesarios para justificar tu solución.
+\item No uses computadora, celular, Internet, apuntes ni asistentes de inteligencia artificial.
+\item No necesitas sintaxis Java perfecta. Puedes usar Java simplificado o pseudocódigo preciso si las operaciones y las referencias quedan claras.
+\item No basta con indicar una complejidad. Explica qué trabajo depende de $n$ (o de $h$).
+\item Antes de modificar una estructura identifica qué información debes conservar. Después comprueba que la representación sigue siendo válida.
+\item No uses \texttt{java.util.ArrayList}, \texttt{java.util.LinkedList}, \texttt{TreeMap}, \texttt{PriorityQueue} ni otras estructuras de Java Collections.
+\item El solucionario se encuentra al final del documento. Resuelve primero sin mirarlo.
+\end{itemize}
+\end{tcolorbox}
+
+\textbf{Distribución y tiempo sugerido}
+
+\begin{center}
+\small
+\begin{tabular}{clcc}
+\toprule
+\textbf{Problema} & \textbf{Tema (semana)} & \textbf{Puntaje} & \textbf{Tiempo sugerido} \\
+\midrule
+1 & Arreglo dinámico: resize, desplazamientos y compactación (S1) & 4 & 25 min \\
+2 & Listas enlazadas: inversión en SLList y DLList circular (S2) & 4 & 25 min \\
+3 & Pilas y colas: ArrayQueue circular y cola con dos pilas (S3) & 4 & 25 min \\
+4 & BST: inserción, recorridos y sucesor (S4) & 4 & 25 min \\
+5 & BST: eliminación con \texttt{splice} y sucesor (S5) & 4 & 25 min \\
+6 & AVL: rotaciones y \texttt{rebalance} (S6) & 4 & 30 min \\
+7 & BinaryHeap: \texttt{heapify}, \texttt{remove}, \texttt{add} (S7) & 4 & 25 min \\
+\midrule
+ & \textbf{Total} & \textbf{28} & \textbf{180 min} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Criterio general.} Se evalúa la coherencia entre la representación, el algoritmo, el estado obtenido, los invariantes y la complejidad. Una respuesta con error menor de sintaxis puede recibir crédito si el razonamiento estructural es correcto. Una complejidad sin justificación no constituye una respuesta completa.
+
+% ===============================================================
+\newpage
+\subsection*{Problema 1. Buffer de telemetría sobre arreglo dinámico - 4 puntos}
+
+Un módulo de telemetría almacena lecturas en un \texttt{ArrayStack} (arreglo dinámico) con campos \texttt{Integer[] a} (arreglo de respaldo) y \texttt{n} (cantidad de elementos lógicos). La política de redimensionamiento es la trabajada en clase:
+
+\begin{itemize}[itemsep=0pt]
+\item \texttt{add(i, x)}: si \texttt{n + 1 > a.length}, se ejecuta \texttt{resize()} antes de desplazar e insertar.
+\item \texttt{remove(i)}: después de desplazar y decrementar \texttt{n}, si \texttt{a.length >= 3 * n}, se ejecuta \texttt{resize()}.
+\item \texttt{resize()}: crea un arreglo de capacidad \texttt{Math.max(1, 2 * n)} y copia \texttt{a[0..n-1]}.
+\end{itemize}
+
+Estado inicial:
+
+\begin{center}
+\texttt{a =} \cellarray{4,9,2,7} \qquad \texttt{n = 4}, \quad \texttt{a.length = 4}
+\end{center}
+
+Se ejecuta, en este orden: \texttt{add(5)} (al final), \texttt{add(1, 6)}, \texttt{remove(0)}, \texttt{remove(4)}, \texttt{remove(0)}, \texttt{remove(0)}.
+
+\textbf{a)} Construye una tabla que muestre, después de cada operación, el contenido lógico, \texttt{n}, \texttt{a.length}, la cantidad de elementos desplazados y la cantidad de elementos copiados por \texttt{resize()}. Indica el total de desplazamientos, el total de copias y el estado físico final del arreglo. \pts{1,0 punto}
+
+\medskip
+\textbf{Segunda parte.} El sensor ahora entrega lecturas ordenadas de forma no decreciente, con muchas repeticiones. Para ahorrar memoria se desea implementar \texttt{int keepAtMostTwo()}: la operación conserva como máximo dos copias de cada valor, mantiene el orden relativo, deja los elementos conservados ocupando consecutivamente \texttt{a[0..n-1]}, coloca \texttt{null} en las posiciones que dejan de pertenecer al rango lógico y retorna la cantidad eliminada. La capacidad no se reduce.
+
+\begin{center}
+\texttt{a =} \cellarray{1,1,1,2,2,3,3,3,3,4,{},{}} \qquad \texttt{n = 10}, \quad \texttt{a.length = 12}
+\end{center}
+\begin{center}
+\texttt{resultado lógico: [1, 1, 2, 2, 3, 3, 4]} \qquad \texttt{valor retornado: 3}
+\end{center}
+
+\textbf{b)} Diseña un algoritmo que realice una sola pasada principal sobre los elementos originales usando un número constante de variables auxiliares (por ejemplo, \texttt{read} y \texttt{write}). No crees otro arreglo y no llames repetidamente a \texttt{remove(i)}. Escribe Java simplificado o pseudocódigo preciso. \pts{1,0 punto}
+
+\textbf{c)} Escribe un invariante del ciclo que explique qué representan los primeros \texttt{write} elementos después de haber examinado los primeros \texttt{read} elementos originales, y por qué una escritura en \texttt{a[write]} no destruye información que todavía debe examinarse. \pts{0,5 puntos}
+
+\textbf{d)} Un compañero propone conservar \texttt{a[read]} cuando \texttt{write < 2 || a[read] != a[read - 2]}, es decir, comparar con la posición \texttt{read - 2} en lugar de compararla con lo ya escrito. Construye un contraejemplo pequeño, realiza su traza y explica exactamente por qué falla. \pts{0,75 puntos}
+
+\textbf{e)} Evalúa la afirmación: \emph{``Como en un arreglo dinámico las operaciones cuestan O(1) amortizado, vaciar el arreglo con n llamadas a \texttt{remove(0)} cuesta O(n) en total''}. Indica qué trabajo depende de $n$. \pts{0,75 puntos}
+
+% ===============================================================
+\newpage
+\subsection*{Problema 2. Inversión de una lista de reproducción - 4 puntos}
+
+\textbf{Parte A.} Una lista de reproducción se representa con una \texttt{SLList} con campos \texttt{head}, \texttt{tail} y \texttt{n}.
+
+\begin{center}
+\begin{tikzpicture}
+\chain{4,9,2,7}{ar}{1.5}
+\node[ptr] (nl) at (7.5,0) {null};
+\draw[ar] (c4) -- (nl);
+\node[ptr] (h) at (1.5,1.1) {head}; \draw[ar] (h) -- (c1);
+\node[ptr] (t) at (6.0,-1.1) {tail}; \draw[ar] (t) -- (c4);
+\node[ptr] at (9.3,0) {n = 4};
+\end{tikzpicture}
+\end{center}
+
+Se desea implementar \texttt{void reverse()}, que invierte la lista en el mismo lugar. No crees nodos, no copies valores y no conviertas la lista en un arreglo.
+
+\textbf{a)} En el ciclo de inversión se ejecuta la asignación \texttt{cur.next = prev}. Identifica qué referencia debe conservarse \emph{antes} de esa asignación y explica para qué se necesita. Dibuja el estado que se obtendría en la primera iteración si no se conserva. \pts{0,75 puntos}
+
+\textbf{b)} Escribe \texttt{reverse()} para la \texttt{SLList}, incluyendo la actualización de \texttt{head} y \texttt{tail}. Verifica los casos $n = 0$ y $n = 1$. \pts{0,75 puntos}
+
+\textbf{c)} Realiza la traza sobre la lista dada mostrando \texttt{prev}, \texttt{cur} y la referencia conservada en cada iteración. Dibuja el estado final con \texttt{head} y \texttt{tail}. \pts{0,5 puntos}
+
+\medskip
+\textbf{Parte B.} Otra lista se representa con una \texttt{DLList} circular con nodo centinela \texttt{dummy}:
+
+\begin{center}
+\begin{tikzpicture}
+\chain{dummy,P,Q,R,S,dummy}{dar}{1.55}
+\node[ptr] at (11.2,0) {n = 4};
+\end{tikzpicture}
+\end{center}
+
+(El nodo \texttt{dummy} aparece dos veces solo para dibujar la circularidad: \texttt{dummy.next} es \texttt{P} y \texttt{dummy.prev} es \texttt{S}.)
+
+Se propone invertir la lista recorriendo \emph{todos} los nodos, incluido \texttt{dummy}, e intercambiando en cada uno los campos \texttt{prev} y \texttt{next}.
+
+\textbf{d)} Escribe el fragmento que realiza la inversión. Explica en qué campo queda el siguiente nodo original después del intercambio, cómo avanzas y cómo sabes que terminaste. Verifica el caso $n = 0$. \pts{1,0 punto}
+
+\textbf{e)} Un estudiante intercambia \texttt{prev} y \texttt{next} solamente en los nodos reales \texttt{P}, \texttt{Q}, \texttt{R}, \texttt{S} y no en \texttt{dummy}. Describe las referencias resultantes de \texttt{dummy}, \texttt{P} y \texttt{S}, señala un invariante violado e indica qué secuencia se obtendría al recorrer desde \texttt{dummy.next} siguiendo \texttt{next}. \pts{0,5 puntos}
+
+\textbf{f)} Compara el costo temporal y la memoria auxiliar de ambas inversiones. Explica por qué ninguna inversión en el mismo lugar puede costar menos que $O(n)$. \pts{0,5 puntos}
+
+% ===============================================================
+\newpage
+\subsection*{Problema 3. Cola de impresión circular y cola con dos pilas - 4 puntos}
+
+\textbf{Parte A.} Un servidor de impresión usa una \texttt{ArrayQueue} con campos \texttt{Integer[] a}, \texttt{j} (índice físico del frente lógico) y \texttt{n}. Invariante: el elemento lógico $k$ se encuentra en \texttt{a[(j + k) \% a.length]}, para $0 \le k < n$.
+
+\begin{itemize}[itemsep=0pt]
+\item \texttt{add(x)}: si \texttt{n + 1 > a.length}, \texttt{resize()}; luego \texttt{a[(j + n) \% a.length] = x; n++}.
+\item \texttt{remove()}: \texttt{x = a[j]; a[j] = null; j = (j + 1) \% a.length; n-{}-}; si \texttt{a.length >= 3 * n}, \texttt{resize()}; retorna \texttt{x}.
+\item \texttt{resize()}: crea \texttt{b} de capacidad \texttt{Math.max(1, 2 * n)}, copia \texttt{b[k] = a[(j + k) \% a.length]} para $0 \le k < n$, y luego \texttt{j = 0}.
+\end{itemize}
+
+Estado inicial:
+\begin{center}
+\texttt{a =} \cellarray{30,40,\nl,\nl,10,20} \qquad \texttt{j = 4}, \quad \texttt{n = 4}, \quad \texttt{a.length = 6}
+\end{center}
+
+\textbf{a)} Escribe la vista lógica inicial. Luego ejecuta, en este orden: \texttt{add(50)}, \texttt{remove()}, \texttt{add(60)}, \texttt{add(70)}, \texttt{add(80)}, \texttt{remove()}, \texttt{remove()}, \texttt{remove()}. Construye una tabla con el arreglo físico, \texttt{j}, \texttt{n}, \texttt{a.length} y el valor retornado después de cada operación. \pts{1,25 puntos}
+
+\textbf{b)} Un estudiante implementa \texttt{resize()} con una copia física (\texttt{b[k] = a[k]}, equivalente a \texttt{Arrays.copyOf}) y conserva el valor de \texttt{j}. Muestra qué ocurre en la operación \texttt{add(80)} de la traza anterior y explica por qué se rompe el invariante aunque ningún valor se haya perdido físicamente. \pts{0,5 puntos}
+
+\textbf{c)} Escribe los invariantes de \texttt{ArrayQueue} y explica por qué \texttt{remove()} no necesita desplazar elementos, a diferencia de \texttt{remove(0)} en un \texttt{ArrayStack}. \pts{0,5 puntos}
+
+\medskip
+\textbf{Parte B.} Se desea implementar una cola FIFO usando únicamente dos pilas \texttt{LinkedStack} de enteros, \texttt{inStack} y \texttt{outStack}, con las operaciones \texttt{push}, \texttt{pop} e \texttt{isEmpty}. La idea es: \texttt{add(x)} apila en \texttt{inStack}; \texttt{remove()} desapila de \texttt{outStack} y, solo cuando \texttt{outStack} está vacía, transfiere todos los elementos de \texttt{inStack} a \texttt{outStack}.
+
+\textbf{d)} Escribe \texttt{add(int x)} y \texttt{int remove()} (lanza una excepción si la cola está vacía). Explica por qué el orden FIFO se conserva y qué ocurriría si se transfiriera también cuando \texttt{outStack} no está vacía. \pts{1,0 punto}
+
+\textbf{e)} Realiza la traza de \texttt{add(1)}, \texttt{add(2)}, \texttt{add(3)}, \texttt{remove()}, \texttt{add(4)}, \texttt{remove()}, \texttt{remove()}, mostrando el contenido de ambas pilas (indica el tope) y los valores retornados. Cuenta las operaciones \texttt{push} y \texttt{pop} realizadas y justifica por qué \texttt{remove()} es $O(1)$ amortizado aunque una llamada concreta pueda costar $O(n)$. \pts{0,75 puntos}
+
+% ===============================================================
+\newpage
+\subsection*{Problema 4. Índice de identificadores en un BST - 4 puntos}
+
+Un sistema de inventario indexa identificadores en un \texttt{BinarySearchTree} con \texttt{Node \{int x; Node left, right, parent;\}}, campos \texttt{root} y \texttt{n}. Se rechazan duplicados. \textbf{Convención de altura del curso:} árbol vacío $h = 0$, hoja $h = 1$ (se cuentan nodos).
+
+Se insertan, en este orden, en un árbol vacío:
+\begin{center}
+\texttt{50, 30, 70, 20, 40, 60, 80, 35, 45, 65}
+\end{center}
+
+\textbf{a)} Dibuja el BST final e indica su altura $h$. Indica el camino de comparaciones que realiza \texttt{findLast} al insertar \texttt{45} y qué referencias se asignan al nuevo nodo. \pts{0,75 puntos}
+
+\textbf{b)} Escribe el recorrido inorder y el recorrido preorder. Explica qué invariante del BST garantiza que el inorder sale ordenado. \pts{0,75 puntos}
+
+\textbf{c)} Escribe \texttt{Node successor(Node u)} usando las referencias \texttt{parent} (sin recorrer todo el árbol). Aplícalo a los nodos \texttt{30}, \texttt{45}, \texttt{65} y \texttt{80}, indicando el camino seguido en cada caso. Expresa su costo en función de $h$. \pts{1,0 punto}
+
+\textbf{d)} Un estudiante propone verificar si un árbol es BST comprobando, para cada nodo \texttt{u}, solamente que \texttt{u.left.x < u.x < u.right.x} (cuando los hijos existen). Construye un contraejemplo de a lo más cuatro nodos que pase su verificación sin ser BST, muestra qué operación pública fallaría y propone una verificación correcta. \pts{0,75 puntos}
+
+\textbf{e)} Inserta las claves \texttt{15, 25, 35, 45, 55, 65, 75} en el orden dado y, por separado, en el orden \texttt{45, 25, 65, 15, 35, 55, 75}. Dibuja ambos árboles, indica sus alturas y cuántas comparaciones realiza \texttt{contains(75)} en cada uno. Evalúa la afirmación \emph{``un BST garantiza búsquedas en O(log n)''}. \pts{0,75 puntos}
+
+% ===============================================================
+\newpage
+\subsection*{Problema 5. Depuración de un catálogo: eliminación en BST - 4 puntos}
+
+Un catálogo se mantiene en un BST con referencias \texttt{parent}. La eliminación usa el \textbf{sucesor inorder} y la operación auxiliar \texttt{splice}:
+
+\begin{lstlisting}
+void splice(Node u) {               // precondición: u.left == null || u.right == null
+    Node s = (u.left != null) ? u.left : u.right;   // hijo superviviente
+    Node p = u.parent;
+    if (u == root) root = s;
+    else if (p.left == u) p.left = s;
+    else p.right = s;
+    if (s != null) s.parent = p;
+}
+
+boolean remove(int x) {
+    Node u = findLast(x);
+    if (u == null || u.x != x) return false;
+    if (u.left == null || u.right == null) splice(u);
+    else {
+        Node w = u.right;
+        while (w.left != null) w = w.left;   // sucesor inorder
+        u.x = w.x;
+        splice(w);
+    }
+    n--;
+    return true;
+}
+\end{lstlisting}
+
+Estado inicial ($n = 11$):
+
+\begin{center}
+\begin{tikzpicture}[tree]
+\node[tn]{40}
+  child{node{20}
+    child{node{10}}
+    child{node{30} child[missing] child{node{35}}}}
+  child{node{60}
+    child{node{50}}
+    child{node{80}
+      child{node{70} child[missing] child{node{75}}}
+      child{node{90}}}};
+\end{tikzpicture}
+\end{center}
+
+\textbf{a)} Ejecuta, en este orden, \texttt{remove(10)}, \texttt{remove(30)}, \texttt{remove(60)}, \texttt{remove(40)}. Para cada llamada indica el caso (hoja, un hijo, dos hijos), el nodo que se elimina físicamente y dibuja el árbol resultante. \pts{1,5 puntos}
+
+\textbf{b)} Para \texttt{remove(60)}, enumera en orden cada campo o referencia que se modifica (incluyendo \texttt{parent}). Distingue la eliminación lógica de la eliminación física. Explica por qué el sucesor nunca tiene hijo izquierdo, pero sí puede tener hijo derecho, y por qué eso importa en esta llamada. \pts{0,75 puntos}
+
+\textbf{c)} Un estudiante omite la última línea de \texttt{splice} (\texttt{if (s != null) s.parent = p;}). Considera que ese \texttt{splice} defectuoso se usa en \texttt{remove(30)}. ¿El recorrido inorder posterior es correcto? Indica qué invariante se rompe y describe qué ocurre si después se ejecuta \texttt{remove(35)}. \pts{0,75 puntos}
+
+\textbf{d)} Separa el costo de localización y el costo de modificación de \texttt{remove(x)} en función de $h$. Luego realiza la traza de \texttt{remove(45)} sobre el árbol final de la parte a): camino recorrido, valor retornado y valor de \texttt{n}. Explica por qué no se puede afirmar que \texttt{remove} sea $O(\log n)$ en un BST. \pts{1,0 punto}
+
+% ===============================================================
+\newpage
+\subsection*{Problema 6. Índice balanceado AVL - 4 puntos}
+
+Un índice se implementa con un árbol AVL:
+\texttt{Node \{int x; int height = 1; Node left, right;\}}, sin referencia \texttt{parent}. Se usa \texttt{height(null) = 0} y
+\[
+\texttt{balanceFactor(u)} = \texttt{height(u.left)} - \texttt{height(u.right)}.
+\]
+Invariante AVL: $|\texttt{balanceFactor(u)}| \le 1$ para todo nodo. Las operaciones de rebalanceo son:
+
+\begin{lstlisting}
+Node rotateRight(Node y) {
+    Node x = y.left;
+    Node middle = x.right;
+    x.right = y;
+    y.left = middle;
+    updateHeight(y);          // primero el nodo que quedó más abajo
+    updateHeight(x);
+    return x;                 // nueva raíz local
+}
+// rotateLeft(Node x) es simétrica: y = x.right; middle = y.left; ...
+
+Node rebalance(Node u) {
+    int bf = balanceFactor(u);
+    if (bf > 1) {
+        if (balanceFactor(u.left) < 0) u.left = rotateLeft(u.left);
+        return rotateRight(u);
+    }
+    if (bf < -1) {
+        if (balanceFactor(u.right) > 0) u.right = rotateRight(u.right);
+        return rotateLeft(u);
+    }
+    return u;
+}
+\end{lstlisting}
+
+Se insertan, en este orden, en un AVL vacío:
+\begin{center}
+\texttt{10, 20, 30, 25, 27, 5, 4, 35, 33}
+\end{center}
+
+\textbf{a)} Para cada inserción que produce desbalance indica el nodo donde se detecta $|\texttt{balanceFactor}| = 2$ (el primero desde abajo), el caso (LL, RR, LR o RL) y las rotaciones aplicadas. Dibuja el subárbol antes y después de rebalancear y dibuja el árbol final. \pts{1,5 puntos}
+
+\textbf{b)} Para la inserción de \texttt{27}, escribe la secuencia de referencias que modifican \texttt{rotateLeft} y \texttt{rotateRight}, y el orden de las llamadas a \texttt{updateHeight}. Explica qué altura incorrecta se obtendría si en \texttt{rotateRight} se actualizara \texttt{x} antes que \texttt{y}. \pts{0,75 puntos}
+
+\textbf{c)} Un estudiante escribe \texttt{rebalance} sin la comprobación \texttt{balanceFactor(u.left) < 0}, es decir, cuando \texttt{bf > 1} siempre ejecuta solamente \texttt{rotateRight(u)}. Aplica su versión a la inserción de \texttt{27} y demuestra, con los factores de balance, que el resultado no es un AVL. \pts{0,75 puntos}
+
+\textbf{d)} Construye una tabla con \texttt{height} y \texttt{balanceFactor} de cada nodo del árbol final. \pts{0,5 puntos}
+
+\textbf{e)} Sea $N(h)$ la mínima cantidad de nodos de un AVL de altura $h$, con $N(1) = 1$, $N(2) = 2$ y $N(h) = 1 + N(h-1) + N(h-2)$. Calcula $N(h)$ hasta $h = 5$ y deduce la altura máxima posible de un AVL con 9 nodos. Compárala con la altura máxima de un BST sin balanceo con 9 nodos. \pts{0,5 puntos}
+
+% ===============================================================
+\newpage
+\subsection*{Problema 7. Planificador de tareas con BinaryHeap - 4 puntos}
+
+Un planificador atiende tareas por prioridad usando un \texttt{BinaryHeap} (min-heap: menor valor, mayor prioridad) con campos \texttt{Integer[] a} y \texttt{n}. Índices desde 0:
+\[
+\texttt{left(i)} = 2i+1, \qquad \texttt{right(i)} = 2i+2, \qquad \texttt{parent(i)} = \lfloor (i-1)/2 \rfloor.
+\]
+Invariante: \texttt{a[parent(i)] <= a[i]} para todo $0 < i < n$, y los nodos ocupan exactamente \texttt{a[0..n-1]}.
+\begin{itemize}[itemsep=0pt]
+\item \texttt{add(x)}: \texttt{a[n++] = x; bubbleUp(n - 1)}.
+\item \texttt{remove()}: \texttt{min = a[0]; a[0] = a[-{}-n]; a[n] = null; trickleDown(0)}; retorna \texttt{min}.
+\item \texttt{trickleDown(i)}: intercambia con el \emph{menor hijo válido} mientras ese hijo sea menor que \texttt{a[i]}.
+\item \texttt{heapify()}: ejecuta \texttt{trickleDown(i)} para \texttt{i = n/2 - 1} hasta \texttt{0}.
+\end{itemize}
+
+Las prioridades llegan en este arreglo:
+\begin{center}
+\texttt{a =} \cellarray{9,4,7,1,8,2,6,3,5} \qquad \texttt{n = 9}
+\end{center}
+
+\textbf{a)} Ejecuta \texttt{heapify()}. Para cada valor de \texttt{i} muestra los intercambios y el arreglo resultante. Dibuja el heap final como árbol y cuenta el total de intercambios. \pts{1,25 puntos}
+
+\textbf{b)} Sobre el heap obtenido en a), ejecuta \texttt{remove()}. Indica el valor retornado, cada paso de \texttt{trickleDown} y el arreglo final. \pts{0,75 puntos}
+
+\textbf{c)} Sobre el resultado de b), ejecuta \texttt{add(0)} (supón capacidad suficiente). Indica cada paso de \texttt{bubbleUp} y el arreglo final. \pts{0,5 puntos}
+
+\textbf{d)} Justifica por qué \texttt{heapify()} cuesta $O(n)$, mientras que insertar los $n$ elementos uno por uno con \texttt{add} cuesta $O(n \log n)$ en el peor caso. \pts{0,5 puntos}
+
+\textbf{e)} Un estudiante implementa \texttt{trickleDown} de modo que siempre intercambia con el hijo izquierdo cuando este es menor que el padre. Usa el estado de b) justo después de mover el último elemento a la raíz para mostrar que su versión rompe el invariante. \pts{0,5 puntos}
+
+\textbf{f)} Evalúa la afirmación: \emph{``Como el heap es un árbol con altura $O(\log n)$, buscar si una prioridad arbitraria $x$ está en el heap cuesta $O(\log n)$, igual que en un BST balanceado''}. \pts{0,5 puntos}
+
+\vfill
+\begin{center}
+\textbf{Fin del examen.} Revisa que tus diagramas, contratos, invariantes y complejidades sean coherentes con la representación que estás analizando.
+\end{center}
+
+% ===============================================================
+% SOLUCIONARIO
+% ===============================================================
+\newpage
+\begin{center}
+{\LARGE\bfseries Solucionario detallado}\\[4pt]
+{\large Criterios de corrección por subpregunta}
+\end{center}
+
+\begin{tcolorbox}[enhanced,sharp corners,colback=white,colframe=black!70,boxrule=0.5pt]
+Cada solución presenta el razonamiento esperado y, al final de cada problema, un criterio de corrección con la distribución del puntaje. Pueden existir redacciones distintas igualmente válidas si conservan los mismos invariantes y la misma justificación de costo.
+\end{tcolorbox}
+
+% ---------------------------------------------------------------
+\subsection*{Solución del Problema 1}
+
+\textbf{a)} Traza completa de las operaciones.
+
+\begin{center}
+\small
+\begin{tabular}{lllcccc}
+\toprule
+\textbf{Operación} & \textbf{Retorna} & \textbf{Contenido lógico} & \textbf{n} & \textbf{a.length} & \textbf{Desplaz.} & \textbf{Copias} \\
+\midrule
+inicial & -- & [4, 9, 2, 7] & 4 & 4 & -- & -- \\
+\texttt{add(5)} & -- & [4, 9, 2, 7, 5] & 5 & 8 & 0 & 4 \\
+\texttt{add(1, 6)} & -- & [4, 6, 9, 2, 7, 5] & 6 & 8 & 4 & 0 \\
+\texttt{remove(0)} & 4 & [6, 9, 2, 7, 5] & 5 & 8 & 5 & 0 \\
+\texttt{remove(4)} & 5 & [6, 9, 2, 7] & 4 & 8 & 0 & 0 \\
+\texttt{remove(0)} & 6 & [9, 2, 7] & 3 & 8 & 3 & 0 \\
+\texttt{remove(0)} & 9 & [2, 7] & 2 & 4 & 2 & 2 \\
+\midrule
+\textbf{Total} & & & & & \textbf{14} & \textbf{6} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Justificación de cada paso:
+\begin{itemize}[itemsep=1pt]
+\item \texttt{add(5)}: $n + 1 = 5 > 4$, por lo tanto primero \texttt{resize()} a $\max(1, 8) = 8$ copiando 4 elementos. Como se inserta en $i = n = 4$, se desplazan $n - i = 0$ elementos.
+\item \texttt{add(1, 6)}: $6 \le 8$, no hay resize. Se desplazan hacia la derecha las posiciones 1 a 4, es decir $n - i = 5 - 1 = 4$ elementos.
+\item \texttt{remove(0)}: se desplazan hacia la izquierda $n - i - 1 = 5$ elementos. Luego $n = 5$ y $8 \ge 15$ es falso.
+\item \texttt{remove(4)}: es el último, 0 desplazamientos. $n = 4$ y $8 \ge 12$ es falso.
+\item \texttt{remove(0)}: 3 desplazamientos. $n = 3$ y $8 \ge 9$ es falso.
+\item \texttt{remove(0)}: 2 desplazamientos. $n = 2$ y $8 \ge 6$ es verdadero: \texttt{resize()} a $\max(1, 4) = 4$, copiando 2 elementos.
+\end{itemize}
+
+Estado físico final: \quad \texttt{a =} \cellarray{2,7,\nl,\nl} \quad \texttt{n = 2}, \texttt{a.length = 4}.
+
+\textbf{b)} Algoritmo con dos índices. Como la secuencia está ordenada, las copias de un mismo valor son contiguas. Si \texttt{a[read]} es igual a \texttt{a[write - 2]}, entonces también es igual a \texttt{a[write - 1]} (que está entre ambos en orden), de modo que ya se conservaron dos copias de ese valor.
+
+\begin{lstlisting}
+int keepAtMostTwo() {
+    int write = 0;
+    for (int read = 0; read < n; read++) {
+        // se conserva si todavía no hay dos copias de este valor en el prefijo escrito
+        if (write < 2 || !a[read].equals(a[write - 2])) {
+            a[write] = a[read];
+            write++;
+        }
+    }
+    for (int k = write; k < n; k++) a[k] = null;   // limpiar el rango descartado
+    int removed = n - write;
+    n = write;
+    return removed;
+}
+\end{lstlisting}
+
+Traza resumida sobre \texttt{[1,1,1,2,2,3,3,3,3,4]}:
+
+\begin{center}
+\small
+\begin{tabular}{cccccl}
+\toprule
+\texttt{read} & \texttt{a[read]} & \texttt{a[write-2]} & ¿Conserva? & \texttt{write} después & Prefijo \texttt{a[0..write-1]} \\
+\midrule
+0 & 1 & -- & sí (\texttt{write < 2}) & 1 & [1] \\
+1 & 1 & -- & sí (\texttt{write < 2}) & 2 & [1, 1] \\
+2 & 1 & 1 & no & 2 & [1, 1] \\
+3 & 2 & 1 & sí & 3 & [1, 1, 2] \\
+4 & 2 & 1 & sí & 4 & [1, 1, 2, 2] \\
+5 & 3 & 2 & sí & 5 & [1, 1, 2, 2, 3] \\
+6 & 3 & 2 & sí & 6 & [1, 1, 2, 2, 3, 3] \\
+7 & 3 & 3 & no & 6 & [1, 1, 2, 2, 3, 3] \\
+8 & 3 & 3 & no & 6 & [1, 1, 2, 2, 3, 3] \\
+9 & 4 & 3 & sí & 7 & [1, 1, 2, 2, 3, 3, 4] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Estado final: \texttt{a =} \cellarray{1,1,2,2,3,3,4,\nl,\nl,\nl,{},{}} \quad \texttt{n = 7}, \texttt{a.length = 12}, retorna \texttt{3}.
+
+Costo: la pasada principal examina cada elemento una vez, $O(n)$; la limpieza recorre a lo más $n$ posiciones, $O(n)$. Total $O(n)$ con memoria auxiliar $O(1)$.
+
+\textbf{c)} Invariante (al inicio de cada iteración con índice \texttt{read}):
+\begin{enumerate}[itemsep=0pt]
+\item \texttt{a[0..write-1]} contiene, en el mismo orden, los elementos de la secuencia original \texttt{a[0..read-1]} conservando como máximo dos copias de cada valor (y por lo tanto está ordenado).
+\item $0 \le \texttt{write} \le \texttt{read}$, de modo que \texttt{a[read..n-1]} conserva todavía los valores originales.
+\end{enumerate}
+Como \texttt{write <= read}, la escritura en \texttt{a[write]} solo afecta una posición ya examinada (o la misma que se está leyendo), nunca una posición pendiente. Al terminar, \texttt{read = n} y el prefijo es exactamente el resultado.
+
+\textbf{d)} Contraejemplo: \texttt{a = [1, 1, 1, 2, 2]}, $n = 5$. Resultado esperado: \texttt{[1, 1, 2, 2]}.
+
+\begin{center}
+\small
+\begin{tabular}{ccccl}
+\toprule
+\texttt{read} & \texttt{a[read]} & \texttt{a[read-2]} (valor actual) & ¿Conserva? & Arreglo después \\
+\midrule
+0 & 1 & -- & sí & [1, 1, 1, 2, 2], \texttt{write = 1} \\
+1 & 1 & -- & sí & [1, 1, 1, 2, 2], \texttt{write = 2} \\
+2 & 1 & \texttt{a[0]} = 1 & no & [1, 1, 1, 2, 2], \texttt{write = 2} \\
+3 & 2 & \texttt{a[1]} = 1 & sí & [1, 1, \textbf{2}, 2, 2], \texttt{write = 3} \\
+4 & 2 & \texttt{a[2]} = \textbf{2} & no & [1, 1, 2, 2, 2], \texttt{write = 3} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Resultado obtenido: \texttt{[1, 1, 2]}; se perdió una copia de \texttt{2}. El criterio ``\texttt{a[read]} distinto del original en \texttt{read-2}'' sería correcto sobre la secuencia original, pero la celda \texttt{read - 2} pertenece a la zona que ya pudo ser sobrescrita (en la iteración 3 se escribió \texttt{2} en la posición 2, que originalmente contenía \texttt{1}). La comparación correcta debe hacerse contra lo ya conservado, \texttt{a[write - 2]}, porque la pregunta real es ``¿cuántas copias de este valor ya conservé?''.
+
+\textbf{e)} La afirmación es falsa. El $O(1)$ amortizado describe el costo de \texttt{resize()} repartido entre muchas operaciones; no elimina el costo de desplazamiento. \texttt{remove(i)} desplaza $n - i - 1$ elementos, y \texttt{remove(0)} desplaza todos los restantes:
+\[
+(n-1) + (n-2) + \dots + 1 + 0 = \frac{n(n-1)}{2} \in O(n^2).
+\]
+Solo \texttt{remove(n - 1)} (eliminar al final) es $O(1)$ amortizado. Los redimensionamientos por reducción suman a lo más $O(n)$ en total y no cambian la conclusión.
+
+\textbf{Criterio de corrección (4 puntos).}
+\begin{itemize}[itemsep=0pt]
+\item a) 1,0: crecimiento a 8 con 4 copias (0,25); desplazamientos correctos (0,25); reducción detectada con $a.length \ge 3n$ en el último paso (0,25); totales y estado físico con \texttt{null} (0,25).
+\item b) 1,0: condición correcta contra \texttt{a[write-2]} (0,5); una sola pasada con $O(1)$ memoria (0,25); limpieza a \texttt{null}, actualización de \texttt{n} y retorno (0,25).
+\item c) 0,5: significado del prefijo (0,25); \texttt{write <= read} y no destrucción de datos pendientes (0,25).
+\item d) 0,75: contraejemplo válido (0,25); traza que muestra la sobrescritura (0,25); explicación de la causa (0,25).
+\item e) 0,75: distinguir resize amortizado de desplazamiento (0,25); suma explícita (0,25); conclusión $O(n^2)$ (0,25).
+\end{itemize}
+
+% ---------------------------------------------------------------
+\newpage
+\subsection*{Solución del Problema 2}
+
+\textbf{a)} Antes de \texttt{cur.next = prev} se debe conservar \texttt{nxt = cur.next}. En una \texttt{SLList} el campo \texttt{cur.next} es la \emph{única} referencia al resto de la lista: no existe \texttt{prev} en los nodos. Si se sobrescribe sin guardarla, el resto deja de ser alcanzable.
+
+Primera iteración sin conservarla (\texttt{prev = null}, \texttt{cur = 4}): se ejecuta \texttt{4.next = null} y no hay forma de avanzar.
+
+\begin{center}
+\begin{tikzpicture}
+\node[ln] (a) at (1.5,0) {4};
+\node[ptr] (an) at (3.0,0) {null};
+\draw[ar] (a) -- (an);
+\node[ptr] (h) at (1.5,1.1) {head}; \draw[ar] (h) -- (a);
+\node[ln] (b) at (5.0,0) {9};
+\node[ln] (c) at (6.5,0) {2};
+\node[ln] (d) at (8.0,0) {7};
+\node[ptr] (dn) at (9.5,0) {null};
+\draw[ar] (b) -- (c); \draw[ar] (c) -- (d); \draw[ar] (d) -- (dn);
+\node[ptr] (t) at (8.0,-1.1) {tail}; \draw[ar] (t) -- (d);
+\draw[dashed] (4.4,-0.6) rectangle (7.1,0.6);
+\node[font=\small] at (5.75,-0.95) {inaccesibles};
+\end{tikzpicture}
+\end{center}
+
+Los nodos \texttt{9} y \texttt{2} quedan inalcanzables. El nodo \texttt{7} solo es alcanzable por \texttt{tail}, pero desde él no se puede retroceder. Se viola el invariante ``desde \texttt{head}, siguiendo \texttt{next}, hay exactamente $n$ nodos''.
+
+\textbf{b)}
+\begin{lstlisting}
+void reverse() {
+    Node prev = null;
+    Node cur = head;
+    tail = head;                 // el primer nodo será el último
+    while (cur != null) {
+        Node nxt = cur.next;     // conservar el resto de la lista
+        cur.next = prev;         // invertir un enlace
+        prev = cur;              // crece el prefijo invertido
+        cur = nxt;               // avanzar sobre la parte no procesada
+    }
+    head = prev;                 // n no cambia
+}
+\end{lstlisting}
+
+Invariante del ciclo: \texttt{prev} es la cabeza de la parte ya invertida, \texttt{cur} es la cabeza de la parte aún no procesada, ambas partes son disjuntas y juntas contienen los $n$ nodos.
+
+Casos borde: si $n = 0$, \texttt{head = null}, el ciclo no se ejecuta y \texttt{head = tail = null}. Si $n = 1$, una iteración deja \texttt{x.next = null}, \texttt{head = tail = x}.
+
+\textbf{c)} Traza:
+
+\begin{center}
+\small
+\begin{tabular}{cccccl}
+\toprule
+Iteración & \texttt{prev} (antes) & \texttt{cur} (antes) & \texttt{nxt} & Enlace invertido & \texttt{prev}, \texttt{cur} (después) \\
+\midrule
+1 & null & 4 & 9 & \texttt{4.next = null} & 4, 9 \\
+2 & 4 & 9 & 2 & \texttt{9.next = 4} & 9, 2 \\
+3 & 9 & 2 & 7 & \texttt{2.next = 9} & 2, 7 \\
+4 & 2 & 7 & null & \texttt{7.next = 2} & 7, null \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}
+\chain{7,2,9,4}{ar}{1.5}
+\node[ptr] (nl) at (7.5,0) {null};
+\draw[ar] (c4) -- (nl);
+\node[ptr] (h) at (1.5,1.1) {head}; \draw[ar] (h) -- (c1);
+\node[ptr] (t) at (6.0,-1.1) {tail}; \draw[ar] (t) -- (c4);
+\node[ptr] at (9.3,0) {n = 4};
+\end{tikzpicture}
+\end{center}
+
+Postcondición: \texttt{tail.next == null} y la secuencia lógica es la inversa de la original.
+
+\textbf{d)}
+\begin{lstlisting}
+Node u = dummy;
+do {
+    Node t = u.next;     // siguiente en el orden original
+    u.next = u.prev;     // intercambio de enlaces
+    u.prev = t;
+    u = t;               // equivalente a u = u.prev después del intercambio
+} while (u != dummy);
+\end{lstlisting}
+
+Después del intercambio, el siguiente nodo original queda en \texttt{u.prev}; por eso se guarda en \texttt{t} y se avanza con \texttt{u = t}. Se visitan los $n + 1$ nodos (incluido \texttt{dummy}) y se termina al volver a \texttt{dummy}. Se usa \texttt{do-while} porque el recorrido empieza precisamente en \texttt{dummy}.
+
+\begin{center}
+\small
+\begin{tabular}{clll}
+\toprule
+Iteración & \texttt{u} & \texttt{u.next} después & \texttt{u.prev} después \\
+\midrule
+1 & dummy & S & P \\
+2 & P & dummy & Q \\
+3 & Q & P & R \\
+4 & R & Q & S \\
+5 & S & R & dummy \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Resultado: \texttt{dummy <-> S <-> R <-> Q <-> P <-> dummy}. Caso $n = 0$: \texttt{dummy.next = dummy.prev = dummy}; una iteración intercambia dos referencias iguales, \texttt{u} vuelve a \texttt{dummy} y termina.
+
+\textbf{e)} Sin intercambiar en \texttt{dummy}:
+\begin{itemize}[itemsep=0pt]
+\item \texttt{dummy.next = P}, \texttt{dummy.prev = S} (sin cambio).
+\item \texttt{P.next = dummy}, \texttt{P.prev = Q}.
+\item \texttt{S.next = R}, \texttt{S.prev = dummy}.
+\end{itemize}
+Se viola \texttt{u.next.prev == u} para \texttt{u = dummy}: \texttt{dummy.next.prev = P.prev = Q}, distinto de \texttt{dummy}. Al recorrer desde \texttt{dummy.next} se visita \texttt{P}, luego \texttt{P.next = dummy} y el recorrido termina: se obtiene \texttt{[P]} aunque $n = 4$. Recorriendo hacia atrás desde \texttt{dummy.prev} se obtiene solo \texttt{[S]}.
+
+\textbf{f)} Ambas inversiones cuestan $O(n)$: cada nodo se visita una vez y en cada uno se realiza una cantidad constante de asignaciones (la DLList visita $n + 1$ nodos por el centinela). No hay costo de localización separado: el trabajo es recorrer. La memoria auxiliar es $O(1)$ (tres referencias en la SLList, dos en la DLList). No puede ser mejor que $O(n)$ porque el enlace de cada uno de los $n$ nodos debe cambiar, y cada cambio es al menos una asignación.
+
+\textbf{Criterio de corrección (4 puntos).}
+\begin{itemize}[itemsep=0pt]
+\item a) 0,75: identificar \texttt{cur.next} (0,25); explicar que es la única referencia al resto (0,25); dibujo del estado roto (0,25).
+\item b) 0,75: ciclo correcto (0,5); actualización de \texttt{head} y \texttt{tail} con casos borde (0,25).
+\item c) 0,5: tabla de traza (0,25); estado final con \texttt{head}, \texttt{tail} y \texttt{null} (0,25).
+\item d) 1,0: intercambio correcto (0,25); avance usando el siguiente original (0,25); visita de los $n+1$ nodos con condición de parada (0,25); caso $n = 0$ (0,25).
+\item e) 0,5: referencias resultantes e invariante violado (0,25); recorrido \texttt{[P]} (0,25).
+\item f) 0,5: costo y memoria (0,25); cota inferior $\Omega(n)$ justificada (0,25).
+\end{itemize}
+
+% ---------------------------------------------------------------
+\newpage
+\subsection*{Solución del Problema 3}
+
+\textbf{a)} Vista lógica inicial: elemento $k$ en \texttt{a[(4 + k) \% 6]}: $k=0 \to$ \texttt{a[4] = 10}, $k=1 \to$ \texttt{a[5] = 20}, $k=2 \to$ \texttt{a[0] = 30}, $k=3 \to$ \texttt{a[1] = 40}. Vista lógica: \texttt{[10, 20, 30, 40]}.
+
+\begin{center}
+\small
+\begin{tabular}{lp{6.6cm}cccc}
+\toprule
+\textbf{Operación} & \textbf{Arreglo físico} & \textbf{j} & \textbf{n} & \textbf{a.length} & \textbf{Retorna} \\
+\midrule
+inicial & [30, 40, -, -, 10, 20] & 4 & 4 & 6 & -- \\
+\texttt{add(50)} & [30, 40, 50, -, 10, 20] \hfill pos $(4+4)\%6 = 2$ & 4 & 5 & 6 & -- \\
+\texttt{remove()} & [30, 40, 50, -, -, 20] & 5 & 4 & 6 & 10 \\
+\texttt{add(60)} & [30, 40, 50, 60, -, 20] \hfill pos $(5+4)\%6 = 3$ & 5 & 5 & 6 & -- \\
+\texttt{add(70)} & [30, 40, 50, 60, 70, 20] \hfill pos $(5+5)\%6 = 4$ & 5 & 6 & 6 & -- \\
+\texttt{add(80)} & [20, 30, 40, 50, 60, 70, 80, -, -, -, -, -] & 0 & 7 & 12 & -- \\
+\texttt{remove()} & [-, 30, 40, 50, 60, 70, 80, -, -, -, -, -] & 1 & 6 & 12 & 20 \\
+\texttt{remove()} & [-, -, 40, 50, 60, 70, 80, -, -, -, -, -] & 2 & 5 & 12 & 30 \\
+\texttt{remove()} & [50, 60, 70, 80, -, -, -, -] & 0 & 4 & 8 & 40 \\
+\bottomrule
+\end{tabular}
+\end{center}
+(El símbolo ``-'' representa \texttt{null}.)
+
+Detalles clave:
+\begin{itemize}[itemsep=1pt]
+\item \texttt{remove()} que retorna 10: $n = 4$ y $6 \ge 12$ es falso, no se reduce.
+\item \texttt{add(80)}: $n + 1 = 7 > 6$, \texttt{resize()} a 12 copiando en orden lógico \texttt{b[k] = a[(5 + k) \% 6]}: 20, 30, 40, 50, 60, 70; luego \texttt{j = 0}. Se inserta en $(0 + 6) \% 12 = 6$.
+\item Último \texttt{remove()}: $n = 4$ y $12 \ge 12$ es verdadero; \texttt{resize()} a $\max(1, 8) = 8$ copiando \texttt{a[(3 + k) \% 12]}: 50, 60, 70, 80; \texttt{j = 0}.
+\end{itemize}
+Vista lógica final: \texttt{[50, 60, 70, 80]}.
+
+\textbf{b)} Antes de \texttt{add(80)}: \texttt{a = [30, 40, 50, 60, 70, 20]}, \texttt{j = 5}, $n = 6$. Con copia física: \texttt{b = [30, 40, 50, 60, 70, 20, -, -, -, -, -, -]} y \texttt{j = 5}. Luego \texttt{add(80)} escribe en $(5 + 6) \% 12 = 11$.
+
+Vista lógica según el invariante: $k = 0 \to$ \texttt{b[5] = 20}, $k = 1 \to$ \texttt{b[6] = null}, \dots, $k = 5 \to$ \texttt{b[10] = null}, $k = 6 \to$ \texttt{b[11] = 80}. Resultado: \texttt{[20, null, null, null, null, null, 80]}.
+
+Los valores 30 a 70 siguen físicamente en \texttt{b[0..4]}, pero ya no son alcanzables por la fórmula. La razón es que la circularidad depende de \texttt{a.length}: con longitud 6, después del índice 5 se volvía al índice 0; con longitud 12, después del índice 5 sigue el 6. Por eso \texttt{resize()} debe copiar en orden lógico y normalizar \texttt{j = 0}.
+
+\textbf{c)} Invariantes:
+\begin{enumerate}[itemsep=0pt]
+\item $0 \le \texttt{j} < \texttt{a.length}$ y $0 \le n \le \texttt{a.length}$.
+\item El elemento lógico $k$ está en \texttt{a[(j + k) \% a.length]} para $0 \le k < n$.
+\item Las celdas fuera del rango lógico contienen \texttt{null}.
+\end{enumerate}
+\texttt{remove()} solo lee \texttt{a[j]}, lo anula y avanza \texttt{j}: el nuevo frente pasa a ser el elemento que antes era lógico 1, sin mover ningún valor. Su costo es $O(1)$ (más el resize amortizado). En un \texttt{ArrayStack}, el frente está fijo en el índice 0, por lo que \texttt{remove(0)} debe desplazar $n - 1$ elementos: $O(n)$.
+
+\textbf{d)}
+\begin{lstlisting}
+class QueueWithTwoStacks {
+    LinkedStack inStack = new LinkedStack();
+    LinkedStack outStack = new LinkedStack();
+
+    void add(int x) {
+        inStack.push(x);                         // O(1)
+    }
+
+    int remove() {
+        if (outStack.isEmpty()) {
+            while (!inStack.isEmpty()) {
+                outStack.push(inStack.pop());    // la transferencia invierte el orden
+            }
+        }
+        if (outStack.isEmpty()) throw new NoSuchElementException("cola vacía");
+        return outStack.pop();
+    }
+}
+\end{lstlisting}
+
+Invariante: la cola lógica es el contenido de \texttt{outStack} de tope a fondo, seguido del contenido de \texttt{inStack} de fondo a tope. En \texttt{inStack} el tope es el más reciente; al transferir se invierte el orden y el tope de \texttt{outStack} queda siendo el más antiguo, es decir, el primero en salir (FIFO).
+
+Si se transfiriera con \texttt{outStack} no vacía, elementos más recientes quedarían encima de elementos más antiguos y saldrían antes que ellos. Ejemplo: \texttt{outStack} con 2 en el tope y \texttt{inStack = [3]}; transferir pondría 3 encima de 2 y \texttt{remove()} retornaría 3 antes que 2, violando FIFO.
+
+\textbf{e)} Traza (el tope se escribe a la derecha):
+
+\begin{center}
+\small
+\begin{tabular}{llll}
+\toprule
+\textbf{Operación} & \textbf{inStack} & \textbf{outStack} & \textbf{Retorna} \\
+\midrule
+\texttt{add(1)} & [1] & [] & -- \\
+\texttt{add(2)} & [1, 2] & [] & -- \\
+\texttt{add(3)} & [1, 2, 3] & [] & -- \\
+\texttt{remove()} & [] & [3, 2] & 1 (transfirió 3, 2, 1; luego pop) \\
+\texttt{add(4)} & [4] & [3, 2] & -- \\
+\texttt{remove()} & [4] & [3] & 2 \\
+\texttt{remove()} & [4] & [] & 3 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Conteo: \texttt{push} = 4 (en \texttt{inStack}) + 3 (en \texttt{outStack}) = 7; \texttt{pop} = 3 (de \texttt{inStack}) + 3 (de \texttt{outStack}) = 6. Total: 13 operaciones primitivas para 7 operaciones de cola.
+
+Costo amortizado: cada elemento, durante toda su vida, entra una vez a \texttt{inStack}, sale una vez de ella, entra una vez a \texttt{outStack} y sale una vez de ella: a lo más 4 operaciones $O(1)$. Una secuencia de $m$ operaciones cuesta $O(m)$ en total, por lo tanto $O(1)$ amortizado por operación. Una llamada concreta a \texttt{remove()} puede costar $O(n)$ cuando transfiere $n$ elementos, pero eso ocurre solo después de $n$ inserciones baratas.
+
+\textbf{Criterio de corrección (4 puntos).}
+\begin{itemize}[itemsep=0pt]
+\item a) 1,25: vista lógica inicial (0,25); posiciones con módulo correctas (0,25); resize en \texttt{add(80)} con copia lógica y \texttt{j = 0} (0,25); retornos y \texttt{null} (0,25); reducción final a 8 (0,25).
+\item b) 0,5: estado erróneo con escritura en 11 (0,25); explicación de la dependencia del módulo respecto de \texttt{a.length} (0,25).
+\item c) 0,5: invariantes (0,25); comparación con \texttt{remove(0)} de \texttt{ArrayStack} (0,25).
+\item d) 1,0: código correcto con excepción (0,5); justificación FIFO (0,25); contraejemplo de transferencia indebida (0,25).
+\item e) 0,75: traza correcta (0,25); conteo (0,25); argumento amortizado (0,25).
+\end{itemize}
+
+% ---------------------------------------------------------------
+\newpage
+\subsection*{Solución del Problema 4}
+
+\textbf{a)} Árbol final:
+
+\begin{center}
+\begin{tikzpicture}[tree]
+\node[tn]{50}
+  child{node{30}
+    child{node{20}}
+    child{node{40} child{node{35}} child{node{45}}}}
+  child{node{70}
+    child{node{60} child[missing] child{node{65}}}
+    child{node{80}}};
+\end{tikzpicture}
+\end{center}
+
+Altura $h = 4$ (por ejemplo, el camino 50, 30, 40, 35 tiene 4 nodos).
+
+Inserción de 45: \texttt{findLast(45)} compara con 50 ($45 < 50$, va a la izquierda), con 30 ($45 > 30$, derecha), con 40 ($45 > 40$, derecha) y encuentra \texttt{null}. Retorna \texttt{p = 40}. Se crea \texttt{u} con \texttt{u.x = 45}, \texttt{u.parent = 40} y se asigna \texttt{40.right = u}; \texttt{n} pasa de 8 a 9.
+
+\textbf{b)} Inorder: \texttt{20, 30, 35, 40, 45, 50, 60, 65, 70, 80}.\\
+Preorder: \texttt{50, 30, 20, 40, 35, 45, 70, 60, 65, 80}.
+
+Invariante del BST: para todo nodo \texttt{u}, todas las claves del subárbol izquierdo son menores que \texttt{u.x} y todas las del subárbol derecho son mayores. El inorder visita subárbol izquierdo, luego \texttt{u}, luego subárbol derecho; por inducción sobre la altura, cada subárbol se imprime ordenado y \texttt{u.x} queda entre ambos, de modo que la salida completa está ordenada.
+
+\textbf{c)}
+\begin{lstlisting}
+Node successor(Node u) {
+    if (u.right != null) {             // caso 1: mínimo del subárbol derecho
+        Node w = u.right;
+        while (w.left != null) w = w.left;
+        return w;
+    }
+    Node p = u.parent;                 // caso 2: subir mientras u sea hijo derecho
+    while (p != null && u == p.right) {
+        u = p;
+        p = p.parent;
+    }
+    return p;                          // null si u era el máximo
+}
+\end{lstlisting}
+
+\begin{itemize}[itemsep=1pt]
+\item \texttt{successor(30)}: tiene hijo derecho 40; se baja a la izquierda hasta 35. Resultado: \textbf{35}.
+\item \texttt{successor(45)}: no tiene hijo derecho. 45 es hijo derecho de 40, se sube; 40 es hijo derecho de 30, se sube; 30 es hijo izquierdo de 50, se detiene. Resultado: \textbf{50}.
+\item \texttt{successor(65)}: no tiene hijo derecho. 65 es hijo derecho de 60, se sube; 60 es hijo izquierdo de 70. Resultado: \textbf{70}.
+\item \texttt{successor(80)}: 80 es hijo derecho de 70, se sube; 70 es hijo derecho de 50, se sube; \texttt{p = null}. Resultado: \textbf{null} (80 es el máximo).
+\end{itemize}
+Costo: en el caso 1 se baja por un camino y en el caso 2 se sube por un camino; ambos tienen a lo más $h$ nodos. Costo $O(h)$.
+
+\textbf{d)} Contraejemplo:
+
+\begin{center}
+\begin{tikzpicture}[smalltree]
+\node[tn]{50}
+  child{node{30} child[missing] child{node{60}}}
+  child[missing];
+\end{tikzpicture}
+\end{center}
+
+Verificación local: en 50, \texttt{30 < 50}; en 30, \texttt{30 < 60}. Pasa. Pero 60 está en el subárbol izquierdo de 50 siendo mayor que 50: no es BST. La operación \texttt{contains(60)} compara con 50, va a la derecha, encuentra \texttt{null} y retorna \texttt{false}, aunque 60 está en el árbol.
+
+Verificación correcta con intervalos:
+\begin{lstlisting}
+boolean isBST(Node u, long low, long high) {
+    if (u == null) return true;
+    if (u.x <= low || u.x >= high) return false;
+    return isBST(u.left, low, u.x) && isBST(u.right, u.x, high);
+}
+// llamada inicial: isBST(root, Long.MIN_VALUE, Long.MAX_VALUE)
+\end{lstlisting}
+Alternativa válida: comprobar que el inorder es estrictamente creciente. Ambas cuestan $O(n)$.
+
+\textbf{e)}
+
+\begin{center}
+\begin{minipage}{0.45\textwidth}
+\centering
+\begin{tikzpicture}[every child node/.style={tn}, level distance=8mm, sibling distance=9mm]
+\node[tn]{15}
+  child[missing] child{node{25}
+  child[missing] child{node{35}
+  child[missing] child{node{45}
+  child[missing] child{node{55}
+  child[missing] child{node{65}
+  child[missing] child{node{75}}}}}}};
+\end{tikzpicture}\\[2pt]
+{\small Orden creciente: $h = 7$}
+\end{minipage}
+\hfill
+\begin{minipage}{0.5\textwidth}
+\centering
+\begin{tikzpicture}[smalltree, level 1/.style={sibling distance=30mm}, level 2/.style={sibling distance=15mm}]
+\node[tn]{45}
+  child{node{25} child{node{15}} child{node{35}}}
+  child{node{65} child{node{55}} child{node{75}}};
+\end{tikzpicture}\\[2pt]
+{\small Orden balanceado: $h = 3$}
+\end{minipage}
+\end{center}
+
+\texttt{contains(75)}: en el árbol degenerado compara con los 7 nodos (15, 25, \dots, 75); en el balanceado compara con 45, 65 y 75: 3 comparaciones.
+
+La afirmación es falsa: las operaciones de un BST cuestan $O(h)$ y $h$ depende del orden de inserción; puede ir desde $\lceil \log_2(n+1) \rceil$ hasta $n$. Un BST sin mecanismo de balanceo no garantiza $O(\log n)$; en el peor caso es $O(n)$. Esto motiva los árboles AVL.
+
+\textbf{Criterio de corrección (4 puntos).}
+\begin{itemize}[itemsep=0pt]
+\item a) 0,75: árbol correcto (0,25); altura con la convención del curso (0,25); camino y referencias de 45, incluyendo \texttt{parent} (0,25).
+\item b) 0,75: inorder (0,25); preorder (0,25); justificación con el invariante (0,25).
+\item c) 1,0: código con ambos casos (0,5); los cuatro resultados con caminos (0,25); costo $O(h)$ (0,25).
+\item d) 0,75: contraejemplo (0,25); operación que falla (0,25); verificación correcta (0,25).
+\item e) 0,75: ambos árboles y alturas (0,25); comparaciones (0,25); evaluación de la afirmación (0,25).
+\end{itemize}
+
+% ---------------------------------------------------------------
+\newpage
+\subsection*{Solución del Problema 5}
+
+\textbf{a)} Estados sucesivos.
+
+\begin{itemize}[itemsep=1pt]
+\item \texttt{remove(10)}: \textbf{hoja}. \texttt{splice(10)} con \texttt{s = null}: \texttt{20.left = null}. Se elimina físicamente el nodo 10. $n = 10$.
+\item \texttt{remove(30)}: \textbf{un hijo} (35). \texttt{splice(30)} con \texttt{s = 35}, \texttt{p = 20}: \texttt{20.right = 35}, \texttt{35.parent = 20}. Se elimina físicamente el nodo 30. $n = 9$.
+\item \texttt{remove(60)}: \textbf{dos hijos}. Sucesor: \texttt{w = 60.right = 80}, se baja a la izquierda a 70, \texttt{70.left = null}, entonces \texttt{w = 70}. Se copia \texttt{u.x = 70} y \texttt{splice(70)} con \texttt{s = 75}, \texttt{p = 80}: \texttt{80.left = 75}, \texttt{75.parent = 80}. Se elimina físicamente el nodo que contenía 70. $n = 8$.
+\item \texttt{remove(40)}: \textbf{dos hijos}. Sucesor: \texttt{w = root.right} (nodo con 70), se baja a la izquierda a 50, \texttt{50.left = null}, entonces \texttt{w = 50}. Se copia \texttt{root.x = 50} y \texttt{splice(50)} con \texttt{s = null}: el nodo con 70 queda con \texttt{left = null}. Se elimina físicamente el nodo que contenía 50. $n = 7$.
+\end{itemize}
+
+\begin{center}
+\begin{minipage}{0.48\textwidth}
+\centering
+\begin{tikzpicture}[smalltree, level 1/.style={sibling distance=30mm}, level 2/.style={sibling distance=15mm}]
+\node[tn]{40}
+  child{node{20}
+    child[missing]
+    child{node{30} child[missing] child{node{35}}}}
+  child{node{60}
+    child{node{50}}
+    child{node{80}
+      child{node{70} child[missing] child{node{75}}}
+      child{node{90}}}};
+\end{tikzpicture}\\
+{\small Después de \texttt{remove(10)}}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\begin{tikzpicture}[smalltree, level 1/.style={sibling distance=30mm}, level 2/.style={sibling distance=15mm}]
+\node[tn]{40}
+  child{node{20}
+    child[missing]
+    child{node{35}}}
+  child{node{60}
+    child{node{50}}
+    child{node{80}
+      child{node{70} child[missing] child{node{75}}}
+      child{node{90}}}};
+\end{tikzpicture}\\
+{\small Después de \texttt{remove(30)}}
+\end{minipage}
+\end{center}
+
+\vspace{6pt}
+\begin{center}
+\begin{minipage}{0.48\textwidth}
+\centering
+\begin{tikzpicture}[smalltree, level 1/.style={sibling distance=30mm}, level 2/.style={sibling distance=15mm}]
+\node[tn]{40}
+  child{node{20}
+    child[missing]
+    child{node{35}}}
+  child{node{70}
+    child{node{50}}
+    child{node{80}
+      child{node{75}}
+      child{node{90}}}};
+\end{tikzpicture}\\
+{\small Después de \texttt{remove(60)}}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\begin{tikzpicture}[smalltree, level 1/.style={sibling distance=30mm}, level 2/.style={sibling distance=15mm}]
+\node[tn]{50}
+  child{node{20}
+    child[missing]
+    child{node{35}}}
+  child{node{70}
+    child[missing]
+    child{node{80}
+      child{node{75}}
+      child{node{90}}}};
+\end{tikzpicture}\\
+{\small Después de \texttt{remove(40)}}
+\end{minipage}
+\end{center}
+
+Inorder final: \texttt{20, 35, 50, 70, 75, 80, 90}, con $n = 7$.
+
+\textbf{b)} Modificaciones de \texttt{remove(60)}, en orden:
+\begin{enumerate}[itemsep=0pt]
+\item \texttt{u.x = 70}: el nodo que ocupaba la posición de 60 ahora almacena 70. Esta es la \textbf{eliminación lógica} de 60: el valor desaparece, pero el nodo sigue en el árbol.
+\item En \texttt{splice(w)} con \texttt{w} el nodo original de 70: \texttt{s = w.right = 75}, \texttt{p = w.parent = 80}; como \texttt{p.left == w}, se asigna \texttt{80.left = 75}.
+\item \texttt{75.parent = 80}.
+\item En \texttt{remove}: \texttt{n-{}-} una sola vez.
+\end{enumerate}
+El nodo \texttt{w} deja de ser alcanzable: esa es la \textbf{eliminación física}. Los nodos 40, 50 y 90 no cambian.
+
+El sucesor es el mínimo del subárbol derecho de \texttt{u}. Si tuviera hijo izquierdo, ese hijo sería menor y también estaría en el subárbol derecho de \texttt{u}, contradiciendo que \texttt{w} es el mínimo. En cambio, sí puede tener hijo derecho (aquí 75). Por eso \texttt{splice} debe reconectar a 75 con 80; si se hiciera simplemente \texttt{80.left = null}, se perdería el subárbol de 75.
+
+\textbf{c)} Con el \texttt{splice} defectuoso, \texttt{remove(30)} asigna \texttt{20.right = 35} pero \texttt{35.parent} sigue apuntando al nodo 30, que ya está desconectado.
+
+El inorder posterior es correcto (\texttt{20, 35, 40, \dots}) porque solo usa \texttt{left} y \texttt{right}. Una salida visible correcta no implica una representación interna correcta. Se rompe el invariante de consistencia bidireccional: para todo nodo \texttt{v} distinto de la raíz, \texttt{v.parent.left == v} o \texttt{v.parent.right == v}. Aquí \texttt{35.parent.right == 35} se cumple sobre un nodo que ya no pertenece al árbol.
+
+Si después se ejecuta \texttt{remove(35)}: \texttt{findLast} llega a 35 por \texttt{20.right}; \texttt{splice(35)} toma \texttt{p = 35.parent} (el nodo 30 desconectado) y asigna \texttt{p.right = null} sobre ese nodo fantasma. El nodo 20 sigue apuntando a 35, así que 35 permanece en el árbol, pero \texttt{n} se decrementa. Resultado: \texttt{contains(35)} sigue siendo verdadero y \texttt{n} ya no coincide con la cantidad de nodos alcanzables.
+
+\textbf{d)} Costo de \texttt{remove(x)}:
+\begin{itemize}[itemsep=0pt]
+\item \textbf{Localización}: \texttt{findLast(x)} baja por un camino desde la raíz: $O(h)$. Si \texttt{u} tiene dos hijos, la búsqueda del sucesor continúa bajando desde \texttt{u}; el camino total sigue teniendo a lo más $h$ nodos: $O(h)$.
+\item \textbf{Modificación}: la copia \texttt{u.x = w.x} y \texttt{splice} modifican una cantidad constante de referencias (a lo más tres): $O(1)$.
+\item Total: $O(h)$; la localización domina el costo.
+\end{itemize}
+
+Traza de \texttt{remove(45)} sobre el árbol final: $45 < 50$, izquierda a 20; $45 > 20$, derecha a 35; $45 > 35$, derecha \texttt{null}. \texttt{findLast} retorna el nodo 35; como \texttt{35 != 45}, \texttt{remove} retorna \texttt{false}. No se modifica ninguna referencia y \texttt{n} sigue en 7.
+
+No se puede afirmar $O(\log n)$ porque un BST sin balanceo puede tener $h = n$ (por ejemplo, si las claves se insertaron ordenadas), en cuyo caso \texttt{remove} cuesta $O(n)$.
+
+\textbf{Criterio de corrección (4 puntos).}
+\begin{itemize}[itemsep=0pt]
+\item a) 1,5: cada eliminación con caso, nodo físico eliminado y árbol correcto (0,375 cada una).
+\item b) 0,75: lista ordenada de modificaciones incluyendo \texttt{parent} (0,25); eliminación lógica frente a física (0,25); argumento del sucesor sin hijo izquierdo y relevancia de 75 (0,25).
+\item c) 0,75: inorder correcto y por qué (0,25); invariante roto (0,25); efecto de \texttt{remove(35)} (0,25).
+\item d) 1,0: localización $O(h)$ (0,25); modificación $O(1)$ (0,25); traza de \texttt{remove(45)} (0,25); por qué no es $O(\log n)$ (0,25).
+\end{itemize}
+
+% ---------------------------------------------------------------
+\newpage
+\subsection*{Solución del Problema 6}
+
+\textbf{a)} Inserciones (se indica \texttt{bf} = \texttt{balanceFactor}):
+
+\begin{itemize}[itemsep=1pt]
+\item \texttt{10}, \texttt{20}: sin desbalance.
+\item \texttt{30}: queda 10 $\to$ 20 $\to$ 30 a la derecha. En 10: $\texttt{bf} = 0 - 2 = -2$. \texttt{bf(10.right = 20)} $= -1$, no es positivo: caso \textbf{RR}, \texttt{rotateLeft(10)}.
+\item \texttt{25}: \texttt{30.left = 25}. \texttt{bf(30)} $= 1$, \texttt{bf(20)} $= 1 - 2 = -1$. Sin desbalance.
+\item \texttt{27}: \texttt{25.right = 27}. \texttt{bf(25)} $= -1$; en 30: $\texttt{bf} = 2 - 0 = 2$. \texttt{bf(30.left = 25)} $= -1 < 0$: caso \textbf{LR}, \texttt{30.left = rotateLeft(25)} y luego \texttt{rotateRight(30)}.
+\item \texttt{5}: \texttt{10.left = 5}. \texttt{bf(10)} $= 1$, \texttt{bf(20)} $= 2 - 2 = 0$. Sin desbalance.
+\item \texttt{4}: \texttt{5.left = 4}. \texttt{bf(5)} $= 1$; en 10: $\texttt{bf} = 2 - 0 = 2$. \texttt{bf(10.left = 5)} $= 1 \ge 0$: caso \textbf{LL}, \texttt{rotateRight(10)}.
+\item \texttt{35}: \texttt{30.right = 35}. \texttt{bf(30)} $= -1$, \texttt{bf(27)} $= 1 - 2 = -1$, \texttt{bf(20)} $= 2 - 3 = -1$. Sin desbalance.
+\item \texttt{33}: \texttt{35.left = 33}. \texttt{bf(35)} $= 1$; en 30: $\texttt{bf} = 0 - 2 = -2$. \texttt{bf(30.right = 35)} $= 1 > 0$: caso \textbf{RL}, \texttt{30.right = rotateRight(35)} y luego \texttt{rotateLeft(30)}.
+\end{itemize}
+
+\begin{center}
+\small
+\begin{tabular}{cc}
+\begin{tikzpicture}[every child node/.style={tn}, level distance=9mm, sibling distance=10mm, baseline=(current bounding box.north)]
+\node[tn]{10} child[missing] child{node{20} child[missing] child{node{30}}};
+\end{tikzpicture}
+\quad $\Rightarrow$ \quad
+\begin{tikzpicture}[every child node/.style={tn}, level distance=9mm, sibling distance=12mm, baseline=(current bounding box.north)]
+\node[tn]{20} child{node{10}} child{node{30}};
+\end{tikzpicture}
+&
+\hspace{8mm}
+\begin{tikzpicture}[every child node/.style={tn}, level distance=9mm, sibling distance=10mm, baseline=(current bounding box.north)]
+\node[tn]{30} child{node{25} child[missing] child{node{27}}} child[missing];
+\end{tikzpicture}
+\;$\Rightarrow$\;
+\begin{tikzpicture}[every child node/.style={tn}, level distance=9mm, sibling distance=10mm, baseline=(current bounding box.north)]
+\node[tn]{30} child{node{27} child{node{25}} child[missing]} child[missing];
+\end{tikzpicture}
+\;$\Rightarrow$\;
+\begin{tikzpicture}[every child node/.style={tn}, level distance=9mm, sibling distance=12mm, baseline=(current bounding box.north)]
+\node[tn]{27} child{node{25}} child{node{30}};
+\end{tikzpicture}
+\\[2pt]
+RR en 10 (inserción de 30) & \hspace{8mm} LR en 30 (inserción de 27) \\[10pt]
+\begin{tikzpicture}[every child node/.style={tn}, level distance=9mm, sibling distance=10mm, baseline=(current bounding box.north)]
+\node[tn]{10} child{node{5} child{node{4}} child[missing]} child[missing];
+\end{tikzpicture}
+\quad $\Rightarrow$ \quad
+\begin{tikzpicture}[every child node/.style={tn}, level distance=9mm, sibling distance=12mm, baseline=(current bounding box.north)]
+\node[tn]{5} child{node{4}} child{node{10}};
+\end{tikzpicture}
+&
+\hspace{8mm}
+\begin{tikzpicture}[every child node/.style={tn}, level distance=9mm, sibling distance=10mm, baseline=(current bounding box.north)]
+\node[tn]{30} child[missing] child{node{35} child{node{33}} child[missing]};
+\end{tikzpicture}
+\;$\Rightarrow$\;
+\begin{tikzpicture}[every child node/.style={tn}, level distance=9mm, sibling distance=10mm, baseline=(current bounding box.north)]
+\node[tn]{30} child[missing] child{node{33} child[missing] child{node{35}}};
+\end{tikzpicture}
+\;$\Rightarrow$\;
+\begin{tikzpicture}[every child node/.style={tn}, level distance=9mm, sibling distance=12mm, baseline=(current bounding box.north)]
+\node[tn]{33} child{node{30}} child{node{35}};
+\end{tikzpicture}
+\\[2pt]
+LL en 10 (inserción de 4) & \hspace{8mm} RL en 30 (inserción de 33) \\
+\end{tabular}
+\end{center}
+
+Árbol final:
+
+\begin{center}
+\begin{tikzpicture}[tree, level 1/.style={sibling distance=44mm}, level 2/.style={sibling distance=22mm}, level 3/.style={sibling distance=12mm}]
+\node[tn]{20}
+  child{node{5} child{node{4}} child{node{10}}}
+  child{node{27}
+    child{node{25}}
+    child{node{33} child{node{30}} child{node{35}}}};
+\end{tikzpicture}
+\end{center}
+
+Observación: en la inserción basta una sola reparación (simple o doble) por inserción, porque después de rotar el subárbol recupera la altura que tenía antes de insertar y los ancestros no cambian su factor de balance.
+
+\textbf{b)} Inserción de 27. Antes del rebalanceo: \texttt{30.left = 25}, \texttt{25.right = 27}, alturas: 27 = 1, 25 = 2, 30 = 3.
+
+\texttt{rotateLeft(25)} (con \texttt{x = 25}, \texttt{y = 27}, \texttt{middle = 27.left = null}):
+\begin{enumerate}[itemsep=0pt]
+\item \texttt{27.left = 25} \quad (\texttt{y.left = x})
+\item \texttt{25.right = null} \quad (\texttt{x.right = middle})
+\item \texttt{updateHeight(25)} $\to 1$; \texttt{updateHeight(27)} $\to 2$; retorna 27.
+\item En \texttt{rebalance}: \texttt{30.left = 27}.
+\end{enumerate}
+
+\texttt{rotateRight(30)} (con \texttt{y = 30}, \texttt{x = 27}, \texttt{middle = 27.right = null}):
+\begin{enumerate}[itemsep=0pt]
+\setcounter{enumi}{4}
+\item \texttt{27.right = 30} \quad (\texttt{x.right = y})
+\item \texttt{30.left = null} \quad (\texttt{y.left = middle})
+\item \texttt{updateHeight(30)} $\to 1$; \texttt{updateHeight(27)} $\to 2$; retorna 27.
+\item Al volver de la recursión: \texttt{20.right = 27}, \texttt{updateHeight(20)} $\to 3$ y \texttt{rebalance(20)} no rota.
+\end{enumerate}
+
+Si en \texttt{rotateRight} se actualizara \texttt{x = 27} antes que \texttt{y = 30}, se usaría la altura vieja de 30, que es 3: \texttt{27.height} $= 1 + \max(1, 3) = 4$ en lugar de 2. Al subir, \texttt{20.height} sería 5 y \texttt{bf(20)} $= 1 - 4 = -3$, lo que provocaría una rotación innecesaria. La altura es información derivada: el padre debe calcularse con las alturas ya correctas de sus hijos, por eso primero se actualiza el nodo que quedó más abajo.
+
+\textbf{c)} Versión defectuosa sobre \texttt{30.left = 25}, \texttt{25.right = 27}: \texttt{rotateRight(30)} toma \texttt{x = 25}, \texttt{middle = 25.right = 27}, asigna \texttt{25.right = 30} y \texttt{30.left = 27}.
+
+\begin{center}
+\begin{tikzpicture}[every child node/.style={tn}, level distance=9mm, sibling distance=12mm]
+\node[tn]{25} child[missing] child{node{30} child{node{27}} child[missing]};
+\end{tikzpicture}
+\end{center}
+
+Alturas: 27 = 1, 30 = 2, 25 = 3. \texttt{bf(25)} $= 0 - 2 = -2$. El subárbol sigue desbalanceado (solo cambió de lado), y además 20 tendría \texttt{bf} $= 1 - 3 = -2$. En el caso en zigzag, la rotación simple traslada el subárbol central (27) al otro lado sin reducir la altura; por eso primero hay que convertir el zigzag en línea recta con \texttt{rotateLeft(25)}.
+
+\textbf{d)} Tabla del árbol final:
+
+\begin{center}
+\small
+\begin{tabular}{cccc}
+\toprule
+\textbf{Nodo} & \textbf{height(left)} & \textbf{height(right)} & \textbf{height} / \textbf{balanceFactor} \\
+\midrule
+4 & 0 & 0 & 1 / 0 \\
+10 & 0 & 0 & 1 / 0 \\
+25 & 0 & 0 & 1 / 0 \\
+30 & 0 & 0 & 1 / 0 \\
+35 & 0 & 0 & 1 / 0 \\
+5 & 1 & 1 & 2 / 0 \\
+33 & 1 & 1 & 2 / 0 \\
+27 & 1 & 2 & 3 / $-1$ \\
+20 & 2 & 3 & 4 / $-1$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Todos los factores están en $\{-1, 0, 1\}$: se cumple el invariante AVL.
+
+\textbf{e)} $N(1) = 1$, $N(2) = 2$, $N(3) = 1 + 2 + 1 = 4$, $N(4) = 1 + 4 + 2 = 7$, $N(5) = 1 + 7 + 4 = 12$.
+
+Para tener altura 5 se necesitan al menos 12 nodos; con 9 nodos la altura máxima es 4 (y el árbol del problema alcanza justamente $h = 4$). Un BST sin balanceo con 9 nodos puede tener altura 9 (una cadena). $N(h)$ crece como la sucesión de Fibonacci, es decir, exponencialmente en $h$; por eso $h = O(\log n)$ en un AVL.
+
+\textbf{Criterio de corrección (4 puntos).}
+\begin{itemize}[itemsep=0pt]
+\item a) 1,5: cada uno de los cuatro casos con nodo, nombre y rotaciones correctas (0,3 cada uno); árbol final (0,3).
+\item b) 0,75: referencias de ambas rotaciones en orden (0,25); orden de \texttt{updateHeight} (0,25); altura incorrecta calculada y su consecuencia (0,25).
+\item c) 0,75: resultado de la rotación simple (0,25); factores de balance que prueban la violación (0,25); explicación del zigzag (0,25).
+\item d) 0,5: alturas (0,25); factores de balance (0,25).
+\item e) 0,5: valores de $N(h)$ (0,25); altura máxima 4 frente a 9 (0,25).
+\end{itemize}
+
+% ---------------------------------------------------------------
+\newpage
+\subsection*{Solución del Problema 7}
+
+\textbf{a)} \texttt{heapify()} con $n = 9$: \texttt{i} va desde $9/2 - 1 = 3$ hasta 0.
+
+\begin{center}
+\small
+\begin{tabular}{clcl}
+\toprule
+\texttt{i} & Intercambios de \texttt{trickleDown(i)} & Cantidad & Arreglo después \\
+\midrule
+-- & -- & -- & [9, 4, 7, 1, 8, 2, 6, 3, 5] \\
+3 & hijos \texttt{a[7]=3}, \texttt{a[8]=5}; $1 \le 3$, sin cambio & 0 & [9, 4, 7, 1, 8, 2, 6, 3, 5] \\
+2 & hijos \texttt{a[5]=2}, \texttt{a[6]=6}; 7 con 2 (índice 5) & 1 & [9, 4, 2, 1, 8, 7, 6, 3, 5] \\
+1 & 4 con 1 (índice 3); luego 4 con 3 (índice 7) & 2 & [9, 1, 2, 3, 8, 7, 6, 4, 5] \\
+0 & 9 con 1 (índice 1); 9 con 3 (índice 3); 9 con 4 (índice 7) & 3 & [1, 3, 2, 4, 8, 7, 6, 9, 5] \\
+\midrule
+ & \textbf{Total} & \textbf{6} & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tikzpicture}[tree, level 1/.style={sibling distance=44mm}, level 2/.style={sibling distance=22mm}, level 3/.style={sibling distance=12mm}]
+\node[tn, label={[font=\scriptsize,text=black!60]right:0}]{1}
+  child{node[label={[font=\scriptsize,text=black!60]left:1}]{3}
+    child{node[label={[font=\scriptsize,text=black!60]left:3}]{4}
+      child{node[label={[font=\scriptsize,text=black!60]below:7}]{9}}
+      child{node[label={[font=\scriptsize,text=black!60]below:8}]{5}}}
+    child{node[label={[font=\scriptsize,text=black!60]right:4}]{8}}}
+  child{node[label={[font=\scriptsize,text=black!60]right:2}]{2}
+    child{node[label={[font=\scriptsize,text=black!60]below:5}]{7}}
+    child{node[label={[font=\scriptsize,text=black!60]below:6}]{6}}};
+\end{tikzpicture}
+\end{center}
+Heap final: \texttt{a =} \cellarray{1,3,2,4,8,7,6,9,5} (los números pequeños junto a cada nodo son índices).
+
+Verificación: $1 \le 3, 2$; $3 \le 4, 8$; $2 \le 7, 6$; $4 \le 9, 5$.
+
+\textbf{b)} \texttt{remove()}: \texttt{min = 1}; \texttt{a[0] = a[8] = 5}; \texttt{a[8] = null}; $n = 8$. Arreglo: \texttt{[5, 3, 2, 4, 8, 7, 6, 9]}.
+
+\texttt{trickleDown(0)}: hijos \texttt{a[1] = 3}, \texttt{a[2] = 2}; el menor es 2 (índice 2) y $2 < 5$: intercambio. Arreglo: \texttt{[2, 3, 5, 4, 8, 7, 6, 9]}. En \texttt{i = 2}: hijos \texttt{a[5] = 7}, \texttt{a[6] = 6}; el menor es 6 y $6 > 5$: se detiene.
+
+Retorna \textbf{1}. Arreglo final: \texttt{[2, 3, 5, 4, 8, 7, 6, 9]}, $n = 8$.
+
+\textbf{c)} \texttt{add(0)}: \texttt{a[8] = 0}, $n = 9$. \texttt{bubbleUp(8)}:
+\begin{itemize}[itemsep=0pt]
+\item \texttt{parent(8) = 3}: $0 < 4$, intercambio: \texttt{[2, 3, 5, 0, 8, 7, 6, 9, 4]}.
+\item \texttt{parent(3) = 1}: $0 < 3$, intercambio: \texttt{[2, 0, 5, 3, 8, 7, 6, 9, 4]}.
+\item \texttt{parent(1) = 0}: $0 < 2$, intercambio: \texttt{[0, 2, 5, 3, 8, 7, 6, 9, 4]}.
+\item \texttt{i = 0}: se detiene.
+\end{itemize}
+Arreglo final: \texttt{[0, 2, 5, 3, 8, 7, 6, 9, 4]}. Se realizaron 3 intercambios, uno por nivel (altura del heap: 4).
+
+\textbf{d)} En \texttt{heapify()}, \texttt{trickleDown(i)} cuesta a lo más la altura del subárbol de \texttt{i} menos 1. Aproximadamente la mitad de los nodos son hojas (no se procesan), un cuarto tiene subárboles de altura 2 (a lo más 1 intercambio), un octavo de altura 3 (a lo más 2), etc.:
+\[
+\frac{n}{4}\cdot 1 + \frac{n}{8}\cdot 2 + \frac{n}{16}\cdot 3 + \dots \;=\; n \sum_{k \ge 1} \frac{k}{2^{k+1}} \;=\; n.
+\]
+Muchos nodos baratos y pocos nodos caros: $O(n)$. En la parte a) se hicieron 6 intercambios con $n = 9$.
+
+Con \texttt{add} uno por uno, el elemento $i$-ésimo puede subir hasta la raíz con \texttt{bubbleUp} de $O(\log i)$ intercambios (por ejemplo, si los valores llegan en orden decreciente cada nuevo elemento es el mínimo). El total es $\sum_{i=1}^{n} \log_2 i = \log_2(n!) \in \Theta(n \log n)$.
+
+\textbf{e)} Estado de b) tras mover el último elemento a la raíz: \texttt{[5, 3, 2, 4, 8, 7, 6, 9]}. La versión del estudiante intercambia 5 con el hijo izquierdo 3 (porque $3 < 5$): \texttt{[3, 5, 2, 4, 8, 7, 6, 9]}; luego en \texttt{i = 1}, el hijo izquierdo 4 es menor que 5: \texttt{[3, 4, 2, 5, 8, 7, 6, 9]}.
+
+Ahora la raíz 3 tiene como hijo derecho a 2: \texttt{a[parent(2)] = 3 > 2 = a[2]}, se viola el invariante, y \texttt{peek()} retornaría 3 aunque el mínimo es 2. Se debe elegir el \textbf{menor hijo válido}, porque solo él puede quedar como padre del otro hijo sin violar el orden.
+
+\textbf{f)} La afirmación es falsa. El invariante del heap solo ordena verticalmente (padre menor o igual que cada hijo); no establece ninguna relación entre el subárbol izquierdo y el derecho. En el heap de a), el 9 está en el subárbol izquierdo y el 7 en el derecho; no hay forma de decidir hacia qué lado bajar para buscar un valor $x$. A diferencia de un BST, en cada nodo no se puede descartar un subárbol completo por comparación, por lo que la búsqueda cuesta $O(n)$ en el peor caso. La única poda posible (si \texttt{a[i] > x}, el subárbol de \texttt{i} no contiene a $x$) no mejora el peor caso. El heap es eficiente para \texttt{peek} ($O(1)$), \texttt{add} y \texttt{remove} ($O(\log n)$), no para búsqueda arbitraria.
+
+\textbf{Criterio de corrección (4 puntos).}
+\begin{itemize}[itemsep=0pt]
+\item a) 1,25: orden de \texttt{i} desde 3 hasta 0 (0,25); intercambios correctos en \texttt{i = 2} e \texttt{i = 1} (0,25); cascada completa en \texttt{i = 0} (0,25); arreglo y árbol finales (0,25); total de intercambios (0,25).
+\item b) 0,75: valor retornado y movimiento del último a la raíz (0,25); elección del menor hijo (0,25); condición de parada y arreglo final (0,25).
+\item c) 0,5: pasos de \texttt{bubbleUp} con \texttt{parent(i)} (0,25); arreglo final (0,25).
+\item d) 0,5: suma acotada para \texttt{heapify} (0,25); justificación $O(n \log n)$ para inserciones sucesivas (0,25).
+\item e) 0,5: traza de la versión defectuosa (0,25); violación concreta del invariante (0,25).
+\item f) 0,5: ausencia de orden entre hermanos (0,25); conclusión $O(n)$ y contraste con BST (0,25).
+\end{itemize}
+
+\vfill
+\begin{center}
+\small Simulacro elaborado siguiendo el formato del Control 1 y la Práctica Calificada 1 de CC232 (2026-2). No es un examen oficial del curso.
+\end{center}
+
+\end{document}
