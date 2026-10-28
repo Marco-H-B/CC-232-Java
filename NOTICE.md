@@ -29,4 +29,4 @@ El repositorio no utiliza `algs4.jar`.
 
 #### Material avanzado
 
-La carpeta `adicionales_avanzados/` conserva implementaciones del diseño anterior. Este material no forma parte del contenido evaluado del curso simplificado.
+La subcarpeta `adicionales/avanzados/` conserva implementaciones del diseño anterior. Este material no forma parte del contenido evaluado del curso simplificado.

@@ -97,7 +97,7 @@ Las adaptaciones eliminan `package ods`, las fábricas, los iteradores no esenci
 
 La carpeta `adicionales/` contiene demostraciones breves que no forman parte de las evaluaciones obligatorias.
 
-La carpeta `adicionales_avanzados/` conserva Fenwick Tree, Segment Tree, Lazy Propagation, Sparse Table, Suffix Array, B-Tree y algoritmos de texto. Estos temas se reservan para cursos posteriores o para ampliación voluntaria.
+La subcarpeta `adicionales/avanzados/` conserva Fenwick Tree, Segment Tree, Lazy Propagation, Sparse Table, Suffix Array, B-Tree y algoritmos de texto (en `adicionales/algoritmos_texto/`). Estos temas se reservan para cursos posteriores o para ampliación voluntaria.
 
 #### Bibliografía
 

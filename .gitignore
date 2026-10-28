@@ -8,6 +8,8 @@ AGENTS.md
 evaluaciones/video_parcial/*.md
 evaluaciones/video_parcial/*.html
 *.class
+*.log
+.sync_state.json
 
 # Videos de grabaciones
 *.mp4
