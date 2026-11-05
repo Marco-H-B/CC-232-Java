@@ -13,7 +13,11 @@ Todas las evaluaciones se realizan de forma individual, presencial y en hoja y p
 #### Material de evaluaciones disponibles
 
 - **Controles:** `controles/Control1.md` (Semanas 1 y 2). Rúbrica en `rubrica_control_8.md`.
-- **Prácticas Calificadas:** Rúbrica en `rubrica_practica_12.md`.
+- **Prácticas Calificadas:**
+  - `Practica_Calificada_2_CC232.md` (Transcripción completa de la PC2, Semanas 1 a 4).
+  - Fotos originales en `practica_calificada_2/`.
+  - `practica_calificada_3/Simulacro_PC3_CC232.pdf` (Entrenamiento para la PC3, Semanas 5 a 7).
+  - Rúbrica general en `rubrica_practica_12.md`.
 - **Examen Parcial:** `examen_parcial/Examen_Parcial_CC232.pdf`, `simulacro_parcial/` y `video_parcial/`.
 
 #### Uso del laboratorio
