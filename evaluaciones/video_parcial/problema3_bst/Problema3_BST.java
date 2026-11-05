@@ -20,8 +20,8 @@ public class Problema3_BST {
             public Node right;
             public Node parent;
 
-            public Node(int val) {
-                this.x = val;
+            public Node(int x) {
+                this.x = x;
             }
         }
 
@@ -35,7 +35,6 @@ public class Problema3_BST {
 
         public Node findLast(int x) {
             Node w = root, prev = null;
-
             while (w != null) {
                 prev = w;
                 if (x < w.x)
@@ -45,81 +44,70 @@ public class Problema3_BST {
                 else
                     return w;
             }
-
             return prev;
+        }
+
+        public boolean contains(int x) {
+            Node u = findLast(x);
+            return u != null && u.x == x;
         }
 
         public boolean add(int x) {
             Node p = findLast(x);
-            Node u = new Node(x);
             if (p == null) {
-                root = u;
+                root = new Node(x);
+            } else if (x < p.x) {
+                p.left = new Node(x);
+                p.left.parent = p;
+            } else if (x > p.x) {
+                p.right = new Node(x);
+                p.right.parent = p;
             } else {
-                if (x < p.x)
-                    p.left = u;
-                else if (x > p.x)
-                    p.right = u;
-                else
-                    return false; // duplicado no permitido
-                u.parent = p;
+                return false; // duplicado no permitido
             }
             n++;
             return true;
         }
 
-        public Node find(int x) {
-            Node w = root;
-            while (w != null) {
-                if (x < w.x)
-                    w = w.left;
-                else if (x > w.x)
-                    w = w.right;
-                else
-                    return w;
-            }
-            return null;
-        }
-
-        // =========================================================================
-        // Inciso d: Live coding de splice(Node u)
-        // Desconecta un nodo 'u' que tiene a lo más un hijo (left o right).
-        // Presupone que u tiene como máximo un hijo y NO decrementa n.
-        // =========================================================================
+        // ==========
+        // Inciso d
+        // ==========
         public void splice(Node u) {
             Node s = (u.left != null) ? u.left : u.right;
+
             Node p = u.parent;
 
-            if (s != null) {
-                s.parent = p;
-            }
-
-            if (p == null) {
+            if (u == root) {
                 root = s;
-            } else if (p.left == u) {
-                p.left = s;
+                if (s != null) {
+                    s.parent = null;
+                }
             } else {
-                p.right = s;
+                if (p.left == u) {
+                    p.left = s;
+                } else {
+                    p.right = s;
+                }
+                if (s != null) {
+                    s.parent = p;
+                }
             }
-
-            u.left = null;
-            u.right = null;
-            u.parent = null;
         }
 
         public boolean remove(int x) {
-            Node u = find(x);
-            if (u == null)
-                return false;
+            Node u = findLast(x);
+            if (u == null || u.x != x)
+                return false; // clave ausente: búsqueda fallida no autoriza eliminación
 
             if (u.left == null || u.right == null) {
                 splice(u);
             } else {
-                // Nodo con dos hijos: buscar sucesor in-order (mínimo del subárbol derecho)
+                // Nodo con 2 hijos: buscar sucesor in-order (mínimo del subárbol derecho)
                 Node w = u.right;
                 while (w.left != null)
                     w = w.left;
-                u.x = w.x; // copia la clave del sucesor
-                splice(w); // desconecta físicamente el nodo sucesor
+                u.x = w.x; // copia la clave del sucesor en el nodo u original
+                splice(w); // desconecta físicamente el nodo sucesor w
             }
             n--;
             return true;

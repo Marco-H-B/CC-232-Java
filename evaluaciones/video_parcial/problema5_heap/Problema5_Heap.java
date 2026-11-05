@@ -6,6 +6,7 @@
  * Min-Heap basado en arreglo contiguo con trickleDown iterativo.
  * Método a implementar en vivo: void trickleDown(int i)
  */
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class Problema5_Heap {
@@ -16,8 +17,7 @@ public class Problema5_Heap {
 
         public BinaryHeap(int[] values) {
             this.n = values.length;
-            this.a = new int[n];
-            System.arraycopy(values, 0, this.a, 0, n);
+            this.a = Arrays.copyOf(values, n);
             heapify();
         }
 
@@ -40,16 +40,14 @@ public class Problema5_Heap {
         }
 
         public void heapify() {
-            // Algoritmo de Floyd O(n): desde el último padre n/2 - 1 hasta 0
+            // Construcción bottom-up O(n): desde el último padre n/2 - 1 hasta 0
             for (int i = n / 2 - 1; i >= 0; i--) {
                 trickleDown(i);
             }
         }
 
         public void resize() {
-            int[] b = new int[Math.max(1, 2 * n)];
-            System.arraycopy(a, 0, b, 0, n);
-            a = b;
+            a = Arrays.copyOf(a, Math.max(1, 2 * n));
         }
 
         public void add(int x) {
@@ -78,32 +76,26 @@ public class Problema5_Heap {
             return minVal;
         }
 
-        // =========================================================================
-        // MÉTODO A IMPLEMENTAR EN VIVO DURANTE LA GRABACIÓN (Inciso c)
-        // Hunde iterativamente el elemento en la posición i hasta restaurar min-heap
-        // Siguiendo el estándar de la cátedra César Lara (Semana 07 - BinaryHeap)
-        // =========================================================================
+        // ===========
+        // Inciso c
+        // ===========
         public void trickleDown(int i) {
             while (true) {
                 int l = left(i);
                 int r = right(i);
                 int smallest = i;
 
-                // TODO: [Paso 1] Comparar con hijo izquierdo si existe
                 if (l < n && a[l] < a[smallest]) {
                     smallest = l;
                 }
 
-                // TODO: [Paso 2] Comparar con hijo derecho si existe
                 if (r < n && a[r] < a[smallest]) {
                     smallest = r;
                 }
 
-                // TODO: [Paso 3] Si la posición i ya es el menor, terminó el hundimiento
                 if (smallest == i)
                     break;
 
-                // TODO: [Paso 4] Intercambiar con el menor de los hijos y continuar
                 swap(i, smallest);
                 i = smallest;
             }

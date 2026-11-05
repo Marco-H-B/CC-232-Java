@@ -14,9 +14,9 @@ public class Problema4_AVL {
             public Node left;
             public Node right;
 
-            public Node(int val) {
-                this.x = val;
-                this.height = 1; // Hoja tiene height = 1 según convención del examen
+            public Node(int x) {
+                this.x = x;
+                this.height = 1;
             }
         }
 
@@ -56,35 +56,31 @@ public class Problema4_AVL {
             return y;
         }
 
-        // =========================================================================
-        // MÉTODO A IMPLEMENTAR EN VIVO DURANTE LA GRABACIÓN (Inciso c)
-        // Detecta desbalances y aplica rotaciones simples (LL, RR) o dobles (LR, RL)
-        // Siguiendo el estándar de la cátedra César Lara (Semana 06 - AVL)
-        // =========================================================================
+        // ==========
+        // Inciso c
+        // ==========
         public Node rebalance(Node u) {
             if (u == null)
                 return null;
 
             updateHeight(u);
-            int fb = balanceFactor(u);
+            int bf = balanceFactor(u);
 
-            // Desbalance hacia la izquierda (fb > 1): casos LL o LR
-            if (fb > 1) {
+            if (bf > 1) {
                 if (balanceFactor(u.left) < 0) {
-                    u.left = rotateLeft(u.left); // Caso LR: rotación izquierda en hijo
+                    u.left = rotateLeft(u.left);
                 }
-                return rotateRight(u); // Caso LL o final de LR
+                return rotateRight(u);
             }
 
-            // Desbalance hacia la derecha (fb < -1): casos RR o RL
-            if (fb < -1) {
+            if (bf < -1) {
                 if (balanceFactor(u.right) > 0) {
-                    u.right = rotateRight(u.right); // Caso RL: rotación derecha en hijo
+                    u.right = rotateLeft(u.right);
                 }
-                return rotateLeft(u); // Caso RR o final de RL
+                return rotateRight(u);
             }
 
-            return u; // Ya está balanceado
+            return u;
         }
 
         public void add(int x) {
@@ -117,12 +113,12 @@ public class Problema4_AVL {
     public static void main(String[] args) {
         AVLTree avl = new AVLTree();
 
-        // 8 inserciones iniciales + inserción de 90 (provoca rotación doble RL)
+        // 8 inserciones iniciales + inserción de 90 (provoca rotación doble LR)
         int[] keys = { 30, 100, 10, 15, 120, 70, 95, 60, 90 };
         for (int v : keys)
             avl.add(v);
 
-        System.out.println("Arbol AVL tras add(90) con rotacion RL:");
+        System.out.println("Arbol AVL tras add(90) con rotacion doble LR:");
         avl.printTree(avl.root, "", false);
         System.out.println("Invariante AVL: OK (bf en raiz = " + avl.balanceFactor(avl.root) + ")");
     }

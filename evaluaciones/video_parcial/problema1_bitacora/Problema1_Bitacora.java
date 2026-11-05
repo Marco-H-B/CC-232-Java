@@ -52,6 +52,7 @@ public class Problema1_Bitacora {
             if (i < 0 || i >= n)
                 throw new IndexOutOfBoundsException();
             Node p;
+
             if (i < n / 2) {
                 p = dummy.next;
                 for (int j = 0; j < i; j++)
@@ -74,7 +75,6 @@ public class Problema1_Bitacora {
 
             Node removed = current;
 
-            // TODO: Actualizar posición de current
             if (n == 1) {
                 current = dummy;
             } else if (removed.next != dummy) {
@@ -83,7 +83,6 @@ public class Problema1_Bitacora {
                 current = removed.prev;
             }
 
-            // TODO: Desconectar nodo actual y decrementar n}
             removed.prev.next = removed.next;
             removed.next.prev = removed.prev;
 
@@ -93,6 +92,7 @@ public class Problema1_Bitacora {
         public void printState(String label) {
             System.out.print(label + ": [");
             Node p = dummy.next;
+
             while (p != dummy) {
                 if (p == current)
                     System.out.print(p.x + "*");
@@ -102,6 +102,7 @@ public class Problema1_Bitacora {
                     System.out.print(", ");
                 p = p.next;
             }
+
             System.out.println("] (n=" + n + ", current=" + (current != dummy ? current.x : "dummy") + ")");
         }
     }
