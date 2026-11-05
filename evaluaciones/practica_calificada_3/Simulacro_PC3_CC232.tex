@@ -1,0 +1,377 @@
+% ===============================================================
+% CC232 - Algoritmos y Estructuras de Datos (UNI)
+% Practica Calificada 3 - Semanas 5 a 7 (Ciclo 2026-2)
+% Catedra: Prof. Cesar Lara Avila
+% ===============================================================
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[spanish,es-noshorthands,es-nolists,es-nodecimaldot,es-tabla]{babel}
+\usepackage[a4paper,top=1.8cm,bottom=1.8cm,left=1.9cm,right=1.9cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{array,booktabs,tabularx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,babel}
+\usepackage[hidelinks]{hyperref}
+
+% Encabezado y pie de pagina
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\footnotesize\bfseries CC232 - Algoritmos y Estructuras de Datos}
+\rhead{\footnotesize\bfseries Práctica Calificada 3 --- Semanas 5 a 7}
+\cfoot{\footnotesize Página \thepage\ de \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2.5pt}
+\emergencystretch=1.5em
+
+\titleformat{\subsection}{\large\bfseries}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+
+% Configuracion de Java Listings
+\lstset{
+  language=Java,
+  basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\bfseries\color{black},
+  commentstyle=\itshape\color{black!70},
+  frame=single,
+  framerule=0.4pt,
+  rulecolor=\color{black!50},
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  xleftmargin=2pt,
+  xrightmargin=2pt,
+  aboveskip=3pt,
+  belowskip=3pt,
+  literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1
+}
+
+% Estilos TikZ
+\tikzset{
+  tn/.style={circle,draw,minimum size=6.5mm,inner sep=0pt,font=\footnotesize},
+  tree/.style={every child node/.style={tn}, level distance=8.5mm,
+    level 1/.style={sibling distance=34mm},
+    level 2/.style={sibling distance=18mm},
+    level 3/.style={sibling distance=9mm}},
+  tree5/.style={every child node/.style={tn}, level distance=8.2mm,
+    level 1/.style={sibling distance=38mm},
+    level 2/.style={sibling distance=20mm},
+    level 3/.style={sibling distance=10mm}},
+  avltree/.style={every child node/.style={tn}, level distance=8.5mm,
+    level 1/.style={sibling distance=30mm},
+    level 2/.style={sibling distance=15mm},
+    level 3/.style={sibling distance=8mm}}
+}
+
+% Arreglo con indices
+\newcommand{\cellarray}[1]{%
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+\foreach \v [count=\i from 0] in {#1} {
+  \draw (\i*0.75,0) rectangle ++(0.75,0.52);
+  \node[font=\footnotesize] at (\i*0.75+0.375,0.26) {\v};
+  \node[font=\tiny,text=black!65] at (\i*0.75+0.375,0.72) {\i};
+}
+\end{tikzpicture}}
+
+\newcommand{\pts}[1]{\textbf{(#1)}}
+
+% ===============================================================
+\begin{document}
+
+% ---------------------------------------------------------------
+% PAGINA 1: ENCABEZADO + INDICACIONES + PROBLEMA 1
+% ---------------------------------------------------------------
+\begin{center}
+{\Large\bfseries CC232 - Algoritmos y Estructuras de Datos}\\[2pt]
+{\large\bfseries Práctica Calificada 3 --- Semanas 5 a 7}\\[1pt]
+{\footnotesize Universidad Nacional de Ingeniería --- Ciclo 2026-2}
+\end{center}
+
+\vspace{-4pt}
+\begin{center}
+\footnotesize
+\begin{tabularx}{\textwidth}{|l|X|l|X|}
+\hline
+\textbf{Duración} & 150 minutos & \textbf{Puntaje} & 20 puntos \\ \hline
+\textbf{Modalidad} & individual, presencial, lápiz y papel & \textbf{Alcance} & Semanas 5 a 7 \\ \hline
+\end{tabularx}
+\end{center}
+
+\vspace{-2pt}
+{\footnotesize \textbf{Nombre:} \rule{9.5cm}{0.4pt} \hfill \textbf{Código:} \rule{3.8cm}{0.4pt}}
+
+\vspace{2pt}
+\begin{tcolorbox}[enhanced,sharp corners,colback=white,colframe=black!75,boxrule=0.4pt,left=5pt,right=5pt,top=3pt,bottom=3pt]
+\scriptsize
+\textbf{Indicaciones:}
+\begin{itemize}[leftmargin=10pt,itemsep=0.5pt,topsep=1pt]
+\item \textbf{Regla general de calificación:} esta regla se aplica a todos los problemas e incisos y no se repetirá en cada uno. Si la respuesta omite la evidencia solicitada, el inciso obtiene 0. Esto incluye, según corresponda, resultados o complejidades sin justificación, gráficos sin explicar qué representan y por qué son válidos, pseudocódigo o Java simplificado sin explicación de los pasos, explicación algorítmica sin el pseudocódigo solicitado, y conceptos técnicos mencionados sin relacionarlos con el estado y las operaciones concretas del problema.
+\item Cuando indiques una complejidad, explica qué trabajo depende de $n$ o de $h$ y \textbf{separa localización de modificación} cuando corresponda.
+\item Antes de modificar una estructura, conserva las referencias necesarias y verifica los invariantes al terminar. No uses Java Collections.
+\end{itemize}
+\end{tcolorbox}
+
+\vspace{-2pt}
+\subsection*{Problema 1. BST: invariante de parent, eliminación con \texttt{splice} y sucesor --- 4 puntos}
+
+\footnotesize
+\textbf{Semana 5.} Un índice en memoria mantiene claves en un BST sin balanceo automático. Cada nodo posee referencias \texttt{left}, \texttt{right} y \texttt{parent}. La eliminación se realiza mediante la operación auxiliar \texttt{splice(Node u)} y el sucesor inorder:
+\begin{lstlisting}
+void splice(Node u) { // precondicion: u.left == null || u.right == null
+    Node s = (u.left != null) ? u.left : u.right;
+    Node p = u.parent;
+    if (u == root) root = s;
+    else if (p.left == u) p.left = s;
+    else p.right = s;
+    if (s != null) s.parent = p;
+}
+\end{lstlisting}
+El árbol contiene inicialmente el siguiente conjunto de claves ($n = 12$):
+\begin{center}
+\begin{tikzpicture}[tree5]
+\node[tn]{50}
+  child{node{25}
+    child{node{15}
+      child{node{10}}
+      child{node{20}}}
+    child{node{35}
+      child{node{30}}
+      child{node{40}}}}
+  child{node{75}
+    child{node{65}
+      child[missing]
+      child{node{70}}}
+    child{node{85}
+      child[missing]
+      child{node{90}}}};
+\end{tikzpicture}
+\end{center}
+
+Se ejecutan, en este orden: \texttt{remove(10)}, \texttt{remove(65)}, \texttt{remove(25)} y \texttt{remove(50)}.
+
+\textbf{a)} Realiza la traza gráfica de las cuatro operaciones. Para cada una indica: el caso de eliminación (hoja, un hijo o dos hijos), el nodo que se desvincula físicamente mediante \texttt{splice}, la sustitución de clave lógica (si aplica) y dibuja el árbol resultante tras cada llamada. \pts{1,5 puntos}
+
+\textbf{b)} Para \texttt{remove(25)}, detalla la secuencia exacta de modificaciones de punteros en memoria (\texttt{parent}, \texttt{left}, \texttt{right}) y el valor copiado. Explica formalmente por qué el sucesor inorder $w$ de cualquier nodo con dos hijos nunca puede tener hijo izquierdo ($w.left == null$), pero sí hijo derecho, y cómo responde \texttt{splice(w)}. \pts{0,75 puntos}
+
+\textbf{c)} Un estudiante omite la última línea de \texttt{splice} (\texttt{if (s != null) s.parent = p;}). Considera que se ejecuta esa versión defectuosa en \texttt{remove(65)}. ¿El recorrido inorder posterior sigue siendo correcto? Identifica qué referencia queda rota y describe exactamente qué ocurrirá si después se invoca \texttt{remove(70)}. \pts{0,75 puntos}
+
+\textbf{d)} Separa de forma explícita el costo de localización (\texttt{findLast}) del costo de modificación (\texttt{splice} y reasignación) en función de $h$. Explica por qué es un error grave escribir automáticamente $O(\log n)$ y dibuja un árbol degenerado de $n$ nodos donde \texttt{remove} cueste $\Theta(n)$. \pts{1,0 punto}
+
+% ---------------------------------------------------------------
+% PAGINA 2: PROBLEMA 2
+% ---------------------------------------------------------------
+\newpage
+\subsection*{Problema 2. AVL: los cuatro casos de rotación y orden de actualización --- 4 puntos}
+
+\footnotesize
+\textbf{Semana 6.} Un conmutador de paquetes mantiene rutas en un árbol AVL donde cada nodo tiene campos \texttt{x}, \texttt{height} ($h(\text{hoja})=1, h(\text{null})=0$), \texttt{left} y \texttt{right} (sin puntero parent). Se define $\texttt{balanceFactor(u)} = \texttt{height(u.left)} - \texttt{height(u.right)}$. Invariante AVL: $|\texttt{balanceFactor(u)}| \le 1$ para todo nodo $u$. Las rotaciones se implementan como:
+\begin{lstlisting}
+Node rotateRight(Node y) {
+    Node x = y.left; Node middle = x.right;
+    x.right = y; y.left = middle;
+    updateHeight(y); // Paso 1
+    updateHeight(x); // Paso 2
+    return x;
+}
+Node rotateLeft(Node x) {
+    Node y = x.right; Node middle = y.left;
+    y.left = x; x.right = middle;
+    updateHeight(x); updateHeight(y);
+    return y;
+}
+\end{lstlisting}
+
+A partir de un árbol AVL inicialmente vacío, se insertan en este orden las siguientes claves:
+\begin{center}
+\texttt{45, 20, 10, 30, 25, 60, 80, 70}
+\end{center}
+
+\textbf{a)} Realiza la traza paso a paso de cada inserción. Para cada inserción que provoque una violación del invariante AVL:
+\begin{enumerate}[label=\roman*.,itemsep=1pt]
+\item Identifica el nodo más profundo (el primero detectado en el retorno recursivo) donde $|FE| = 2$.
+\item Clasifica el caso (LL, RR, LR o RL) justificando con el factor de balance del nodo y de su hijo.
+\item Dibuja el subárbol afectado antes y después de aplicar las rotaciones simples o dobles.
+\item Dibuja el árbol completo final tras insertar las 8 claves. \pts{1,5 puntos}
+\end{enumerate}
+
+\textbf{b)} Analiza críticamente \texttt{rotateRight(Node y)}. Explica con rigor por qué es imprescindible ejecutar \texttt{updateHeight(y)} \textbf{antes} que \texttt{updateHeight(x)}. ¿Qué valor numérico erróneo de altura adoptaría $x$ si un programador invirtiese el orden de esas dos líneas? Demuéstralo trazando un subárbol concreto. \pts{0,75 puntos}
+
+\textbf{c)} Un estudiante afirma: \emph{``Si un nodo tiene $FE = +2$, la anomalía siempre está hacia la izquierda, por lo que basta ejecutar una única \texttt{rotateRight(u)} directa sin consultar el signo de su hijo izquierdo''}. Aplica su algoritmo erróneo a la inserción de la clave \texttt{25} (caso LR): dibuja el árbol resultante, calcula sus factores de balance y demuestra que el resultado no es un AVL válido. \pts{0,75 puntos}
+
+\textbf{d)} Construye una tabla con los campos \texttt{x}, \texttt{height} y \texttt{balanceFactor} para cada uno de los 8 nodos del árbol AVL final obtenido en el inciso a). \pts{0,5 puntos}
+
+\textbf{e)} Sea $N(h)$ la mínima cantidad de nodos que puede contener un AVL válido de altura $h$, con $N(1) = 1, N(2) = 2$ y $N(h) = 1 + N(h-1) + N(h-2)$ para $h \ge 3$. Calcula $N(h)$ hasta $h = 6$. A partir de estos valores, deduce la altura máxima posible de un AVL con $n = 8$ nodos y compárala con la altura máxima de un BST sin balanceo con 8 nodos. \pts{0,5 puntos}
+
+% ---------------------------------------------------------------
+% PAGINA 3: PROBLEMA 3
+% ---------------------------------------------------------------
+\newpage
+\subsection*{Problema 3. AVL: eliminación con rebalanceo en cascada y poda en rango --- 4 puntos}
+
+\footnotesize
+\textbf{Semanas 5 y 6.} A diferencia de la inserción en un AVL (donde a lo sumo una rotación simple o doble rebalancea todo el árbol), la eliminación de un nodo puede reducir la altura de un subárbol y desencadenar desbalances sucesivos en múltiples niveles ascendentes hacia la raíz ($O(\log n)$ rotaciones).
+
+Considere el siguiente árbol AVL balanceado ($n = 11$, con $h = 4$):
+
+\begin{center}
+\begin{tikzpicture}[avltree]
+\node[tn]{50}
+  child{node{30}
+    child{node{20}
+      child{node{10}}
+      child[missing]}
+    child{node{40}
+      child{node{35}}
+      child[missing]}}
+  child{node{80}
+    child{node{70}
+      child{node{60}}
+      child{node{75}}}
+    child{node{90}
+      child[missing]
+      child{node{95}}}};
+\end{tikzpicture}
+\end{center}
+
+\textbf{a)} Sobre el árbol dado, se ejecuta la eliminación de la clave \texttt{10} (\texttt{remove(10)}):
+\begin{enumerate}[label=\roman*.,itemsep=1pt]
+\item Realiza la traza del retroceso recursivo actualizando alturas y factores de balance desde el punto de desvinculación.
+\item Identifica el primer nodo donde se produce desbalance, clasifica el caso (LL, RR, LR o RL) y describe la rotación ejecutada.
+\item Muestra si dicho rebalanceo local propaga o no un desbalance a sus ancestros superiores (incluyendo la raíz).
+\item Dibuja el árbol balanceado final. Explica por qué, en el peor caso, la eliminación en AVL es $O(\log n)$ en cantidad de rotaciones mientras que la inserción es $O(1)$. \pts{1,25 puntos}
+\end{enumerate}
+
+\textbf{b)} Diseña e implementa en Java simplificado o pseudocódigo riguroso el método recursivo:
+\begin{center}
+\texttt{public Node deleteMax(Node u)}
+\end{center}
+El método debe localizar y desvincular el elemento con el valor máximo del subárbol enraizado en $u$, actualizar correctamente las alturas de los ancestros en el retorno recursivo, aplicar \texttt{rebalance(u)} en cada nivel y retornar la nueva raíz local del subárbol. Especifica de forma explícita precondición y postcondición. \pts{1,25 puntos}
+
+\textbf{c)} Demuestra formalmente el costo temporal en el peor caso de \texttt{deleteMax(Node u)} en función de $n$. Explica por qué el diseño recursivo no requiere punteros al padre (\texttt{parent}) para restaurar el balance. \pts{0,75 puntos}
+
+\textbf{d)} Se requiere una operación \texttt{int countInRange(Node u, int low, int high)} que retorne la cantidad de claves del AVL dentro del intervalo cerrado $[low, high]$. Diseña el algoritmo con poda inteligente: no desciendas a subárboles que no puedan contener elementos dentro del rango. Explica qué poda realizas y por qué su costo en el mejor caso es $O(\log n)$ a diferencia del $O(n)$ de un recorrido inorder ciego. \pts{0,75 puntos}
+
+% ---------------------------------------------------------------
+% PAGINA 4: PROBLEMA 4
+% ---------------------------------------------------------------
+\newpage
+\subsection*{Problema 4. BinaryHeap: \texttt{heapify} $O(n)$, operaciones y forma --- 4 puntos}
+
+\footnotesize
+\textbf{Semana 7.} Un sistema de triaje hospitalario gestiona pacientes con un \texttt{BinaryHeap} (Min-Heap: menor valor numérico representa mayor gravedad). Se implementa sobre un arreglo secuencial \texttt{Integer[] a} y un contador \texttt{n}.
+Relaciones sobre índices base 0: $\texttt{left(i)} = 2i + 1$, $\texttt{right(i)} = 2i + 2$, $\texttt{parent(i)} = \lfloor (i - 1)/2 \rfloor$.
+Invariantes: (1) \textbf{Orden:} $\texttt{a[parent(i)]} \le \texttt{a[i]}$ para todo $0 < i < n$; (2) \textbf{Forma:} los elementos ocupan consecutivamente $\texttt{a[0..n-1]}$.
+
+Se recibe el siguiente arreglo desordenado de $n = 10$ prioridades:
+\begin{center}
+\texttt{a =} \cellarray{22, 14, 35, 10, 8, 28, 40, 5, 12, 6} \qquad \texttt{n = 10, a.length = 16}
+\end{center}
+
+\textbf{a)} Ejecuta la construcción del heap mediante el algoritmo de Floyd: \texttt{heapify()}.
+\begin{enumerate}[label=\roman*.,itemsep=1pt]
+\item Indica el índice del primer nodo interno evaluado ($i = \lfloor n/2 \rfloor - 1$) y explica por qué se omiten los nodos con índices mayores.
+\item Detalla para cada valor de $i$ (desde $\lfloor n/2 \rfloor - 1$ hasta $0$): los hijos comparados, los intercambios (\texttt{swap}) efectuados por \texttt{trickleDown(i)} y el contenido del arreglo tras finalizar cada paso.
+\item Dibuja el árbol binario casi completo final y cuenta la cantidad exacta de intercambios ejecutados. \pts{1,5 puntos}
+\end{enumerate}
+
+\textbf{b)} Sobre el Min-Heap obtenido en el inciso a), ejecuta en este orden:
+\begin{enumerate}[label=\roman*.,itemsep=1pt]
+\item \texttt{remove()}: extracción del paciente más prioritario.
+\item \texttt{remove()}: extracción del segundo paciente.
+\item \texttt{add(4)}: ingreso de una nueva emergencia con prioridad 4.
+\end{enumerate}
+Para cada operación, indica los elementos comparados, la trayectoria de desplazamiento (\texttt{trickleDown} o \texttt{bubbleUp}), el valor retornado (en \texttt{remove}) y el estado físico final del arreglo con su nuevo valor de \texttt{n}. \pts{1,0 punto}
+
+\textbf{c)} Demuestra analíticamente por qué \texttt{heapify()} construye el montículo en tiempo $O(n)$, mientras que insertar los $n$ elementos uno tras otro con llamadas a \texttt{add(x)} requiere $O(n \log n)$ en el peor caso. Formula la sumatoria por niveles y demuestra su convergencia asintótica:
+\[
+T(n) = \sum_{k=0}^{\lfloor \log_2 n \rfloor} \left\lceil \frac{n}{2^{k+1}} \right\rceil O(k) \le O(n)
+\]
+\pts{0,75 puntos}
+
+\textbf{d)} Un practicante propone optimizar \texttt{remove()} ahorrándose subir el último elemento a la raíz: sugiere reemplazar la raíz vacía por el menor de sus hijos ($\texttt{a[0]} = \min(\texttt{a[1]}, \texttt{a[2]})$) y repetir ese corrimiento hacia abajo hasta dejar un hueco en una hoja. Explica detalladamente qué invariante de estructura se destruye con esta propuesta y demuestra por qué las fórmulas $2i+1$ y $2i+2$ dejarían de mapear los nodos correctamente en operaciones futuras. \pts{0,75 puntos}
+
+% ---------------------------------------------------------------
+% PAGINA 5: PROBLEMA 5 + TABLA DE TIEMPO + CRITERIO GENERAL
+% ---------------------------------------------------------------
+\newpage
+\subsection*{Problema 5. Cuando un flujo ordenado de Heap degrada un BST y por qué AVL lo salva --- 4 puntos}
+
+\footnotesize
+\textbf{Semanas 5, 6 y 7.} En un sistema de analítica de eventos, se procesan datos dinámicos comparando el comportamiento de un \textbf{BST sin balanceo}, un \textbf{Árbol AVL} y un \textbf{BinaryHeap (Min-Heap)}.
+
+\textbf{a)} Degradación topológica en BST:
+Supón que se tienen $n$ elementos en un Min-Heap válido. Se extraen los $n$ elementos mediante $n$ invocaciones sucesivas a \texttt{remove()}, y a medida que salen, cada elemento se inserta de inmediato con \texttt{add(x)} en un árbol BST (inicialmente vacío) sin balanceo automático.
+\begin{enumerate}[label=\roman*.,itemsep=1pt]
+\item ¿En qué orden numérico relativo emergen los elementos desde el Min-Heap?
+\item Describe con precisión la topología del árbol BST resultante (forma geométrica y ramificación).
+\item Indica la altura exacta $h(n)$ que alcanzará dicho BST en términos de $n$.
+\item ¿A qué complejidad asintótica degeneran \texttt{contains(x)} y \texttt{remove(x)} sobre este BST? Explica por qué este escenario representa el peor caso absoluto para un BST. \pts{1,25 puntos}
+\end{enumerate}
+
+\textbf{b)} Inmunidad y rebalanceo sistemático en AVL:
+Si la misma secuencia de elementos extraídos del Min-Heap se inserta consecutivamente en un árbol AVL inicialmente vacío:
+\begin{enumerate}[label=\roman*.,itemsep=1pt]
+\item ¿Qué tipo específico de desbalance (LL, RR, LR o RL) se detectará repetitivamente durante la inserción?
+\item ¿Qué rotación elemental resuelve cada uno de estos desbalances?
+\item Demuestra la cota superior estricta de la altura del AVL resultante y explica cómo el rebalanceo neutraliza la degradación observada en el BST. \pts{1,0 punto}
+\end{enumerate}
+
+\textbf{c)} La falacia de la búsqueda en Heap vs AVL:
+Un ingeniero afirma: \emph{``Dado que tanto el BinaryHeap como el árbol AVL son árboles con altura $O(\log n)$, la operación \texttt{contains(x)} para determinar si una clave arbitraria $x$ existe toma $O(\log n)$ en ambos casos''}. Refuta formalmente la afirmación. Explica la diferencia entre el orden parcial vertical del heap y el orden total horizontal del árbol de búsqueda. Demuestra cuál es el costo real de \texttt{contains(x)} en un BinaryHeap de $n$ elementos en el peor caso. \pts{0,75 puntos}
+
+\textbf{d)} Matriz de decisión de ingeniería:
+Completa la tabla indicando la complejidad en el peor caso ($O(1)$, $O(\log n)$, $O(n)$ u $O(n \log n)$):
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|X|c|c|c|}
+\hline
+\textbf{Operación de ingeniería} & \textbf{BST sin balanceo} & \textbf{Árbol AVL} & \textbf{BinaryHeap (Min)} \\ \hline
+Construcción a partir de $n$ elementos desordenados & & & \\ \hline
+Extracción del elemento mínimo (\texttt{removeMin}) & & & \\ \hline
+Búsqueda de una clave arbitraria (\texttt{contains(x)}) & & & \\ \hline
+Emisión de todas las claves ordenadas de menor a mayor & & & \\ \hline
+\end{tabularx}
+\end{center}
+
+Fundamenta qué estructura elegirías en cada escenario:
+\begin{itemize}[itemsep=0.5pt]
+\item \textbf{Escenario Alpha:} Carga de $95\%$ inserciones y extracciones del mínimo, y $5\%$ reportes batch.
+\item \textbf{Escenario Beta:} Carga de $70\%$ búsquedas puntuales (\texttt{contains}) y $30\%$ consultas de rango (\texttt{countInRange}). \pts{1,0 punto}
+\end{itemize}
+
+\vspace{6pt}
+\begin{tcolorbox}[enhanced,sharp corners,colback=black!3,colframe=black!70,boxrule=0.4pt,left=5pt,right=5pt,top=3pt,bottom=3pt]
+\scriptsize
+\textbf{Distribución sugerida del tiempo:}
+\begin{center}
+\begin{tabularx}{\textwidth}{cXcc}
+\toprule
+\textbf{Problema} & \textbf{Tema y estructura de datos} & \textbf{Puntaje} & \textbf{Tiempo sugerido} \\
+\midrule
+Problema 1 & BST: Eliminación con \texttt{splice}, sucesor y punteros \texttt{parent} (Semana 5) & 4,0 pts & 30 min \\
+Problema 2 & AVL: Inserción, rotaciones múltiples y orden de actualización de alturas (Semana 6) & 4,0 pts & 30 min \\
+Problema 3 & AVL: Eliminación en cascada, método recursivo \texttt{deleteMax} y poda (S6, S5) & 4,0 pts & 30 min \\
+Problema 4 & BinaryHeap: \texttt{heapify} $O(n)$, colas de prioridad e invariante de forma (Semana 7) & 4,0 pts & 30 min \\
+Problema 5 & Integrador: Coexistencia, flujos ordenados y matriz de decisión (S5, S6, S7) & 4,0 pts & 25 min \\
+Revisión   & Comprobación de invariantes de enlaces y casos frontera & --- & 5 min \\
+\midrule
+ & \textbf{Total de la evaluación} & \textbf{20,0 pts} & \textbf{150 min} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+\textbf{Criterio general:} Se evalúa la coherencia entre ADT, representación, algoritmo, invariantes y complejidad, de acuerdo con la regla general de calificación indicada al inicio.
+\end{tcolorbox}
+
+\end{document}
