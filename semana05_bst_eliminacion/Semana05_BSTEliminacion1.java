@@ -50,16 +50,51 @@ public class Semana05_BSTEliminacion1 {
             return true;
         }
 
-        // TODO(alumno): eliminar u suponiendo que tiene a lo más un hijo.
-        // Reconectar el hijo con u.parent y actualizar root cuando corresponda.
         private void splice(Node u) {
-            throw new UnsupportedOperationException("TODO: implementar el método splice");
+            Node s = (u.left != null) ? u.left : u.right;
+            Node p = u.parent;
+
+            if (u == root) {
+                root = s;
+
+                if (s != null) {
+                    s.parent = null;
+                }
+            } else {
+                if (p.left == u) {
+                    p.left = s;
+                } else {
+                    p.right = s;
+                }
+
+                if (s != null) {
+                    s.parent = p;
+                }
+            }
         }
 
-        // TODO(alumno): localizar x. Si tiene dos hijos, copiar el sucesor
-        // inorder y aplicar splice al sucesor. Decrementar n una sola vez.
         boolean remove(int x) {
-            throw new UnsupportedOperationException("TODO: implementar el método remove");
+            Node u = findLast(x);
+
+            if (u == null || u.x != x) {
+                return false;
+            }
+
+            if (u.left == null || u.right == null) {
+                splice(u);
+            } else {
+                Node w = u.right;
+
+                while (w.left != null) {
+                    w = w.left;
+                }
+
+                u.x = w.x;
+                splice(w);
+            }
+
+            n--;
+            return true;
         }
 
         int size() {
@@ -78,6 +113,7 @@ public class Semana05_BSTEliminacion1 {
             System.out.print(u.x + " ");
             inorder(u.right);
         }
+
     }
 
     public static void main(String[] args) {
