@@ -127,16 +127,53 @@
 
 \footnotesize
 \textbf{Semana 5.} Un índice en memoria mantiene claves en un BST sin balanceo automático. Cada nodo posee referencias \texttt{left}, \texttt{right} y \texttt{parent}. La eliminación se realiza mediante la operación auxiliar \texttt{splice(Node u)} y el sucesor inorder:
+
+\begin{minipage}[t]{0.485\textwidth}
 \begin{lstlisting}
-void splice(Node u) { // precondicion: u.left == null || u.right == null
+private void splice(Node u) {
     Node s = (u.left != null) ? u.left : u.right;
     Node p = u.parent;
-    if (u == root) root = s;
-    else if (p.left == u) p.left = s;
-    else p.right = s;
-    if (s != null) s.parent = p;
+    if (u == root) {
+        root = s;
+        if (s != null) {
+            s.parent = null;
+        }
+    } else {
+        if (p.left == u) {
+            p.left = s;
+        } else {
+            p.right = s;
+        }
+        if (s != null) {
+            s.parent = p;
+        }
+    }
 }
 \end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.495\textwidth}
+\begin{lstlisting}
+boolean remove(int x) {
+    Node u = findLast(x);
+    if (u == null || u.x != x) {
+        return false;
+    }
+    if (u.left == null || u.right == null) {
+        splice(u);
+    } else {
+        Node w = u.right;
+        while (w.left != null) {
+            w = w.left;
+        }
+        u.x = w.x;
+        splice(w);
+    }
+    n--;
+    return true;
+}
+\end{lstlisting}
+\end{minipage}
+
 El árbol contiene inicialmente el siguiente conjunto de claves ($n = 12$):
 \begin{center}
 \begin{tikzpicture}[tree5]
@@ -164,7 +201,7 @@ Se ejecutan, en este orden: \texttt{remove(10)}, \texttt{remove(65)}, \texttt{re
 
 \textbf{b)} Para \texttt{remove(25)}, detalla la secuencia exacta de modificaciones de punteros en memoria (\texttt{parent}, \texttt{left}, \texttt{right}) y el valor copiado. Explica formalmente por qué el sucesor inorder $w$ de cualquier nodo con dos hijos nunca puede tener hijo izquierdo ($w.left == null$), pero sí hijo derecho, y cómo responde \texttt{splice(w)}. \pts{0,75 puntos}
 
-\textbf{c)} Un estudiante omite la última línea de \texttt{splice} (\texttt{if (s != null) s.parent = p;}). Considera que se ejecuta esa versión defectuosa en \texttt{remove(65)}. ¿El recorrido inorder posterior sigue siendo correcto? Identifica qué referencia queda rota y describe exactamente qué ocurrirá si después se invoca \texttt{remove(70)}. \pts{0,75 puntos}
+\textbf{c)} Un estudiante omite la actualización de \texttt{s.parent} en el bloque \texttt{else} de \texttt{splice} (omite la comprobación \texttt{if (s != null) s.parent = p;}). Considera que se ejecuta esa versión defectuosa en \texttt{remove(65)}. ¿El recorrido inorder posterior sigue siendo correcto? Identifica qué referencia de puntero queda rota y describe con precisión técnica qué ocurrirá si después se invoca \texttt{remove(70)}. \pts{0,75 puntos}
 
 \textbf{d)} Separa de forma explícita el costo de localización (\texttt{findLast}) del costo de modificación (\texttt{splice} y reasignación) en función de $h$. Explica por qué es un error grave escribir automáticamente $O(\log n)$ y dibuja un árbol degenerado de $n$ nodos donde \texttt{remove} cueste $\Theta(n)$. \pts{1,0 punto}
 
@@ -175,22 +212,41 @@ Se ejecutan, en este orden: \texttt{remove(10)}, \texttt{remove(65)}, \texttt{re
 \subsection*{Problema 2. AVL: los cuatro casos de rotación y orden de actualización --- 4 puntos}
 
 \footnotesize
-\textbf{Semana 6.} Un conmutador de paquetes mantiene rutas en un árbol AVL donde cada nodo tiene campos \texttt{x}, \texttt{height} ($h(\text{hoja})=1, h(\text{null})=0$), \texttt{left} y \texttt{right} (sin puntero parent). Se define $\texttt{balanceFactor(u)} = \texttt{height(u.left)} - \texttt{height(u.right)}$. Invariante AVL: $|\texttt{balanceFactor(u)}| \le 1$ para todo nodo $u$. Las rotaciones se implementan como:
+\textbf{Semana 6.} Un conmutador de paquetes mantiene rutas en un árbol AVL donde cada nodo tiene campos \texttt{x}, \texttt{height} ($h(\text{hoja})=1, h(\text{null})=0$), \texttt{left} y \texttt{right} (sin puntero \texttt{parent}). Operaciones auxiliares de cátedra:
 \begin{lstlisting}
-Node rotateRight(Node y) {
-    Node x = y.left; Node middle = x.right;
-    x.right = y; y.left = middle;
+int height(Node u) { return u == null ? 0 : u.height; }
+int balanceFactor(Node u) { return u == null ? 0 : height(u.left) - height(u.right); }
+void updateHeight(Node u) { u.height = 1 + Math.max(height(u.left), height(u.right)); }
+\end{lstlisting}
+\vspace{-2pt}
+Las rotaciones elementales implementadas por el profesor:
+
+\begin{minipage}[t]{0.485\textwidth}
+\begin{lstlisting}
+private Node rotateRight(Node y) {
+    Node x = y.left;
+    Node middle = x.right;
+    x.right = y;
+    y.left = middle;
     updateHeight(y); // Paso 1
     updateHeight(x); // Paso 2
     return x;
 }
-Node rotateLeft(Node x) {
-    Node y = x.right; Node middle = y.left;
-    y.left = x; x.right = middle;
-    updateHeight(x); updateHeight(y);
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.495\textwidth}
+\begin{lstlisting}
+private Node rotateLeft(Node x) {
+    Node y = x.right;
+    Node middle = y.left;
+    y.left = x;
+    x.right = middle;
+    updateHeight(x); // Paso 1
+    updateHeight(y); // Paso 2
     return y;
 }
 \end{lstlisting}
+\end{minipage}
 
 A partir de un árbol AVL inicialmente vacío, se insertan en este orden las siguientes claves:
 \begin{center}
@@ -252,15 +308,15 @@ Considere el siguiente árbol AVL balanceado ($n = 11$, con $h = 4$):
 \item Dibuja el árbol balanceado final. Explica por qué, en el peor caso, la eliminación en AVL es $O(\log n)$ en cantidad de rotaciones mientras que la inserción es $O(1)$. \pts{1,25 puntos}
 \end{enumerate}
 
-\textbf{b)} Diseña e implementa en Java simplificado o pseudocódigo riguroso el método recursivo:
+\textbf{b)} Siguiendo la modalidad de las prácticas calificadas, diseña en \textbf{pseudocódigo riguroso} (o Java simplificado) el método recursivo:
 \begin{center}
-\texttt{public Node deleteMax(Node u)}
+\texttt{Node deleteMax(Node u)}
 \end{center}
-El método debe localizar y desvincular el elemento con el valor máximo del subárbol enraizado en $u$, actualizar correctamente las alturas de los ancestros en el retorno recursivo, aplicar \texttt{rebalance(u)} en cada nivel y retornar la nueva raíz local del subárbol. Especifica de forma explícita precondición y postcondición. \pts{1,25 puntos}
+Explica primero la estrategia algorítmica: cómo localizas el máximo descendiendo hasta una hoja o nodo con a lo sumo un hijo izquierdo, cómo desconectas y devuelves el subárbol hijo, cómo actualizas alturas con \texttt{updateHeight} y cómo aplicas \texttt{rebalance(u)} durante el desapilado recursivo. Especifica formalmente precondición y postcondición. \pts{1,25 puntos}
 
 \textbf{c)} Demuestra formalmente el costo temporal en el peor caso de \texttt{deleteMax(Node u)} en función de $n$. Explica por qué el diseño recursivo no requiere punteros al padre (\texttt{parent}) para restaurar el balance. \pts{0,75 puntos}
 
-\textbf{d)} Se requiere una operación \texttt{int countInRange(Node u, int low, int high)} que retorne la cantidad de claves del AVL dentro del intervalo cerrado $[low, high]$. Diseña el algoritmo con poda inteligente: no desciendas a subárboles que no puedan contener elementos dentro del rango. Explica qué poda realizas y por qué su costo en el mejor caso es $O(\log n)$ a diferencia del $O(n)$ de un recorrido inorder ciego. \pts{0,75 puntos}
+\textbf{d)} Se requiere una operación \texttt{int countInRange(Node u, int low, int high)} que retorne la cantidad de claves del AVL dentro del intervalo cerrado $[low, high]$. Diseña en \textbf{pseudocódigo riguroso} el algoritmo con poda inteligente: no desciendas a subárboles que no puedan contener elementos dentro del rango. Explica con precisión técnica qué ramas descartas y demuestra por qué su costo en el mejor caso es $O(\log n)$ a diferencia del $O(n)$ de un recorrido inorder ciego. \pts{0,75 puntos}
 
 % ---------------------------------------------------------------
 % PAGINA 4: PROBLEMA 4
@@ -269,9 +325,40 @@ El método debe localizar y desvincular el elemento con el valor máximo del sub
 \subsection*{Problema 4. BinaryHeap: \texttt{heapify} $O(n)$, operaciones y forma --- 4 puntos}
 
 \footnotesize
-\textbf{Semana 7.} Un sistema de triaje hospitalario gestiona pacientes con un \texttt{BinaryHeap} (Min-Heap: menor valor numérico representa mayor gravedad). Se implementa sobre un arreglo secuencial \texttt{Integer[] a} y un contador \texttt{n}.
-Relaciones sobre índices base 0: $\texttt{left(i)} = 2i + 1$, $\texttt{right(i)} = 2i + 2$, $\texttt{parent(i)} = \lfloor (i - 1)/2 \rfloor$.
-Invariantes: (1) \textbf{Orden:} $\texttt{a[parent(i)]} \le \texttt{a[i]}$ para todo $0 < i < n$; (2) \textbf{Forma:} los elementos ocupan consecutivamente $\texttt{a[0..n-1]}$.
+\textbf{Semana 7.} Un sistema de triaje hospitalario gestiona pacientes con un \texttt{BinaryHeap} (Min-Heap: menor valor numérico representa mayor gravedad). Se implementa sobre un arreglo secuencial \texttt{Integer[] a} y un contador \texttt{n}. Relaciones base 0: $\texttt{left(i)} = 2i + 1$, $\texttt{right(i)} = 2i + 2$, $\texttt{parent(i)} = \lfloor (i - 1)/2 \rfloor$.
+Invariantes: (1) \textbf{Orden:} $\texttt{a[parent(i)]} \le \texttt{a[i]}$; (2) \textbf{Forma:} elementos contiguos en $\texttt{a[0..n-1]}$.
+
+\begin{minipage}[t]{0.515\textwidth}
+\begin{lstlisting}
+private void trickleDown(int i) {
+    while (true) {
+        int smallest = i;
+        int l = left(i), r = right(i);
+        if (l < n && a[l] < a[smallest]) smallest = l;
+        if (r < n && a[r] < a[smallest]) smallest = r;
+        if (smallest == i) return;
+        swap(i, smallest);
+        i = smallest;
+    }
+}
+\end{lstlisting}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.465\textwidth}
+\begin{lstlisting}
+private void heapify() {
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        trickleDown(i);
+    }
+}
+int remove() {
+    if (n == 0) throw new NoSuchElementException();
+    int min = a[0];
+    a[0] = a[--n]; a[n] = null;
+    if (n > 0) trickleDown(0);
+    return min;
+}
+\end{lstlisting}
+\end{minipage}
 
 Se recibe el siguiente arreglo desordenado de $n = 10$ prioridades:
 \begin{center}
