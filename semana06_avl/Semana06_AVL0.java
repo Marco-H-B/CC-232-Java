@@ -27,15 +27,30 @@ public class Semana06_AVL0 {
         return u == null ? 0 : height(u.left) - height(u.right);
     }
 
-    // TODO(alumno): realizar la rotación derecha alrededor de y, actualizar
-    // primero la altura de y y luego la de x, y retornar la nueva raíz.
     static Node rotateRight(Node y) {
-        throw new UnsupportedOperationException("TODO: implementar el método rotateRight");
+        Node x = y.left;
+        Node middle = x.right;
+
+        x.right = y;
+        y.left = middle;
+
+        updateHeight(y);
+        updateHeight(x);
+
+        return x;
     }
 
-    // TODO(alumno): operación simétrica a rotateRight.
-    static Node rotateLeft(Node x) {
-        throw new UnsupportedOperationException("TODO: implementar el método rotateLeft");
+    private Node rotateLeft(Node x) {
+        Node y = x.right;
+        Node middle = y.left;
+
+        y.left = x;
+        x.right = middle;
+
+        updateHeight(x);
+        updateHeight(y);
+
+        return y;
     }
 
     static void preorder(Node u) {
