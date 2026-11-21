@@ -6,15 +6,20 @@ public class Semana08_Hashing0 {
     static final int W = 32;
     static final int Z = 0x9E3779B9; // entero impar fijo para reproducibilidad
 
-    // TODO(alumno): calcular ((Z * hashCode) mod 2^W) div 2^(W-d).
-    // En Java se obtiene con desplazamiento lógico >>>.
     static int hash(int hashCode, int d) {
-        throw new UnsupportedOperationException("TODO: implementar el método hash");
+        return (Z * hashCode) >>> (W - d);
     }
 
-    // TODO(alumno): retornar el menor d>=1 tal que 2^d > n.
     static int dimensionFor(int n) {
-        throw new UnsupportedOperationException("TODO: implementar el método dimensionFor");
+        int d = 1;
+        int cap = 2;
+
+        while (cap <= n) {
+            cap *= 2;
+            d++;
+        }
+
+        return d;
     }
 
     public static void main(String[] args) {
