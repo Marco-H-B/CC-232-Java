@@ -44,10 +44,22 @@ public class Semana08_Hashing1 {
             return true;
         }
 
-        // TODO(alumno): buscar value en su bucket mediante Iterator, eliminarlo,
         // decrementar size y retornar true. Retornar false si no está presente.
         boolean remove(T value) {
-            throw new UnsupportedOperationException("TODO: implementar el método remove");
+            List<T> bucket = buckets[hash(value)];
+            Iterator<T> removed = bucket.iterator();
+
+            while (removed.hasNext()) {
+                T elem = removed.next();
+
+                if (elem.equals(value)) {
+                    removed.remove();
+                    size--;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         void printBuckets() {
