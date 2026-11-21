@@ -32,20 +32,26 @@ public class Semana06_AVL1 {
         private Node rotateRight(Node y) {
             Node x = y.left;
             Node middle = x.right;
+
             x.right = y;
             y.left = middle;
+
             updateHeight(y);
             updateHeight(x);
+
             return x;
         }
 
         private Node rotateLeft(Node x) {
             Node y = x.right;
             Node middle = y.left;
+
             y.left = x;
             x.right = middle;
+
             updateHeight(x);
             updateHeight(y);
+
             return y;
         }
 
@@ -66,10 +72,26 @@ public class Semana06_AVL1 {
             return rebalance(u);
         }
 
-        // TODO(alumno): usar balanceFactor y reconocer LL, RR, LR y RL.
-        // Retornar la nueva raíz local después de la rotación necesaria.
         private Node rebalance(Node u) {
-            throw new UnsupportedOperationException("TODO: implementar el método rebalance");
+            int bf = balanceFactor(u);
+
+            if (bf > 1) {
+                if (balanceFactor(u.left) < 0) {
+                    u.left = rotateLeft(u.left);
+                }
+
+                return rotateRight(u);
+            }
+
+            if (bf < -1) {
+                if (balanceFactor(u.right) > 0) {
+                    u.right = rotateRight(u.right);
+                }
+
+                return rotateLeft(u);
+            }
+
+            return u;
         }
 
         void preorder() {
