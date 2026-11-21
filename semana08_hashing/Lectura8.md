@@ -284,7 +284,20 @@ static class ChainedHashSet<T> {
     // con un Iterator. Postcondición: size baja exactamente
     // una vez si y solo si se eliminó algo.
     boolean remove(T value) {
-        throw new UnsupportedOperationException("TODO");
+        List<T> bucket = buckets[indexFor(value)];
+        Iterator<T> removed = bucket.iterator();
+
+        while (removed.hasNext()){
+            T elem = removed.next();
+
+            if(elem.equals(value)) {
+                removed.remove();
+                size--;
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 ```
